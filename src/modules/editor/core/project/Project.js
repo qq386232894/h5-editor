@@ -5,4 +5,9 @@ export class Project {
   id = "";         //id
   name = "";       //名称
   creator = "";    //创建者
+  /**
+   * 一个也没由多个场景组成
+   * @type {Array<Scene>}
+   */
+  scenes = [];
 }
