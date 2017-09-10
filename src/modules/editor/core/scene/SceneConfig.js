@@ -3,5 +3,5 @@
  */
 export class SceneConfig {
   id = "";             //场景id
-  name = "";           //场景名称
+  name = "场景名称";           //场景名称
 }

@@ -4,7 +4,7 @@
     <div class="content">
       <gls-template-panel></gls-template-panel>
       <gls-scene-editor></gls-scene-editor>
-      <gls-scene-manager></gls-scene-manager>
+      <gls-scene-manager :project="project"></gls-scene-manager>
     </div>
   </div>
 </template>
@@ -25,7 +25,8 @@
         project: new Project()
       }
     },
-    beforeMoute: function () {
+    beforeMount: function () {
+//      todo 模拟数据，记得删除
       if (this.project.scenes.length == 0) {
         this.project.scenes.push(new Scene());
       }
