@@ -4,10 +4,7 @@
     <div class="center">
       <div class="phone">
         <div class="header">
-          <span class="menu"></span>
-          <span class="horn"></span>
-          <span class="battery"></span>
-          <div class="title"></div>
+          <div class="title">编辑器</div>
         </div>
         <div class="editor"></div>
       </div>
@@ -51,13 +48,32 @@
     width: 100%;
     height: 100%;
     position: relative;
+    $header_top:37px;
+    $header_height:60px;
     .header{
       position: absolute;
       left: 3px;
-      top: 37px;
+      top: $header_top;
       right: 3px;
-      height: 60px;
-      background-color: #333333;
+      height: $header_height;
+      background-image: url("./header.png");
+    }
+
+    .title{
+      position: relative;
+      top:30px;
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+      color: #FFFFFF;
+    }
+
+    .editor{
+      position: absolute;
+      top:$header_top + $header_height;
+      left: 3px;
+      right: 3px;
+      height:486px;
     }
   }
 </style>
