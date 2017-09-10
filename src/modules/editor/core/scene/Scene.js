@@ -4,6 +4,10 @@
 import {SceneConfig} from "./SceneConfig";
 
 export class Scene {
+  /**
+   * 场景设置
+   * @type {SceneConfig}
+   */
   config = new SceneConfig();
   initFromJson(){
 

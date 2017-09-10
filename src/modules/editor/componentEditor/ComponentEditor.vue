@@ -28,7 +28,12 @@
     beforeMount: function () {
 //      todo 模拟数据，记得删除
       if (this.project.scenes.length == 0) {
-        this.project.scenes.push(new Scene());
+        for(let index = 0;index < 10;index ++){
+          let scene = new Scene();
+          scene.config.name = `场景${index}`;
+          scene.config.id = index;
+          this.project.scenes.push(scene);
+        }
       }
     },
     mounted: function () {
