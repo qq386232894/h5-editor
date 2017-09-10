@@ -52,11 +52,11 @@
     height: 100%;
     position: relative;
     .header{
-      position: relative;
-      left:3px;
-      top:37px;
-      right:30px;
-      height:60px;
+      position: absolute;
+      left: 3px;
+      top: 37px;
+      right: 3px;
+      height: 60px;
       background-color: #333333;
     }
   }
