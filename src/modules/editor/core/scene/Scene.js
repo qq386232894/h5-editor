@@ -5,7 +5,7 @@ import {SceneConfig} from "./SceneConfig";
 
 export class Scene {
   /**
-   * 场景设置
+   * 场景设置,这个会保存在服务器
    * @type {SceneConfig}
    */
   config = new SceneConfig();
@@ -15,6 +15,12 @@ export class Scene {
    * @type {Stage}
    */
   stage = null;
+
+  /**
+   * 当前所选的组件
+   * @type {DisplayComponent}
+   */
+  selectedComponent = null;
   initFromJson(){
 
   }

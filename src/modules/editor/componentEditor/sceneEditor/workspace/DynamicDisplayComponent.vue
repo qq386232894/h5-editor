@@ -5,6 +5,7 @@
 <script>
   import glsComponentText from './text/ComponentText.vue';
   import Vue from 'Vue';
+  import {Project} from "../../../core/project/Project";
 
   /**
    * create by 给力叔 2017/9/10
@@ -13,7 +14,11 @@
   export default {
     name: "gls-dynamic-display-component",
     props: {
-      component: Object
+      component: Object,
+      /**
+       * @type {Project}
+       */
+      project: Project
     },
     data() {
       return {}

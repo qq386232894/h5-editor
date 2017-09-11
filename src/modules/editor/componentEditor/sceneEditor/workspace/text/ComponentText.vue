@@ -1,5 +1,5 @@
 <template>
-  <div v-html="component.props.html"></div>
+  <span v-html="component.props.html"></span>
 </template>
 
 <script>
@@ -9,20 +9,19 @@
    */
   import {ComponentText, componentTextType} from "../../../../core/display/text/ComponentText";
 
-export default {
-  name: componentTextType,
-  props: {
-    /**
-     * @type {ComponentText}
-     */
-    component: ComponentText
-  },
-  data() {
-    return {}
-
-  },
-  components: {}
-}
+  export default {
+    name: componentTextType,
+    props: {
+      /**
+       * @type {ComponentText}
+       */
+      component: ComponentText
+    },
+    data() {
+      return {}
+    },
+    components: {}
+  }
 </script>
 
 <style scoped lang="scss">
