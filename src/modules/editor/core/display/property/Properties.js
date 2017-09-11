@@ -1,8 +1,8 @@
 /**
  * Created by 给力叔 on 2017/9/8.
  */
-import {StyleConfig} from "../config/StyleConfig";
 import {AnimationConfig} from "../config/AnimationConfig";
+import {Devices} from "../../device/Devices";
 
 export class Properties {
   id = "";              //id
@@ -10,14 +10,24 @@ export class Properties {
   type = "";            //类型
 
   /**
-   * 样式,todo 这里设计成支持多平台的版本
-   * @type {StyleConfig}
+   * 样式
    */
-  style = new StyleConfig();
+  _style ={[Devices.PC]:{}};
 
   /**
    * 动画的设置
    * @type {AnimationConfig}
    */
   animation = new AnimationConfig();
+
+  /**
+   * 获取组件的样式,todo 目前只支持PC样式
+   */
+  get style(){
+    return this._style[Devices.PC];
+  }
+
+  set style(value){
+    this._style[Devices.PC] = value;
+  }
 }
