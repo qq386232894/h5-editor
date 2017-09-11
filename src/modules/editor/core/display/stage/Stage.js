@@ -1,7 +1,7 @@
 /**
  * Created by 给力叔 on 2017/9/8.
  */
-import {DisplayComponent} from "../DisplayComponent";
-export class Stage extends DisplayComponent {
+import {DisplayComponentContainer} from "../DisplayComponentContainer";
+export class Stage extends DisplayComponentContainer {
 
 }

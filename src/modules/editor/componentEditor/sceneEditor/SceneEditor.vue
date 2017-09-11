@@ -6,7 +6,9 @@
         <div class="header">
           <div class="title">编辑器</div>
         </div>
-        <div class="editor"></div>
+        <div class="editor">
+          <gls-work-space :project="project"></gls-work-space>
+        </div>
       </div>
       <div class="control-bar"></div>
     </div>
@@ -14,10 +16,19 @@
 </template>
 
 <script>
+  import glsWorkSpace from './workspace/WorkSpace.vue';
   export default {
     name: 'gls-scene-editor',
+    props:{
+      project:Object
+    },
     data() {
-      return {}
+      return {
+
+      }
+    },
+    components:{
+      glsWorkSpace:glsWorkSpace
     }
   }
 </script>

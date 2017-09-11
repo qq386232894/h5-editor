@@ -10,4 +10,10 @@ export class Project {
    * @type {Array<Scene>}
    */
   scenes = [];
+
+  /**
+   * 所选的场景
+   * @type {Scene}
+   */
+  selectedScene = null;
 }

@@ -9,6 +9,12 @@ export class Scene {
    * @type {SceneConfig}
    */
   config = new SceneConfig();
+
+  /**
+   * 每个场景里面有一个舞台
+   * @type {Stage}
+   */
+  stage = null;
   initFromJson(){
 
   }

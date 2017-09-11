@@ -1,12 +1,12 @@
 /**
  * Created by 给力叔 on 2017/9/8.
  */
-import {StyleConfig} from "./config/StyleConfig";
-import {AnimationConfig} from "./config/AnimationConfig";
 import {Properties} from "./property/Properties";
 export class DisplayComponent {
-  style = new StyleConfig();
-  animation = new AnimationConfig();
+  /**
+   * 组件的所有属性,这个属性最终会保存在服务器,其他属性都不会保存在服务器.
+   * @type {Properties}
+   */
   props = new Properties();
   parent = null;
 }

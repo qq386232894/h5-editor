@@ -6,7 +6,8 @@
       <gls-button type="black" label="删除" class="delete-button" hoverType="hover-danger"></gls-button>
     </div>
     <div class="manager-content">
-      <div class="scene" v-for="(scene,index) in project.scenes">
+      <div :class="{scene:true,selected:project.selectedScene === scene}" v-for="(scene,index) in project.scenes"
+           @click="project.selectedScene = scene">
         <span class="number"></span>
         <span class="index">{{index}}</span>
         <span class="name">{{scene.config.name}}</span>
@@ -76,6 +77,7 @@
     width: $width;
   }
 
+  /*每个场景的选项*/
   .scene {
     height: 70px;
     font-size: 12px;
@@ -85,8 +87,18 @@
     color: #76838f;
     cursor: pointer;
 
+    &.selected {
+      .number {
+        border-top-color: #08a1ef;
+      }
+    }
+
+    &:hover {
+      background-color: #F0F3F4;
+    }
+
     .number {
-      border-top: 35px solid #08a1ef;
+      border-top: 35px solid #76838F;
       border-right: 35px solid transparent;
       position: relative;
       top: 35px;
@@ -102,7 +114,7 @@
       text-align: center;
     }
 
-    .name{
+    .name {
       position: absolute;
       top: 25px;
       left: 35px;
