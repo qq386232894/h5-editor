@@ -32,7 +32,7 @@
 //      todo 模拟数据，记得删除
       let project = this.project;
       if (this.project.scenes.length == 0) {
-        for(let index = 0;index < 10;index ++){
+        for (let index = 0; index < 10; index++) {
           let scene = new Scene();
           scene.config.name = `场景${index}`;
           scene.config.id = index;
@@ -63,6 +63,8 @@
 
 <style scoped>
   @import "../common/scss/index.scss";
+  @import "../common/scss/icons/iconfont.scss";
+
   .content {
     position: fixed;
     width: 100%;

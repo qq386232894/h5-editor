@@ -132,6 +132,7 @@ export default {
     top: -20px;
     border-radius: $size;
     z-index: 4;
+    cursor: url('./rotate-cursor.png'), default;
   }
 
   /*旋转点下面那根线条*/
