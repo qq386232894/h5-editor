@@ -1,8 +1,6 @@
 <template>
   <div v-if="project.selectedScene" class="stage">
-    <span class="display-component-editor" v-if="!!selectedComponent" :style="selectedComponent.props.style">
-      <span class="point-top"></span>
-    </span>
+    <gls-display-component-editor :project="project"></gls-display-component-editor>
     <!--todo 看能不能废除span这一层,没有这一层,又触发不了click事件-->
     <span v-for="component in project.selectedScene.stage.children"
           @click="project.selectedScene.selectedComponent = component">
@@ -16,7 +14,8 @@
 </template>
 
 <script>
-  import glsDynamicDisplayComponent from './DynamicDisplayComponent.vue';
+  import glsDynamicDisplayComponent from './DynamicDisplayComponent.vue'
+  import glsDisplayComponentEditor from './DisplayComponentEditor.vue'
 
   /**
    * 这里是真正的工作空间
@@ -30,21 +29,11 @@
       return {}
     },
     components: {
-      glsDynamicDisplayComponent: glsDynamicDisplayComponent
-    },
-    computed: {
-      selectedComponent: function () {
-        return this.project && this.project.selectedScene && this.project.selectedScene.selectedComponent ? this.project.selectedScene.selectedComponent : null;
-      }
+      glsDynamicDisplayComponent: glsDynamicDisplayComponent,
+      glsDisplayComponentEditor: glsDisplayComponentEditor
     }
   }
 </script>
 
 <style scoped lang="scss">
-  .display-component-editor {
-    position: absolute;
-    z-index: 1;
-    box-sizing: border-box;
-    border: solid 1px #08A1EF;
-  }
 </style>
