@@ -9,6 +9,8 @@ export class Properties {
   alias = "";           //别称
   type = "";            //类型
 
+  selected = false;    //是不是选中了
+
   /**
    * 样式
    */

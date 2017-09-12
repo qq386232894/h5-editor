@@ -1,5 +1,5 @@
 <template>
-    <span class="display-component-editor" v-if="selectedComponent" :style="selectedComponent.props.style">
+    <span class="display-component-editor" v-if="component.props.selected" :style="component.props.style">
       <span class="point n-resize"></span>
       <span class="point ne-resize"></span>
       <span class="point e-resize"></span>
@@ -17,28 +17,23 @@
  * create by 给力叔 2017/9/12
  * 组件位置,大小和角度的编辑器
  */
-import {Project} from "../../../core/project/Project";
+import {DisplayComponent} from "../../../core/display/DisplayComponent";
 
 export default {
   name: "glsDisplayComponentEditor",
   props: {
     /**
-     * @type {Project}
+     * @type {DisplayComponent}
      */
-    project: {
-      type: Project,
+    component: {
+      type: DisplayComponent,
       require: true
     }
   },
   data: function () {
     return {}
   },
-  components: {},
-  computed: {
-    selectedComponent: function () {
-      return this.project && this.project.selectedScene && this.project.selectedScene.selectedComponent ? this.project.selectedScene.selectedComponent : null;
-    }
-  }
+  components: {}
 }
 </script>
 
@@ -49,6 +44,7 @@ export default {
     box-sizing: border-box;
     border: solid 1px #08A1EF;
     transform-origin: 50% 50%;
+    cursor: move;
   }
 
   $size: 12px;
@@ -132,19 +128,19 @@ export default {
     margin-top: -$half_size;
     margin-left: -$half_size;
     position: absolute;
-    left:50%;
-    top:-20px;
+    left: 50%;
+    top: -20px;
     border-radius: $size;
     z-index: 4;
   }
 
   /*旋转点下面那根线条*/
-  .line{
+  .line {
     height: 20px;
     border-left: solid 1px #44cb83;
-    left:50%;
+    left: 50%;
     position: absolute;
     z-index: 3;
-    top:-20px;
+    top: -20px;
   }
 </style>
