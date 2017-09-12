@@ -1,15 +1,15 @@
 <template>
-    <span class="display-component-editor" v-if="component.props.selected" :style="component.props.style">
-      <span class="point n-resize"></span>
-      <span class="point ne-resize"></span>
-      <span class="point e-resize"></span>
-      <span class="point se-resize"></span>
-      <span class="point s-resize"></span>
-      <span class="point sw-resize"></span>
-      <span class="point w-resize"></span>
-      <span class="point nw-resize"></span>
-      <span class="rotate-point"></span>
-      <span class="line"></span>
+    <span class="gls-display-component-editor" v-if="component.props.selected" :style="getBoundingStyle">
+      <span class="gls-point n-resize"></span>
+      <span class="gls-point ne-resize"></span>
+      <span class="gls-point e-resize"></span>
+      <span class="gls-point se-resize"></span>
+      <span class="gls-point s-resize"></span>
+      <span class="gls-point sw-resize"></span>
+      <span class="gls-point w-resize"></span>
+      <span class="gls-point nw-resize"></span>
+      <span class="gls-rotate-point"></span>
+      <span class="gls-display-component-editor-line"></span>
     </span>
 </template>
 
@@ -33,25 +33,32 @@ export default {
   data: function () {
     return {}
   },
-  components: {}
+  components: {},
+  computed:{
+    getBoundingStyle:function () {
+      return this.component.props.boundingStyle;
+    }
+  }
 }
 </script>
 
-<style scoped lang="scss">
-  .display-component-editor {
-    position: absolute;
+<style lang="scss">
+  .gls-display-component-editor {
     z-index: 1;
     box-sizing: border-box;
     border: solid 1px #08A1EF;
     transform-origin: 50% 50%;
     cursor: move;
+    position: relative;
+    width: 100%;
+    height: 100%;
   }
 
   $size: 12px;
   $half_size: $size/2;
 
   /*改变大小的点*/
-  .point {
+  .gls-point {
     display: inline-block;
     box-sizing: border-box;
     width: $size;
@@ -121,7 +128,7 @@ export default {
   }
 
   /*旋转的那个点*/
-  .rotate-point {
+  .gls-rotate-point {
     width: $size;
     height: $size;
     background-color: #44cb83;
@@ -136,7 +143,7 @@ export default {
   }
 
   /*旋转点下面那根线条*/
-  .line {
+  .gls-display-component-editor-line {
     height: 20px;
     border-left: solid 1px #44cb83;
     left: 50%;

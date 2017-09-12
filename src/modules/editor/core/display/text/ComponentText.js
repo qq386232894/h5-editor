@@ -14,10 +14,11 @@ export class ComponentTextProperties extends Properties{
   constructor(){
     super();
     this.style = {
-      left:'0',
-      top:"0",
-      width:'200px',
-      height:'38px'
+      left:0,
+      top:0,
+      width:200,
+      height:38,
+      rotate:0
     }
   }
 }

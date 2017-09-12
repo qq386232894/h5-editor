@@ -32,4 +32,13 @@ export class Properties {
   set style(value){
     this._style[Devices.PC] = value;
   }
+
+  /**
+   * 获取大小位置,角度的样式
+   * @returns {string}
+   */
+  get boundingStyle(){
+    let style = this.style;
+    return `position:absolute;top:${style.top}px;left:${style.left}px;width:${style.width}px;height:${style.height}px;transform:rotate(${style.rotate}deg);-ms-transform:rotate(${style.rotate}deg);-moz-transform:rotate(${style.rotate}deg);-webkit-transform:rotate(${style.rotate}deg);-o-transform:rotate(${style.rotate}deg);`;
+  }
 }

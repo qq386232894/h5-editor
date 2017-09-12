@@ -16,12 +16,26 @@ export class Scene {
    */
   stage = null;
 
-  /**
-   * 当前所选的组件
-   * @type {DisplayComponent}
-   */
-  selectedComponent = null;
   initFromJson(){
 
+  }
+
+  /**
+   * 获取所有选中的组件
+   * @returns {Array.<DisplayComponent>}
+   */
+  get selectedComponents(){
+    return this.stage.children.filter((child)=>{
+      return child.props.selected;
+    })
+  }
+
+  /**
+   * 清除所选的组件
+   */
+  clearSelection(){
+    this.stage.children.forEach((child)=>{
+      child.props.selected = false;
+    });
   }
 }
