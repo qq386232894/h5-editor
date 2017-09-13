@@ -91,6 +91,6 @@ export class DisplayComponentContainer extends DisplayComponent {
    */
   hasChild(child){
     this.checkChild(child);
-    return this.children.indexOf(child) != -1;
+    return this.children.includes(child);
   }
 }

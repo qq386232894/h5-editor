@@ -19,7 +19,7 @@
 <script>
   import glsDynamicDisplayComponent from './DynamicDisplayComponent.vue'
   import glsDisplayComponentEditor from './DisplayComponentEditor.vue'
-  import {utils} from "../../../common/utils/utils";
+  import {Renderer} from "../../../../../common/render/Renderer";
 
   /**
    * 这里是真正的工作空间
@@ -45,7 +45,7 @@
         let target = event.target;
 
         let displayComponent;
-        if(displayComponent = utils.findCloseElementByClass(target,"gls-display-component")){
+        if(displayComponent = Renderer.findCloseElementByClass(target,"gls-display-component")){
           console.log(displayComponent);
         }else{
           this.project.selectedScene.clearSelection();

@@ -8,7 +8,7 @@
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
     "build": "node build/build.js",
-    "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
+    "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --auto-watch",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run test:unit && npm run test:e2e",
     "test:unit": "npm run unit",
@@ -16,6 +16,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "core-js": "^2.5.1",
     "vue": "^2.4.2",
     "vue-router": "^2.7.0",
     "vue-validator": "^3.0.0-alpha.2"

@@ -28,6 +28,7 @@ module.exports = function (config) {
         { type: 'lcov', subdir: '.' },
         { type: 'text-summary' }
       ]
-    }
+    },
+    browserNoActivityTimeout:0
   })
 }
