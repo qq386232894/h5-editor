@@ -22,13 +22,6 @@ module.exports = function (config) {
     webpackMiddleware: {
       noInfo: true
     },
-    coverageReporter: {
-      dir: './coverage',
-      reporters: [
-        { type: 'lcov', subdir: '.' },
-        { type: 'text-summary' }
-      ]
-    },
     browserNoActivityTimeout:0
   })
 }
