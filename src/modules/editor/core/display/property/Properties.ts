@@ -3,6 +3,8 @@
  */
 import {AnimationConfig} from "../config/AnimationConfig";
 import {Devices} from "../../device/Devices";
+import {IStyle} from "../style/IStyle";
+
 export class Properties {
   id = "";              //id
   alias = "";           //别称
@@ -13,7 +15,7 @@ export class Properties {
   /**
    * 样式
    */
-  _style ={[Devices.PC]:{} as any};
+  _style = {[Devices.PC]: {} as any};
 
   /**
    * 动画的设置
@@ -24,11 +26,11 @@ export class Properties {
   /**
    * 获取组件的样式,todo 目前只支持PC样式
    */
-  get style(){
+  get style():IStyle {
     return this._style[Devices.PC];
   }
 
-  set style(value){
+  set style(value) {
     this._style[Devices.PC] = value;
   }
 
@@ -36,18 +38,31 @@ export class Properties {
    * 获取大小位置,角度的样式
    * @returns {string}
    */
-  get boundingStyle(){
+  get boundingStyle():string {
     let style = this.style;
+    let resetTranslate = " translate3d(0,0,0)";
     return `
     position:absolute;
     top:${style.top}px;
     left:${style.left}px;
     width:${style.width}px;
     height:${style.height}px;
-    transform:rotate(${style.rotate}deg);
-    -ms-transform:rotate(${style.rotate}deg);
-    -moz-transform:rotate(${style.rotate}deg);
-    -webkit-transform:rotate(${style.rotate}deg);
-    -o-transform:rotate(${style.rotate}deg);`;
+    transform:rotateZ(${style.rotate}deg)${resetTranslate};
+    -ms-transform:rotateZ(${style.rotate}deg)${resetTranslate};
+    -moz-transform:rotateZ(${style.rotate}deg)${resetTranslate};
+    -webkit-transform:rotateZ(${style.rotate}deg)${resetTranslate};
+    -o-transform:rotateZ(${style.rotate}deg)${resetTranslate};
+    `;
+  }
+
+  get componentSelectStyle():string {
+    let style = this.style;
+    return `
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:${style.width}px;
+    height:${style.height}px;
+      `;
   }
 }

@@ -4,6 +4,6 @@
  *
  * 记录样式支持的平台,暂时只有PC,这个编辑器以后支持FLEX布局等,什么页面都能做
  */
-export class Devices{
-  static PC = "PC";
+export enum Devices{
+  PC
 }

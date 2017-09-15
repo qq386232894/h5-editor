@@ -25,6 +25,52 @@ export const Renderer = {
       return Renderer.findCloseElementByClass(target.parentNode, className);
     }
   },
+  querySelector(selector: string): HTMLElement {
+    return document.querySelector(selector) as HTMLElement;
+  },
+  /**
+   * 获得两点之间连线的角度
+   * @param startX
+   * @param py
+   * @param mx
+   * @param my
+   * @returns {number}
+   */
+  getAngle(startX: number, startY: number, mouseX: number, mouseY: number) {
+    var x = Math.abs(startX - mouseX);
+    var y = Math.abs(startY - mouseY);
+    var z = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+    var cos = y / z;
+    var radina = Math.acos(cos);//用反三角函数求弧度
+    var angle = Math.floor(180 / (Math.PI / radina));//将弧度转换成角度
+
+    if (mouseX > startX && mouseY > startY) {//鼠标在第四象限
+      angle = 180 - angle;
+    }
+
+    if (mouseX == startX && mouseY > startY) {//鼠标在y轴负方向上
+      angle = 180;
+    }
+
+    if (mouseX > startX && mouseY == startY) {//鼠标在x轴正方向上
+      angle = 90;
+    }
+
+    if (mouseX < startX && mouseY > startY) {//鼠标在第三象限
+      angle = 180 + angle;
+    }
+
+    if (mouseX < startX && mouseY == startY) {//鼠标在x轴负方向
+      angle = 270;
+    }
+
+    if (mouseX < startX && mouseY < startY) {//鼠标在第二象限
+      angle = 360 - angle;
+    }
+
+
+    return angle;
+  },
   /**
    * 获取位置和大小
    * @param target

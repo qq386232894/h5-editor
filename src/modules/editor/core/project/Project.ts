@@ -1,19 +1,21 @@
 /**
  * Created by 给力叔 on 2017/9/8.
  */
+import {Scene} from "../scene/Scene";
+
 export class Project {
-  id = "";         //id
-  name = "";       //名称
-  creator = "";    //创建者
+  id:string = "";         //id
+  name:string = "";       //名称
+  creator:string = "";    //创建者
   /**
    * 一个也没由多个场景组成
    * @type {Array<Scene>}
    */
-  scenes = [];
+  scenes:Array<Scene> = [];
 
   /**
    * 所选的场景
    * @type {Scene}
    */
-  selectedScene = null;
+  selectedScene:Scene = null;
 }
