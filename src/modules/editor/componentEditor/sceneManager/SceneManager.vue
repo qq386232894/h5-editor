@@ -16,7 +16,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
   import glsButton from '../../common/button/Button.vue';
 
   export default {

@@ -16,6 +16,12 @@ export class DisplayComponentFactory {
    */
   _registerComponents = {};
 
+  /**
+   * 已经创建的组件的哈希表
+   * @type {Map<{[key:string]:DisplayComponent}>}
+   */
+  _createdComponents = new Map();
+
   constructor() {
     if (DisplayComponentFactory._instance) {
       throw new Error("DisplayComponentFactory不能实例化!");
@@ -39,7 +45,7 @@ export class DisplayComponentFactory {
    * @param type {String}
    * @param component {DisplayComponent}
    */
-  registerComponent(type, component, displayComponent, editorComponent) {
+  registerComponent(type, component) {
     this.checkType(type);
 
     if (this.getRegisterComponent(type)) {
@@ -50,19 +56,9 @@ export class DisplayComponentFactory {
       throw new Error("component不能为空");
     }
 
-    if (!displayComponent) {
-      throw new Error("displayComponent不能为空");
-    }
-
-    if (!editorComponent) {
-      throw new Error("editorComponent不能为空");
-    }
-
     let info = new DisplayComponentRegisterInfo();
     info.type = type;
     info.component = component;
-    info.displayComponent = displayComponent;
-    info.editorComponent = editorComponent;
     this._registerComponents[type] = info;
   }
 
@@ -75,7 +71,7 @@ export class DisplayComponentFactory {
   /**
    * 创建组件
    * @param type {String}
-   * @return {DisplayComponentFactory}
+   * @return {DisplayComponent}
    */
   createComponent(type) {
     this.checkType(type);
@@ -84,10 +80,24 @@ export class DisplayComponentFactory {
        * @type {DisplayComponentRegisterInfo}
        */
       let info = this._registerComponents[type];
-      return new info.component();
+      let component = new info.component();
+      component.props.id = this.generateUUID(component);
+      this._createdComponents.set(component.props.id,component);
+      return component;
     } else {
-      throw new Error(`组件创建失败:${type}`);
+      throw new Error(`组件未注册,不能创建:${type}`);
     }
+  }
+
+  /**
+   * @param component {DisplayComponent}
+   */
+  generateUUID(component){
+    let id;
+    do{
+      id = component.props.type + Math.floor(Math.random() * 999999999);
+    }while(this._createdComponents.has(id));
+    return id;
   }
 
   /**
@@ -98,5 +108,16 @@ export class DisplayComponentFactory {
   getRegisterComponent(type) {
     this.checkType(type);
     return this._registerComponents[type];
+  }
+
+  /**
+   * 根据id获取创建的组件
+   * @param id
+   */
+  getCreatedComponent(id){
+    if(!this._createdComponents.has(id)){
+      throw new Error(`id为${id}的组件没创建过`);
+    }
+    return this._createdComponents.get(id);
   }
 }

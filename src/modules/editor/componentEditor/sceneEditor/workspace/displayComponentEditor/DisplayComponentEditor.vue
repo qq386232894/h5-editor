@@ -1,24 +1,23 @@
 <template>
     <span class="gls-display-component-editor" v-if="component.props.selected" :style="getBoundingStyle">
-      <span class="gls-point n-resize"></span>
-      <span class="gls-point ne-resize"></span>
-      <span class="gls-point e-resize"></span>
-      <span class="gls-point se-resize"></span>
-      <span class="gls-point s-resize"></span>
-      <span class="gls-point sw-resize"></span>
-      <span class="gls-point w-resize"></span>
-      <span class="gls-point nw-resize"></span>
+      <span class="gls-resize-point n-resize"></span>
+      <span class="gls-resize-point ne-resize"></span>
+      <span class="gls-resize-point e-resize"></span>
+      <span class="gls-resize-point se-resize"></span>
+      <span class="gls-resize-point s-resize"></span>
+      <span class="gls-resize-point sw-resize"></span>
+      <span class="gls-resize-point w-resize"></span>
+      <span class="gls-resize-point nw-resize"></span>
       <span class="gls-rotate-point"></span>
       <span class="gls-display-component-editor-line"></span>
     </span>
 </template>
 
-<script>/**
+<script lang="ts">/**
  * create by 给力叔 2017/9/12
  * 组件位置,大小和角度的编辑器
  */
-import {DisplayComponent} from "../../../core/display/DisplayComponent";
-
+import {DisplayComponent} from "../../../../core/display/DisplayComponent";
 export default {
   name: "glsDisplayComponentEditor",
   props: {
@@ -58,7 +57,7 @@ export default {
   $half_size: $size/2;
 
   /*改变大小的点*/
-  .gls-point {
+  .gls-resize-point {
     display: inline-block;
     box-sizing: border-box;
     width: $size;
@@ -139,7 +138,7 @@ export default {
     top: -20px;
     border-radius: $size;
     z-index: 4;
-    cursor: url('./rotate-cursor.png'), default;
+    cursor: url('../assets/rotate-cursor.png'), default;
   }
 
   /*旋转点下面那根线条*/

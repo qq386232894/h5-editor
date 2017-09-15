@@ -13,7 +13,7 @@
   </header>
 </template>
 
-<script>
+<script lang="ts">
   import glsComponentBar from "../componentBar/ComponentBar";
   import glsButton from '../../common/button/Button.vue';
   export default {

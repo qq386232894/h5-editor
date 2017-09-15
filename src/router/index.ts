@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import ComponentEditor from '@/modules/editor/componentEditor/ComponentEditor'
+import ComponentEditor from '@/modules/editor/componentEditor/ComponentEditor.vue'
 
 Vue.use(Router)
 

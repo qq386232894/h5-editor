@@ -4,57 +4,7 @@
   </div>
 </template>
 
-<script>
-  class Parent{
-    height = 100;
-    onAdded(){
-
-    }
-    showHeight(){
-      alert(this.height);
-    }
-  }
-
-  class Child extends Parent {
-    showHeight(){
-      alert("Child:" + this.height);
-      super.showHeight();
-    }
-  }
-
-  class SubChild extends Child{
-    bad =1;
-    showHeight(){
-      alert("SubChild:" + this.height);
-      super.showHeight();
-    }
-
-    get name(){
-      return "1";
-    }
-  }
-
-  console.log(new SubChild());
-
-  let prop = SubChild.prototype;
-  let props = [];
-  let result = {};
-  do{
-    props.push(prop);
-    prop = Object.getPrototypeOf(prop);
-  }while(prop && prop.constructor != Object);
-  console.log(props);
-  props.reverse().forEach((prop)=>{
-    Object.getOwnPropertyNames(prop).forEach((name)=>{
-      if(name == "constructor"){
-        return;
-      }
-      result[name] = prop[name];
-    })
-  });
-  console.log(result);
-//  subChild.methods.showHeight();
-
+<script lang="ts">
 export default {
 
 };

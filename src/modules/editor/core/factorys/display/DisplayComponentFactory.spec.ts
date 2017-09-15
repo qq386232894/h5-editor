@@ -2,31 +2,30 @@
  * Created by 给力叔 on 2017/9/8.
  */
 import {DisplayComponentFactory} from "./DisplayComponentFactory";
-import {ComponentText} from "../../display/text/ComponentText";
+import {ComponentText,GLS_COMPONENT_TEXT} from "../../display/text/ComponentText";
 describe('DisplayComponentFactory', () => {
   let instance = DisplayComponentFactory.getInstance();
-
   describe("#heckType",function () {
     it("参数类型必须是有效的字符串",()=>{
       expect(function () {
         instance.checkType(null);
-      }).throw();
+      }).toThrow();
 
       expect(function () {
         instance.checkType(undefined);
-      }).throw();
+      }).toThrow();
 
       expect(function () {
         instance.checkType(0);
-      }).throw();
+      }).toThrow();
 
       expect(function () {
         instance.checkType(true);
-      }).throw();
+      }).toThrow();
 
       expect(function () {
         instance.checkType("");
-      }).throw();
+      }).toThrow();
     });
   })
 
@@ -34,11 +33,11 @@ describe('DisplayComponentFactory', () => {
     it('不能实例化DisplayComponentFactory', () => {
       expect(function () {
         new DisplayComponentFactory();
-      }).throw();
+      }).toThrow();
     });
 
     it("#getInstance",function () {
-      expect(instance == DisplayComponentFactory.getInstance()).equals(true);
+      expect(instance == DisplayComponentFactory.getInstance()).toEqual(true);
     })
   })
 
@@ -46,29 +45,17 @@ describe('DisplayComponentFactory', () => {
     it("参数type必须是有效的字符串",function () {
       expect(function () {
         instance.registerComponent();
-      }).throw();
+      }).toThrow();
     })
 
     it("参数component不能为空",function () {
       expect(function () {
-        instance.registerComponent("ComponentText");
-      }).throw();
-    })
-
-    it("参数displayComponent不能为空",function () {
-      expect(function () {
-        instance.registerComponent("ComponentText",ComponentText);
-      }).throw();
-    })
-
-    it("参数editorComponent不能为空",function () {
-      expect(function () {
-        instance.registerComponent("ComponentText",ComponentText,{});
-      }).throw();
+        instance.registerComponent(GLS_COMPONENT_TEXT);
+      }).toThrow();
     })
 
     it("正常注册组件",function () {
-      instance.registerComponent("ComponentText",ComponentText,{},{});
+      instance.registerComponent(GLS_COMPONENT_TEXT,ComponentText);
     })
   })
 
@@ -76,22 +63,32 @@ describe('DisplayComponentFactory', () => {
     it("参数type必须是有效的字符串",()=>{
       expect(function () {
         instance.getRegisterComponent()
-      }).throw();
+      }).toThrow();
 
       expect(function () {
         instance.getRegisterComponent("")
-      }).throw();
+      }).toThrow();
     });
 
     it("获取到ComponentText",()=>{
-      expect(instance.getRegisterComponent("ComponentText")).not.to.be.empty;
+      expect(instance.getRegisterComponent(GLS_COMPONENT_TEXT)).toBeDefined();
     });
   })
 
   describe("#createComponent",function () {
     it("创建ComponentText成功",()=>{
-      expect(instance.createComponent("ComponentText") instanceof ComponentText).to.be.true;
+      expect(instance.createComponent(GLS_COMPONENT_TEXT) instanceof ComponentText).toBeTruthy();
     });
+  })
+
+  describe("#getCreatedComponent",function () {
+    it("正常获取创建的组件",function () {
+      let component = instance.createComponent(GLS_COMPONENT_TEXT);
+      expect(instance.getCreatedComponent(component.props.id)).toEqual(component);
+      expect(function () {
+        instance.getCreatedComponent(111)
+      }).toThrow();
+    })
   })
 });
 

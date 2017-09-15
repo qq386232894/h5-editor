@@ -2,7 +2,7 @@
   <div :is="component.props.type" :component="component"></div>
 </template>
 
-<script>
+<script lang="ts">
   import glsComponentText from './text/ComponentText.vue';
   import Vue from 'Vue';
   import {Project} from "../../../core/project/Project";

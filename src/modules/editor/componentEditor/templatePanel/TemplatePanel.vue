@@ -7,7 +7,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
   export default {
     name: 'gls-template-panel',
     data() {
@@ -18,25 +18,26 @@
 
 <style scoped lang="scss">
   @import "../../common/scss/index.scss";
+
   .gls-template-panel {
     position: fixed;
-    top:$header_height;
+    top: $header_height;
     left: 0;
-    width:330px;
+    width: 330px;
     bottom: 0;
   }
 
-  $left_width:45px;
-  .left{
+  $left_width: 45px;
+  .left {
     position: fixed;
-    top:$header_height;
+    top: $header_height;
     left: 0;
-    width:$left_width;
+    width: $left_width;
     bottom: 0;
     background-color: #76828E;
   }
 
-  .tab-item{
+  .tab-item {
     width: 100%;
     height: 80px;
     border-bottom: solid 2px #FFFFFF;
@@ -47,12 +48,12 @@
     cursor: pointer;
   }
 
-  .right{
+  .right {
     position: fixed;
-    left:$left_width;
+    left: $left_width;
     width: 285px;
-    top:$header_height;
-    bottom:0;
+    top: $header_height;
+    bottom: 0;
     background-color: #FFFFFF;
   }
 </style>

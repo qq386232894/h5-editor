@@ -3,7 +3,6 @@
  */
 import {AnimationConfig} from "../config/AnimationConfig";
 import {Devices} from "../../device/Devices";
-
 export class Properties {
   id = "";              //id
   alias = "";           //别称
@@ -14,7 +13,7 @@ export class Properties {
   /**
    * 样式
    */
-  _style ={[Devices.PC]:{}};
+  _style ={[Devices.PC]:{} as any};
 
   /**
    * 动画的设置
@@ -39,6 +38,16 @@ export class Properties {
    */
   get boundingStyle(){
     let style = this.style;
-    return `position:absolute;top:${style.top}px;left:${style.left}px;width:${style.width}px;height:${style.height}px;transform:rotate(${style.rotate}deg);-ms-transform:rotate(${style.rotate}deg);-moz-transform:rotate(${style.rotate}deg);-webkit-transform:rotate(${style.rotate}deg);-o-transform:rotate(${style.rotate}deg);`;
+    return `
+    position:absolute;
+    top:${style.top}px;
+    left:${style.left}px;
+    width:${style.width}px;
+    height:${style.height}px;
+    transform:rotate(${style.rotate}deg);
+    -ms-transform:rotate(${style.rotate}deg);
+    -moz-transform:rotate(${style.rotate}deg);
+    -webkit-transform:rotate(${style.rotate}deg);
+    -o-transform:rotate(${style.rotate}deg);`;
   }
 }

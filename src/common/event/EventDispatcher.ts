@@ -4,6 +4,7 @@
  * { type: 'start', message: 'vroom vroom!' }
  */
 export class EventDispatcher {
+  _listeners:any;
   /**
    * @author mrdoob / http://mrdoob.com/
    */

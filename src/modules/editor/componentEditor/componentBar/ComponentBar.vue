@@ -8,7 +8,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
   import glsIconLabel from './IconLabel';
 
   export default {

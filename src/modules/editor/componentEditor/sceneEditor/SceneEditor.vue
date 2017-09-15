@@ -15,7 +15,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
   import glsWorkSpace from './workspace/WorkSpace.vue';
   export default {
     name: 'gls-scene-editor',

@@ -13,13 +13,13 @@ export const Renderer = {
    * 不断的往上找,找出包含类名的元素
    * @param target
    * @param className
-   * @returns {*}
+   * @returns {HTMLElement}
    */
   findCloseElementByClass: function (target, className) {
     if (!target || !className) {
       return null;
     }
-    if (target && Renderer.hasClass(target, className)) {
+    if (target && target.classList && Renderer.hasClass(target, className)) {
       return target;
     } else {
       return Renderer.findCloseElementByClass(target.parentNode, className);

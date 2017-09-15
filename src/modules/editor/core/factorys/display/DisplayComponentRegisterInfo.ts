@@ -13,16 +13,4 @@ export class DisplayComponentRegisterInfo {
    * @type {DisplayComponent}
    */
   component = null;
-
-  /**
-   * 显示的Vue组件
-   * @type {any}
-   */
-  displayComponent = null;
-
-  /**
-   * 编辑组件用的Vue组件
-   * @type {any}
-   */
-  editorComponent = null;
 }

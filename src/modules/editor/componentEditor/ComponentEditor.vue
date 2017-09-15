@@ -9,7 +9,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
   import Vue, {ComponentOptions} from 'vue'
   import glsHeader from "./header/Header";
   import {Project} from "../core/project/Project";
@@ -18,8 +18,9 @@
   import glsTemplatePanel from "./templatePanel/TemplatePanel";
   import glsSceneEditor from "./sceneEditor/SceneEditor";
   import {Stage} from "../core/display/stage/Stage";
-  import {ComponentText} from "../core/display/text/ComponentText";
+  import {ComponentText, GLS_COMPONENT_TEXT} from "../core/display/text/ComponentText";
   import {ProjectManager} from "../core/factorys/display/ProjectManager";
+  import {DisplayComponentFactory} from "../core/factorys/display/DisplayComponentFactory";
 
   export default {
     name: 'gls-component-editor',
@@ -30,15 +31,16 @@
     },
     beforeMount: function () {
 //      todo 模拟数据，记得删除
+      DisplayComponentFactory.getInstance().registerComponent(GLS_COMPONENT_TEXT,ComponentText)
       let project = this.project;
       if (this.project.scenes.length == 0) {
         for (let index = 0; index < 10; index++) {
           let scene = new Scene();
           scene.config.name = `场景${index}`;
-          scene.config.id = index;
+          scene.config.id = index.toString();
 
           let stage = scene.stage = new Stage();
-          stage.addChild(new ComponentText());
+          stage.addChild(DisplayComponentFactory.getInstance().createComponent(GLS_COMPONENT_TEXT));
 
 
           this.project.scenes.push(scene);

@@ -2,15 +2,15 @@
   <span v-html="component.props.html"></span>
 </template>
 
-<script>
+<script lang="ts">
   /**
    * create by 给力叔 2017/9/10
    * 专门用于编辑文本
    */
-  import {ComponentText, componentTextType} from "../../../../core/display/text/ComponentText";
+  import {ComponentText, GLS_COMPONENT_TEXT} from "../../../../core/display/text/ComponentText";
 
   export default {
-    name: componentTextType,
+    name: GLS_COMPONENT_TEXT,
     props: {
       /**
        * @type {ComponentText}
