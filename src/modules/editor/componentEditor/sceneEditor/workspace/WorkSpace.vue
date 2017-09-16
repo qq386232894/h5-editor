@@ -61,6 +61,20 @@
       })
     }
 
+
+    /**
+     * 算出组件和某个点的直线的角度
+     **/
+    caculateComponentRotate(component: DisplayComponent, currentX: number, currentY: number): number {
+      //算出中心点
+      let bounding = Renderer.getBoundingClientRect(document.getElementById(component.props.id));
+      let centerX = (bounding.left + bounding.right) / 2;
+      let centerY = (bounding.top + bounding.bottom) / 2;
+
+      //算出角度
+      return Renderer.getAngle(centerX, centerY, currentX, currentY);
+    }
+
     /**
      * 渲染多选的框的位置和大小
      * @param {number} left
@@ -75,6 +89,18 @@
       style.top = top + 'px';
       style.width = width + 'px';
       style.height = height + 'px';
+    }
+
+    /**
+     * 渲染角度
+     * @param {DisplayComponent} component
+     * @param {number} rotate
+     */
+    renderComponentRotate(component:DisplayComponent,rotate:number){
+      let componentStyle = component.props.style;
+      let style = document.getElementById(component.props.id).style;
+      componentStyle.rotate = rotate;
+      style.transform = `rotateZ(${rotate}deg)`;
     }
 
     mounted() {
@@ -213,17 +239,12 @@
             this.renderComponentBounding(mouseDownElement);
             this.renderComponentSelectBounding(mouseDownElement);
           } else if (rotatePoint) {//旋转
-            let component = DisplayComponentFactory.getInstance().getCreatedComponent(displayComponent.id);
-            //算出中心点
-            let componentStyle = component.props.style;
-            let bounding = Renderer.getBoundingClientRect(document.getElementById(component.props.id));
-            let centerX = (bounding.left + bounding.right) / 2;
-            let centerY = (bounding.top + bounding.bottom) / 2;
+            let rotateComponent = DisplayComponentFactory.getInstance().getCreatedComponent(displayComponent.id);
+            let rotate = this.caculateComponentRotate(rotateComponent,currentX,currentY);
 
-            //算出角度
-            let style = document.getElementById(component.props.id).style;
-            componentStyle.rotate = Renderer.getAngle(centerX, centerY, currentX, currentY);
-            style.transform = `rotateZ(${componentStyle.rotate}deg)`;
+            project.selectedScene.selectedComponents.forEach((component)=>{
+              this.renderComponentRotate(component,rotate);
+            })
           } else {//移动
             project.selectedScene.selectedComponents.forEach(
               (component: DisplayComponent) => {

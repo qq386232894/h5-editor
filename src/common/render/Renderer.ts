@@ -39,7 +39,7 @@ export const Renderer = {
    * @param my
    * @returns {number}
    */
-  getAngle(startX: number, startY: number, mouseX: number, mouseY: number) {
+  getAngle(startX: number, startY: number, mouseX: number, mouseY: number):number {
     var x = Math.abs(startX - mouseX);
     var y = Math.abs(startY - mouseY);
     var z = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
