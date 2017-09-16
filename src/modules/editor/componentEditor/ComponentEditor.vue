@@ -1,6 +1,6 @@
 <template>
-  <div class="component-editor">
-    <gls-header></gls-header>
+  <div class="component-editor" v-if="project">
+    <gls-header :project="project"></gls-header>
     <div class="content">
       <gls-template-panel></gls-template-panel>
       <gls-scene-editor :project="project"></gls-scene-editor>
@@ -21,17 +21,23 @@
   import {ComponentText, GLS_COMPONENT_TEXT} from "../core/display/text/ComponentText";
   import {ProjectManager} from "../core/factorys/display/ProjectManager";
   import {DisplayComponentFactory} from "../core/factorys/display/DisplayComponentFactory";
+  import {Component, Inject, Model, Prop, Watch,Provide} from 'vue-property-decorator'
 
-  export default {
-    name: 'gls-component-editor',
-    data() {
-      return {
-        project: new Project()
-      }
-    },
-    beforeMount: function () {
+  @Component({
+    name: "GlsComponentEditor",
+    components: {
+      glsHeader: glsHeader,
+      glsSceneManager: glsSceneManager,
+      glsTemplatePanel: glsTemplatePanel,
+      glsSceneEditor: glsSceneEditor
+    }
+  })
+  export default class GlsComponentEditor extends Vue {
+    @Provide() project: Project = new Project();
+
+    beforeMount() {
 //      todo 模拟数据，记得删除
-      DisplayComponentFactory.getInstance().registerComponent(GLS_COMPONENT_TEXT,ComponentText)
+      DisplayComponentFactory.getInstance().registerComponent(GLS_COMPONENT_TEXT, ComponentText)
       let project = this.project;
       if (this.project.scenes.length == 0) {
         for (let index = 0; index < 10; index++) {
@@ -50,16 +56,14 @@
         project.selectedScene = project.scenes[0];
       }
       ProjectManager.getInstance().currentProject = this.project;
-    },
-    mounted: function () {
+    }
+
+    mounted() {
+      document.onselectstart = function () {
+        return false;
+      }
 //      let text = new (glsHeader._Ctor[0])(glsHeader).$mount();
 //      this.$el.appendChild(text.$el);
-    },
-    components: {
-      glsHeader: glsHeader,
-      glsSceneManager: glsSceneManager,
-      glsTemplatePanel: glsTemplatePanel,
-      glsSceneEditor: glsSceneEditor
     }
   }
 </script>

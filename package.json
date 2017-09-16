@@ -21,7 +21,7 @@
     "vue-router": "^2.7.0",
     "vue-validator": "^3.0.0-alpha.2",
     "vue-class-component": "^5.0.1",
-    "vue-property-decorator": "^4.0.0"
+    "vue-property-decorator": "^5.3.0"
   },
   "devDependencies": {
     "@types/jasmine": "^2.2.34",

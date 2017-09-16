@@ -1,5 +1,5 @@
 <template>
-    <span class="gls-display-component-editor" v-if="component.props.type">
+    <span class="gls-display-component-editor" v-show="component.props.selected">
       <span class="gls-resize-point n-resize"></span>
       <span class="gls-resize-point ne-resize"></span>
       <span class="gls-resize-point e-resize"></span>
@@ -30,10 +30,9 @@
   export default class DisplayComponentSelect extends Vue {
     @Prop({required:true}) component: DisplayComponent;
     mounted() {
-      this.$el.onselectstart = function () {
-        return false;
-      }
-      this.$el.style.cssText = this.component.props.componentSelectStyle;
+      let component = this.component;
+      this.$el.style.cssText = component.props.componentSelectStyle;
+      this.$el.style.display = component.props.selected ? 'block':'none';
     }
   }
 </script>

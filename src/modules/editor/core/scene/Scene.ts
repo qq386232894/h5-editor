@@ -39,4 +39,13 @@ export class Scene {
       child.props.selected = false;
     });
   }
+
+  /**
+   * 删除所选的组件
+   */
+  removeSelection(){
+    this.selectedComponents.forEach((component)=>{
+      component.parent.removeChild(component);
+    })
+  }
 }

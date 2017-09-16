@@ -28,6 +28,9 @@ export const Renderer = {
   querySelector(selector: string): HTMLElement {
     return document.querySelector(selector) as HTMLElement;
   },
+  getElementById(id:string): HTMLElement{
+    return document.getElementById(id);
+  },
   /**
    * 获得两点之间连线的角度
    * @param startX
@@ -255,7 +258,7 @@ export const Renderer = {
    * @param eventName
    * @param callback
    */
-  listen(target, eventName, callback) {
+  addEventListener(target, eventName, callback) {
     target.addEventListener(eventName, callback);
   }
 }

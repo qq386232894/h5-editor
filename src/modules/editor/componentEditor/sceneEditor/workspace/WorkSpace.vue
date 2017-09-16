@@ -7,6 +7,7 @@
                                   :key="component.props.id"
     >
     </gls-display-component-editor>
+    <div class="gls-multi-select-rect" ref="selectRect"></div>
   </div>
 </template>
 
@@ -35,6 +36,8 @@
   export default class WorkSpace extends Vue {
     @Prop({required: true}) project: Project;
 
+    multiSelectRect: HTMLElement;
+
     //渲染出组件的位置,大小,角度
     renderComponentBounding(component: DisplayComponent) {
       //根据属性设置样式
@@ -51,14 +54,44 @@
      * 设置所有选中的组件的透明度
      * @param {number} opacity
      */
-    renderSelectedComponentOpacity(opacity:string){
-      this.project.selectedScene.selectedComponents.forEach((component)=>{
+    renderSelectedComponentOpacity(opacity: string) {
+      this.project.selectedScene.selectedComponents.forEach((component) => {
         let elementStyle = document.getElementById(component.props.id).style;
         elementStyle.opacity = opacity;
       })
     }
 
+    /**
+     * 渲染多选的框的位置和大小
+     * @param {number} left
+     * @param {number} top
+     * @param {number} width
+     * @param {number} height
+     */
+    renderMultiSelectRectBounding(left: number, top: number, width: number, height: number) {
+      let style = this.multiSelectRect.style;
+      style.display = "block";
+      style.left = left + 'px';
+      style.top = top + 'px';
+      style.width = width + 'px';
+      style.height = height + 'px';
+    }
+
     mounted() {
+      this.registerSelectionHandler();
+      this.registerKeyHandler();
+    }
+
+    registerKeyHandler() {
+      Renderer.addEventListener(document, "keyup", (event) => {
+        let keyCode = event.keyCode;
+        if (keyCode == 46) {//delete 键就是删除了
+          this.project.selectedScene.removeSelection();
+        }
+      })
+    }
+
+    registerSelectionHandler() {
       let mouseDownX,
         mouseDownY,
         /**
@@ -81,7 +114,9 @@
         project: Project = this.project,
         //鼠标按下的时候,组件的位置,大小
         mouseDownElementLeft, mouseDownElementTop, mouseDownElementWidth, mouseDownElementHeight,
-        mouseDownElement: DisplayComponent
+        mouseDownElement: DisplayComponent,
+
+        multiSelectRect = this.multiSelectRect = this.$refs["selectRect"] as HTMLElement;
       ;
       document.addEventListener("mousedown", (event: MouseEvent) => {
         if (!this.project.selectedScene) {
@@ -89,21 +124,28 @@
         }
 
         isMouseDown = true;
+        mouseDownX = event.pageX;
+        mouseDownY = event.pageY;
         let target = event.target;
 
         if (!(displayComponent = Renderer.findCloseElementByClass(target, "gls-display-component"))) {
           project.selectedScene.clearSelection();
+
+          this.renderMultiSelectRectBounding(event.pageX, event.pageY, 0, 0);
         } else {
-          mouseDownX = event.pageX;
-          mouseDownY = event.pageY;
           resizePoint = Renderer.findCloseElementByClass(target, GLS_RESIZE_POINT);
           rotatePoint = Renderer.findCloseElementByClass(target, GLS_ROTATE_POINT);
+          mouseDownElement = DisplayComponentFactory.getInstance().getCreatedComponent(displayComponent.id);
+          //处理选中
+          if (!(event.ctrlKey || event.metaKey) && project.selectedScene.selectedComponents.length == 1) {
+            project.selectedScene.clearSelection();
+          }
+          mouseDownElement.props.selected = true;
           //改变大小,获取是点击了那个点
           if (resizePoint) {
             pointClass = resizePoint.className.replace(GLS_RESIZE_POINT + " ", "");
 
             //记录按下的时候的大小和位置
-            mouseDownElement = DisplayComponentFactory.getInstance().getCreatedComponent(displayComponent.id);
             let style = mouseDownElement.props.style;
             mouseDownElementTop = style.top;
             mouseDownElementLeft = style.left;
@@ -125,78 +167,96 @@
           MIN_HEIGHT = 3;
         mouseMoveX = currentX - mouseDownX;
         mouseMoveY = currentY - mouseDownY;
-        if (resizePoint) {
-          let elementStyle = mouseDownElement.props.style;
-          switch (pointClass) {
-            case N_RESIZE:
-              elementStyle.top = mouseDownElementTop + mouseMoveY;
-              elementStyle.height = mouseDownElementHeight - mouseMoveY;
-              break;
-            case W_RESIZE:
-              elementStyle.left = mouseDownElementLeft + mouseMoveX;
-              elementStyle.width = mouseDownElementWidth - mouseMoveX;
-              break;
-            case E_RESIZE:
-              elementStyle.width = mouseDownElementWidth + mouseMoveX;
-              break;
-            case NE_RESIZE:
-              elementStyle.top = mouseDownElementTop + mouseMoveY;
-              elementStyle.width = mouseDownElementWidth + mouseMoveX;
-              elementStyle.height = mouseDownElementHeight - mouseMoveY;
-              break;
-            case SE_RESIZE:
-              elementStyle.width = mouseDownElementWidth + mouseMoveX;
-              elementStyle.height = mouseDownElementHeight + mouseMoveY;
-              break;
-            case S_RESIZE:
-              elementStyle.height = mouseDownElementHeight + mouseMoveY;
-              break;
-            case SW_RESIZE:
-              elementStyle.left = mouseDownElementLeft + mouseMoveX;
-              elementStyle.width = mouseDownElementWidth - mouseMoveX;
-              elementStyle.height = mouseDownElementHeight + mouseMoveY;
-              break;
-            case NW_RESIZE:
-              elementStyle.top = mouseDownElementTop + mouseMoveY;
-              elementStyle.height = mouseDownElementHeight - mouseMoveY;
-              elementStyle.left = mouseDownElementLeft + mouseMoveX;
-              elementStyle.width = mouseDownElementWidth - mouseMoveX;
-              break;
+
+        if (displayComponent) {
+          if (resizePoint) {
+            let elementStyle = mouseDownElement.props.style;
+            switch (pointClass) {
+              case N_RESIZE:
+                elementStyle.top = mouseDownElementTop + mouseMoveY;
+                elementStyle.height = mouseDownElementHeight - mouseMoveY;
+                break;
+              case W_RESIZE:
+                elementStyle.left = mouseDownElementLeft + mouseMoveX;
+                elementStyle.width = mouseDownElementWidth - mouseMoveX;
+                break;
+              case E_RESIZE:
+                elementStyle.width = mouseDownElementWidth + mouseMoveX;
+                break;
+              case NE_RESIZE:
+                elementStyle.top = mouseDownElementTop + mouseMoveY;
+                elementStyle.width = mouseDownElementWidth + mouseMoveX;
+                elementStyle.height = mouseDownElementHeight - mouseMoveY;
+                break;
+              case SE_RESIZE:
+                elementStyle.width = mouseDownElementWidth + mouseMoveX;
+                elementStyle.height = mouseDownElementHeight + mouseMoveY;
+                break;
+              case S_RESIZE:
+                elementStyle.height = mouseDownElementHeight + mouseMoveY;
+                break;
+              case SW_RESIZE:
+                elementStyle.left = mouseDownElementLeft + mouseMoveX;
+                elementStyle.width = mouseDownElementWidth - mouseMoveX;
+                elementStyle.height = mouseDownElementHeight + mouseMoveY;
+                break;
+              case NW_RESIZE:
+                elementStyle.top = mouseDownElementTop + mouseMoveY;
+                elementStyle.height = mouseDownElementHeight - mouseMoveY;
+                elementStyle.left = mouseDownElementLeft + mouseMoveX;
+                elementStyle.width = mouseDownElementWidth - mouseMoveX;
+                break;
+            }
+            elementStyle.height = Math.max(MIN_HEIGHT, elementStyle.height as number);
+            elementStyle.width = Math.max(MIN_WIDTH, elementStyle.width as number);
+
+            this.renderComponentBounding(mouseDownElement);
+            this.renderComponentSelectBounding(mouseDownElement);
+          } else if (rotatePoint) {//旋转
+            let component = DisplayComponentFactory.getInstance().getCreatedComponent(displayComponent.id);
+            //算出中心点
+            let componentStyle = component.props.style;
+            let bounding = Renderer.getBoundingClientRect(document.getElementById(component.props.id));
+            let centerX = (bounding.left + bounding.right) / 2;
+            let centerY = (bounding.top + bounding.bottom) / 2;
+
+            //算出角度
+            let style = document.getElementById(component.props.id).style;
+            componentStyle.rotate = Renderer.getAngle(centerX, centerY, currentX, currentY);
+            style.transform = `rotateZ(${componentStyle.rotate}deg)`;
+          } else {//移动
+            project.selectedScene.selectedComponents.forEach(
+              (component: DisplayComponent) => {
+                let componentStyle = component.props.style;
+                let style = document.getElementById(component.props.id).style;
+                let transform = `translate3d(${mouseMoveX}px,${mouseMoveY}px,0) rotateZ(${componentStyle.rotate}deg)`;
+                style.transform = transform;
+                style.webkitTransform = transform;
+              })
           }
-          elementStyle.height = Math.max(MIN_HEIGHT,elementStyle.height as number);
-          elementStyle.width = Math.max(MIN_WIDTH,elementStyle.width as number);
-
-          this.renderComponentBounding(mouseDownElement);
-          this.renderComponentSelectBounding(mouseDownElement);
-        } else if (rotatePoint) {//旋转
-          project.selectedScene.selectedComponents.forEach(
-            (component: DisplayComponent) => {
-              //算出中心点
-              let componentStyle = component.props.style;
-              let bounding = Renderer.getBoundingClientRect(document.getElementById(component.props.id));
-              let centerX = (bounding.left + bounding.right) / 2;
-              let centerY = (bounding.top + bounding.bottom) / 2;
-
-              //算出角度
-              let style = document.getElementById(component.props.id).style;
-              componentStyle.rotate = Renderer.getAngle(centerX, centerY, currentX, currentY);
-              style.transform = `rotateZ(${componentStyle.rotate}deg)`;
-            })
-        } else {//移动
-          project.selectedScene.selectedComponents.forEach(
-            (component: DisplayComponent) => {
-              let componentStyle = component.props.style;
-              let style = document.getElementById(component.props.id).style;
-              let transform = `translate3d(${mouseMoveX}px,${mouseMoveY}px,0) rotateZ(${componentStyle.rotate}deg)`;
-              style.transform = transform;
-              style.webkitTransform = transform;
-            })
+        } else {//多选的情况
+          this.renderMultiSelectRectBounding(mouseDownX, mouseDownY, currentX - mouseDownX, currentY - mouseDownY);
+          //算出哪些组件是被选中了
+          this.project.selectedScene.stage.children.forEach((component: DisplayComponent) => {
+            let element = Renderer.getElementById(component.props.id);
+            let elementBounding = Renderer.getBoundingClientRect(element);
+            let centerX = (elementBounding.left + elementBounding.right) / 2,
+              centerY = (elementBounding.top + elementBounding.bottom) / 2;
+            if (centerX >= mouseDownX && centerX <= currentX && centerY >= mouseDownY && centerY <= currentY) {
+              if (!component.props.selected) {
+                component.props.selected = true;
+              }
+            } else {
+              component.props.selected = false;
+            }
+          })
         }
+
       })
 
       document.addEventListener("mouseup", () => {
         //移动位置
-        if (isMouseDown && !resizePoint && !rotatePoint) {
+        if (isMouseDown && !resizePoint && !rotatePoint && displayComponent) {
           project.selectedScene.selectedComponents.forEach(
             (component: DisplayComponent) => {
               //更新位置
@@ -213,6 +273,8 @@
 
           this.renderSelectedComponentOpacity('1');
         }
+
+        multiSelectRect.style.display = "none";
         resizePoint = null;
         pointClass = "";
         rotatePoint = null;
@@ -226,4 +288,10 @@
 </script>
 
 <style scoped lang="scss">
+  .gls-multi-select-rect {
+    position: fixed;
+    box-sizing: border-box;
+    border: solid 1px #08A1EF;
+    background-color: rgba(8, 161, 239, 0.3);
+  }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <span @mousedown="component.props.selected = true"
+    <span @click="onMouseDownHandler(component,$event)"
           class="gls-display-component"
           :id="component.props.id"
     >
@@ -24,28 +24,29 @@
   /**
    * create by 给力叔 2017/9/15
    */
-  export default {
-    name: "glsDisplayComponentEditor",
-    props: {
-      component: {
-        type: DisplayComponent,
-        require: true
-      },
-      project: {
-        type: Project,
-        require: true
-      }
-    },
-    mounted: function () {
-      this.$el.style.cssText = this.component.props.boundingStyle;
-    },
-    data: function () {
-      return {}
+  import Vue from 'vue'
+  import {Component, Inject, Model, Prop, Watch} from 'vue-property-decorator'
 
-    },
+  @Component({
+    name: "GlsDisplayComponentEditor",
     components: {
       glsDynamicDisplayComponent: glsDynamicDisplayComponent,
       glsDisplayComponentSelect: glsDisplayComponentSelect
+    }
+  })
+  export default class GlsDisplayComponentEditor extends Vue {
+    @Prop({required: true}) project: Project;
+    @Prop({required: true}) component: DisplayComponent;
+
+    mounted() {
+      this.$el.style.cssText = this.component.props.boundingStyle;
+    }
+
+    onMouseDownHandler(component, $event) {
+//      if (!($event.ctrlKey)) {
+//        this.project.selectedScene.clearSelection();
+//      }
+//      component.props.selected = true
     }
   }
 </script>

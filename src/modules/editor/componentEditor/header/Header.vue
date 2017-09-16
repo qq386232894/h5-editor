@@ -2,7 +2,7 @@
   <header>
     <div class="left">Editor </div>
     <div class="center">
-      <gls-component-bar></gls-component-bar>
+      <gls-component-bar :project="project"></gls-component-bar>
     </div>
     <div class="right">
       <gls-button type="gray" label="预览和设置" hoverType="hover-success"></gls-button>
@@ -16,21 +16,25 @@
 <script lang="ts">
   import glsComponentBar from "../componentBar/ComponentBar";
   import glsButton from '../../common/button/Button.vue';
-  export default {
-    name: 'gls-header',
-    data() {
-      return {
-      }
-    },
-    components:{
-      glsComponentBar:glsComponentBar,
-      glsButton:glsButton
+  import Vue from 'vue'
+  import {Component, Inject, Model, Prop, Watch} from 'vue-property-decorator'
+  import {Project} from "../../core/project/Project";
+
+  @Component({
+    name: "GlsHeader",
+    components: {
+      glsComponentBar: glsComponentBar,
+      glsButton: glsButton
     }
+  })
+  export default class GlsHeader extends Vue {
+    @Prop({required: true}) project: Project;
   }
 </script>
 
 <style scoped lang="scss">
   @import "../../common/scss/index.scss";
+
   header {
     height: $header_height;
     position: fixed;
@@ -51,7 +55,7 @@
     left: 0;
     top: 0;
     height: 36px;
-    padding:7px 0 0 7px;
+    padding: 7px 0 0 7px;
   }
 
   .center {
@@ -61,12 +65,12 @@
     right: 250px;
   }
 
-  .right{
-    $top:13px;
+  .right {
+    $top: 13px;
     position: fixed;
-    top:$top;
-    right:0;
+    top: $top;
+    right: 0;
     height: $header_height - $top;
-    width:200px;
+    width: 200px;
   }
 </style>

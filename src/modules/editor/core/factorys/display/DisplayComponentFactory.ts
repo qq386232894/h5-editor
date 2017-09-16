@@ -2,6 +2,7 @@
  * Created by 给力叔 on 2017/9/8.
  */
 import {DisplayComponentRegisterInfo} from "./DisplayComponentRegisterInfo";
+import {DisplayComponent} from "../../display/DisplayComponent";
 export class DisplayComponentFactory {
   /**
    * @type {DisplayComponentFactory}
@@ -42,10 +43,10 @@ export class DisplayComponentFactory {
 
   /**
    * 注册组件
-   * @param type {String}
-   * @param component {DisplayComponent}
+   * @param {String} type
+   * @param {DisplayComponent} component
    */
-  registerComponent(type, component) {
+  registerComponent(type:string, component:DisplayComponent) {
     this.checkType(type);
 
     if (this.getRegisterComponent(type)) {
@@ -62,7 +63,10 @@ export class DisplayComponentFactory {
     this._registerComponents[type] = info;
   }
 
-  checkType(type){
+  /**
+   * 检查组件类型
+   */
+  checkType(type:string){
     if(typeof type !== "string" || !type){
       throw new Error("请提供有效的类型");
     }
@@ -73,7 +77,7 @@ export class DisplayComponentFactory {
    * @param type {String}
    * @return {DisplayComponent}
    */
-  createComponent(type) {
+  createComponent(type):DisplayComponent {
     this.checkType(type);
     if (this.getRegisterComponent(type)) {
       /**
