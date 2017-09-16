@@ -17,19 +17,23 @@
 </template>
 
 <script lang="ts">
+  /**
+   * create by 给力叔 2017/9/16
+   */
+  import Vue from 'vue'
+  import {Component, Inject, Model, Prop, Watch} from 'vue-property-decorator'
   import glsButton from '../../common/button/Button.vue';
+  import {Project} from "../../core/project/Project";
 
-  export default {
-    name: 'gls-scene-manager',
-    props: {
-      project: Object
-    },
-    data() {
-      return {}
-    },
+  @Component({
+    name: "gls-scene-manager",
     components: {
       glsButton: glsButton
     }
+  })
+  export default class SceneManager
+    extends Vue {
+    @Prop({required: true}) project: Project;
   }
 </script>
 

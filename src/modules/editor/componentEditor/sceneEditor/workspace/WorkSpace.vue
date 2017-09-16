@@ -4,6 +4,7 @@
     <gls-display-component-editor v-for="component in project.selectedScene.stage.children"
                                   :component="component"
                                   :project="project"
+                                  :key="component.props.id"
     >
     </gls-display-component-editor>
   </div>

@@ -40,6 +40,7 @@
           scene.config.id = index.toString();
 
           let stage = scene.stage = new Stage();
+          stage.props.id = index.toString();
           stage.addChild(DisplayComponentFactory.getInstance().createComponent(GLS_COMPONENT_TEXT));
 
 
