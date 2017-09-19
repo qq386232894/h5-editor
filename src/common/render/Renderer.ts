@@ -2,6 +2,8 @@
  * create by 给力叔 2017/9/13
  * dom渲染器,主要为了做兼容处理
  */
+import {Rect} from "../../modules/editor/core/geom/Rect";
+
 export const NAMESPACE_URIS = {
   'xlink': 'http://www.w3.org/1999/xlink',
   'svg': 'http://www.w3.org/2000/svg',
@@ -28,7 +30,7 @@ export const Renderer = {
   querySelector(selector: string): HTMLElement {
     return document.querySelector(selector) as HTMLElement;
   },
-  getElementById(id:string): HTMLElement{
+  getElementById(id: string): HTMLElement {
     return document.getElementById(id);
   },
   /**
@@ -39,7 +41,7 @@ export const Renderer = {
    * @param my
    * @returns {number}
    */
-  getAngle(startX: number, startY: number, mouseX: number, mouseY: number):number {
+  getAngle(startX: number, startY: number, mouseX: number, mouseY: number): number {
     var x = Math.abs(startX - mouseX);
     var y = Math.abs(startY - mouseY);
     var z = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
@@ -77,10 +79,10 @@ export const Renderer = {
   /**
    * 获取位置和大小
    * @param target
-   * @returns {*|ClientRect}
+   * @returns {*|Rect}
    */
-  getBoundingClientRect(target) {
-    return target.getBoundingClientRect();
+  getBoundingClientRect(target): Rect {
+    return new Rect(target.getBoundingClientRect());
   },
   /**
    * 获取屏幕宽度
