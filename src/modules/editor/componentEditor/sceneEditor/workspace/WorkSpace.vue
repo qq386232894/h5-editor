@@ -7,6 +7,7 @@
                                   :key="component.props.id"
     >
     </gls-display-component-editor>
+    <!--多选框-->
     <div class="gls-multi-select-rect" ref="selectRect"></div>
   </div>
 </template>
@@ -27,6 +28,7 @@
   import {Component, Inject, Model, Prop, Watch} from 'vue-property-decorator'
   import {DisplayComponentFactory} from "../../../core/factorys/display/DisplayComponentFactory";
   import {Rect} from "../../../core/geom/Rect";
+  import {CopyPasteManager} from "../../../core/parse/CopyPasteManager";
 
   class MouseDownRect {
     top: number;
@@ -63,9 +65,7 @@
 
     //渲染出组件的位置,大小,角度
     renderComponentBounding(component: DisplayComponent) {
-      //根据属性设置样式
-      let elementStyle = document.getElementById(component.props.id).style;
-      elementStyle.cssText = component.props.boundingStyle;
+      component.renderBounding();
     }
 
     //渲染出组件的选择器的大小
@@ -136,6 +136,19 @@
         let keyCode = event.keyCode;
         if (keyCode == 46) {//delete 键就是删除了
           this.project.selectedScene.removeSelection();
+        }
+
+        if(event.ctrlKey || event.metaKey){
+          switch (keyCode){
+            case 67:{//c,复制
+              CopyPasteManager.getInstance().copy();
+              break;
+            }
+            case 86:{//v,黏贴
+              CopyPasteManager.getInstance().paste();
+              break;
+            }
+          }
         }
       })
     }
@@ -214,7 +227,7 @@
               let elementRect = Renderer.getBoundingClientRect(element);
               if (component.props.selected) {
                 if (!mouseDownCenter) {
-                  mouseDownCenter = new MouseDownRect(elementRect.top,elementRect.right,elementRect.bottom,elementRect.left);
+                  mouseDownCenter = new MouseDownRect(elementRect.top, elementRect.right, elementRect.bottom, elementRect.left);
                 } else {
                   mouseDownCenter.top = Math.min(mouseDownCenter.top, elementRect.top);
                   mouseDownCenter.right = Math.max(mouseDownCenter.right, elementRect.right);
@@ -299,11 +312,11 @@
             let fixPosition;
             //算出跟哪根线吸附了
             let allConditions = {x: ["left", "centerX", "right"], y: ["top", "centerY", "bottom"]};
-            let fixConfition = {x:false,y:false};
+            let fixConfition = {x: false, y: false};
             all:for (let componentInfo of mouseDownUnselectRects) {
               let rect = componentInfo.rect;
               for (let mouseMoveCondition of Object.keys(allConditions)) {
-                if(fixConfition[mouseMoveCondition]){
+                if (fixConfition[mouseMoveCondition]) {
                   continue;
                 }
                 for (let fromCondition of allConditions[mouseMoveCondition]) {
@@ -311,7 +324,7 @@
                     if (this.isCloseTo(mouseDownCenter[fromCondition] + mouseMove[mouseMoveCondition], fixPosition = rect[toCondition])) {
                       mouseMove[mouseMoveCondition] = fixPosition - mouseDownCenter[fromCondition];
                       fixConfition[mouseMoveCondition] = true;
-                      if(fixConfition.x && fixConfition.y){
+                      if (fixConfition.x && fixConfition.y) {
                         break all;
                       }
                     }

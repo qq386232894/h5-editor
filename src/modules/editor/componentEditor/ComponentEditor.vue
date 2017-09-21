@@ -1,11 +1,32 @@
 <template>
   <div class="component-editor" v-if="project">
     <gls-header :project="project"></gls-header>
-    <div class="content">
+    <div class="gls-component-editor-content">
       <gls-template-panel></gls-template-panel>
       <gls-scene-editor :project="project"></gls-scene-editor>
       <gls-scene-manager :project="project"></gls-scene-manager>
     </div>
+    <!--多选编辑-->
+    <modal name="multiSelectEditor"
+           width="270px"
+           height="169px"
+           :draggable="true"
+           :clickToClose="false"
+           :showBackground="false"
+           :pivotX="0.8"
+           :pivotY="0.12"
+           title="多选操作"
+    >
+      <gls-multi-select-editor :scene="project.selectedScene"
+                               v-if="project && project.selectedScene && project.selectedScene.selectedComponents.length > 1"
+      >
+      </gls-multi-select-editor>
+    </modal>
+    <!--单选编辑-->
+    <gls-single-select-editor :scene="project.selectedScene"
+                              v-if="project && project.selectedScene && project.selectedScene.selectedComponents.length == 1"
+    >
+    </gls-single-select-editor>
   </div>
 </template>
 
@@ -21,7 +42,11 @@
   import {ComponentText, GLS_COMPONENT_TEXT} from "../core/display/text/ComponentText";
   import {ProjectManager} from "../core/factorys/display/ProjectManager";
   import {DisplayComponentFactory} from "../core/factorys/display/DisplayComponentFactory";
-  import {Component, Inject, Model, Prop, Watch,Provide} from 'vue-property-decorator'
+  import {Component, Inject, Model, Prop, Watch, Provide} from 'vue-property-decorator';
+  import GlsSingleSelectEditor from './singleSelectEditor/SingleSelectEditor';
+  import GlsMultiSelectEditor from './multiSelectEditor/MultiSelectEditor';
+  import {Renderer} from "../../../common/render/Renderer";
+  import {CopyPasteManager} from "../core/parse/CopyPasteManager";
 
   @Component({
     name: "GlsComponentEditor",
@@ -29,7 +54,9 @@
       glsHeader: glsHeader,
       glsSceneManager: glsSceneManager,
       glsTemplatePanel: glsTemplatePanel,
-      glsSceneEditor: glsSceneEditor
+      glsSceneEditor: glsSceneEditor,
+      GlsSingleSelectEditor: GlsSingleSelectEditor,
+      GlsMultiSelectEditor: GlsMultiSelectEditor
     }
   })
   export default class GlsComponentEditor extends Vue {
@@ -56,12 +83,30 @@
         project.selectedScene = project.scenes[0];
       }
       ProjectManager.getInstance().currentProject = this.project;
+      CopyPasteManager.getInstance().init(this.project);
+    }
+
+    get initPosition(){
+      return {top:'50px',left:`${Renderer.getWindowWidth() - 530}px`}
     }
 
     mounted() {
       document.onselectstart = function () {
         return false;
       }
+
+      this.$watch(function () {
+        let project = this.project;
+        return project && project.selectedScene && project.selectedScene.selectedComponents.length || 0;
+      },function (newValue) {
+        if(newValue > 1){
+          this["$modal"].show('multiSelectEditor');
+        }else if(newValue == 1){
+
+        }else{
+          this["$modal"].hide('multiSelectEditor');
+        }
+      })
 //      let text = new (glsHeader._Ctor[0])(glsHeader).$mount();
 //      this.$el.appendChild(text.$el);
     }
@@ -72,7 +117,7 @@
   @import "../common/scss/index.scss";
   @import "../common/scss/icons/iconfont.scss";
 
-  .content {
+  .gls-component-editor-content {
     position: fixed;
     width: 100%;
     top: 50px;

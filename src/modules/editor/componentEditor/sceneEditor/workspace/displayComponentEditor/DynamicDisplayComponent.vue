@@ -6,6 +6,8 @@
   import glsComponentText from '../text/ComponentText.vue';
   import Vue from 'Vue';
   import {Project} from "../../../../core/project/Project";
+  import {DisplayComponent} from "../../../../core/display/DisplayComponent";
+  import {Renderer} from "../../../../../../common/render/Renderer";
 
   /**
    * create by 给力叔 2017/9/10
@@ -14,7 +16,7 @@
   export default {
     name: "gls-dynamic-display-component",
     props: {
-      component: Object,
+      component: DisplayComponent,
       /**
        * @type {Project}
        */
@@ -25,6 +27,10 @@
     },
     components: {
       glsComponentText: glsComponentText
+    },
+    mounted(){
+      let component:DisplayComponent = this.component;
+      component.element = Renderer.getElementById(component.props.id);
     }
   }
 </script>

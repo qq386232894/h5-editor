@@ -3,7 +3,9 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+import VModal from './modules/editor/common/dialog/index.js'
 
+Vue.use(VModal)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

@@ -14,6 +14,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "allowJs": true,
     "typeRoots": [
       "node_modules/@types"
     ]

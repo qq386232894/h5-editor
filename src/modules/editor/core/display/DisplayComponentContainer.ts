@@ -55,11 +55,20 @@ export class DisplayComponentContainer extends DisplayComponent {
     this.checkChild(child);
     if(this.hasChild(child)){
       delete child.parent;
-      this.children.splice(this.getChildAt(child));
+      this.children.splice(this.getChildIndex(child),1);
       return true;
     }else{
       return false;
     }
+  }
+
+  /**
+   * 获取子节点的序号
+   * @param {DisplayComponent} child
+   * @returns {number}
+   */
+  getChildIndex(child:DisplayComponent){
+    return this.children.indexOf(child);
   }
 
   /**
