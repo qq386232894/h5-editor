@@ -4,7 +4,11 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import VModal from './modules/editor/common/dialog/index.js'
+import Tooltip from 'vue-directive-tooltip';
 
+Vue.use(Tooltip,{
+  delay:0//隐藏的时候不需要延迟
+});
 Vue.use(VModal)
 Vue.config.productionTip = false
 

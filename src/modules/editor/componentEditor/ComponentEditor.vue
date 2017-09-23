@@ -22,6 +22,7 @@
       >
       </gls-multi-select-editor>
     </modal>
+    {{project && project.selectedScene && project.selectedScene.selectedComponents.length}}
     <!--单选编辑-->
     <gls-single-select-editor :scene="project.selectedScene"
                               v-if="project && project.selectedScene && project.selectedScene.selectedComponents.length == 1"
@@ -86,8 +87,8 @@
       CopyPasteManager.getInstance().init(this.project);
     }
 
-    get initPosition(){
-      return {top:'50px',left:`${Renderer.getWindowWidth() - 530}px`}
+    get initPosition() {
+      return {top: '50px', left: `${Renderer.getWindowWidth() - 530}px`}
     }
 
     mounted() {
@@ -95,15 +96,16 @@
         return false;
       }
 
+      //多选的时候，显示多选的弹窗
       this.$watch(function () {
         let project = this.project;
         return project && project.selectedScene && project.selectedScene.selectedComponents.length || 0;
-      },function (newValue) {
-        if(newValue > 1){
+      }, function (newValue) {
+        if (newValue > 1) {
           this["$modal"].show('multiSelectEditor');
-        }else if(newValue == 1){
+        } else if (newValue == 1) {
 
-        }else{
+        } else {
           this["$modal"].hide('multiSelectEditor');
         }
       })

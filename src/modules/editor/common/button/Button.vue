@@ -1,6 +1,7 @@
 <template>
-    <span :class="'gls-button ' + type + ' ' + hoverType">
+    <span :class="'gls-button ' + type + ' ' + hoverType + ' ' + borderRadiusType">
       {{label}}
+      <slot></slot>
     </span>
 </template>
 
@@ -10,7 +11,8 @@
     props: {
       type: String,//gray.black,danger
       hoverType: String,  //hover-success,hover-danger
-      label:String
+      label:String,
+      borderRadiusType:String   //圆角
     },
     data() {
       return {
@@ -29,7 +31,7 @@
     background-color: #525C64;
     border-radius: 3px;
     cursor: pointer;
-    @extend .transition-all;
+    @extend .ui-transition-all;
     &.gray{
       background-color: #76838F;
     }
@@ -39,6 +41,11 @@
     &.danger{
       background-color: #FF5448;
     }
+
+    &.transparent{
+      background-color: transparent;
+    }
+
     &:hover {
       background-color: #FF5448;
     }

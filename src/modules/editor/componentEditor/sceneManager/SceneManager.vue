@@ -2,8 +2,12 @@
   <div class="gls-scene-manager">
     <div class="manager-header">
       <a>场景编辑</a>
-      <gls-button type="black" label="复制" hoverType="hover-success"></gls-button>
-      <gls-button type="black" label="删除" class="delete-button" hoverType="hover-danger"></gls-button>
+      <gls-button type="black" hoverType="hover-success">
+        <div class="iconfont icon-copy"></div>
+      </gls-button>
+      <gls-button type="black" hoverType="hover-danger">
+        <div class="iconfont icon-delete"></div>
+      </gls-button>
     </div>
     <div class="manager-content">
       <div :class="{scene:true,selected:project.selectedScene === scene}" v-for="(scene,index) in project.scenes"
@@ -123,5 +127,9 @@
       top: 25px;
       left: 35px;
     }
+  }
+
+  .gls-button.hover-danger{
+    margin-right: 3px;
   }
 </style>
