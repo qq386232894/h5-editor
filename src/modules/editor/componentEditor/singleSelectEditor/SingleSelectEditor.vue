@@ -52,6 +52,18 @@
           <input type="number"/>
         </div>
       </div>
+
+      <div class="label-content">
+        <label>
+          浮动框
+        </label>
+        <div>
+          <gls-overlay-panel ref="colorPanel">
+            666
+          </gls-overlay-panel>
+          <div style="width: 16px;height:16px;background-color: red" @click="$refs.colorPanel.show($event)"></div>
+        </div>
+      </div>
     </div>
   </gls-panel>
 </template>
@@ -67,13 +79,15 @@
   import glsPanel from "../../common/panel/Panel";
   import checkbox from "../../common/checkbox/Checkbox.vue";
   import radio from "../../common/radio/Radio.vue";
+  import GlsOverlayPanel from "../../common/overlayPanel/OverlayPanel.vue"
 
   @Component({
     name: "GlsSingleSelectEditor",
     components: {
       glsPanel: glsPanel,
       checkbox: checkbox,
-      radio: radio
+      radio: radio,
+      GlsOverlayPanel:GlsOverlayPanel
     }
   })
   export default class GlsSingleSelectEditor extends Vue {
@@ -82,6 +96,10 @@
 //    todo 测试数据，记得删
     checkboxValue = true;
     radioValue = "yes";
+
+    show(){
+      console.log(this.$refs.colorPanel);
+    }
   }
 </script>
 

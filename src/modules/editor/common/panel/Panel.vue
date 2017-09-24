@@ -42,6 +42,7 @@
     height: 800px;
     @include grayShadow;
     background-color: #FFFFFF;
+    left: 300px;//todo 测试用，记得删除
   }
 
   .gls-panel--header {

@@ -262,5 +262,21 @@ export const Renderer = {
    */
   addEventListener(target, eventName, callback) {
     target.addEventListener(eventName, callback);
+    return function () {
+      target.removeEventListener(eventName, callback);
+    }
+  },
+  /**
+   * 计算出绝对位置,TODO 只实现了左对齐
+   * @param element
+   * @param target
+   * @param {string} position
+   */
+  absolutePosition(element: any, target: any, position: string = "left"): void {
+    let elementRect = this.getBoundingClientRect(element),
+      targetRect = this.getBoundingClientRect(target);
+    element.style.left = targetRect.left - elementRect.width - 5 + "px";
+    element.style.top = targetRect.centerY - elementRect.height / 2 + "px";
   }
+
 }
