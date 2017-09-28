@@ -109,7 +109,7 @@
       border-top: 35px solid #76838F;
       border-right: 35px solid transparent;
       position: relative;
-      top: 35px;
+      top: 0px;
     }
 
     .index {

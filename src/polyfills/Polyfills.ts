@@ -22,6 +22,7 @@ import 'core-js/es7/reflect';
 import 'core-js/es7/array';
 import 'core-js/es7/promise';
 import './PolyfillClassList';
+import 'babel-polyfill'
 if (!("classList" in document.documentElement)) {
   Object.defineProperty(HTMLElement.prototype, 'classList', {
     get: function() {

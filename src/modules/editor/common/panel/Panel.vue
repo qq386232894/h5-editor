@@ -1,13 +1,15 @@
 <template>
-  <div class="gls-panel" @mousedown.stop="onMousedownHandler()">
-    <div class="gls-panel--header">
+  <div class="gls-panel" @mousedown.stop="onMousedownHandler()" v-draggable="{elementRect:{top: 0, left: 0, bottom: 0, right: 1}}">
+    <div class="gls-panel--header" :id="headerId">
       <a>{{title}}</a>
       <gls-button borderRadiusType="ui-border-radius-0" type="transparent">
         <div class="iconfont icon-close"></div>
       </gls-button>
       <div class="ui-clear-both"></div>
     </div>
-    <slot></slot>
+    <div @mousedown.stop="onMousedownHandler()">
+      <slot></slot>
+    </div>
   </div>
 </template>
 
@@ -19,6 +21,7 @@
   import {Component, Inject, Model, Prop, Watch} from 'vue-property-decorator'
   import glsButton from '../../common/button/Button'
 
+  let index = 0;
   @Component({
     name: "gls-panel",
     components: {
@@ -27,6 +30,11 @@
   })
   export default class GlsPanel extends Vue {
     @Prop() title: String;
+    headerId = "";
+
+    created(){
+      this.headerId = `gls-header${index++}`;
+    }
 
     onMousedownHandler() {
     }

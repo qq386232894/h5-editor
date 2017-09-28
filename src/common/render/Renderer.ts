@@ -179,7 +179,7 @@ export const Renderer = {
    * @param value
    * @param namespace
    */
-  setAttribute(el, name, value, namespace) {
+  setAttribute(el, name, value, namespace?) {
     if (namespace) {
       el.setAttributeNS(NAMESPACE_URIS[namespace], namespace + ':' + name, value);
     } else {
@@ -232,7 +232,7 @@ export const Renderer = {
    * @param hasVendorPrefix
    * @param hasImportant
    */
-  setStyle(el, style, value, hasVendorPrefix, hasImportant) {
+  setStyle(el, style, value, hasVendorPrefix?, hasImportant?) {
     if (hasVendorPrefix || hasImportant) {
       el.style.setProperty(style, value, hasImportant ? 'important' : '');
     } else {
