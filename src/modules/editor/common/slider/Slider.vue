@@ -1,13 +1,13 @@
 <template>
   <div class="gls-slider">
+    <!--数字输入框-->
+    <div class="gls-label-content-right">
+      <gls-stepper v-model="inputValue" @input="renderValue" :max="max" :min="min"></gls-stepper>
+    </div>
     <!--滑块-->
-    <div class="gls-slider-background" ref="background">
+    <div class="gls-label-content-center gls-slider-background" ref="background">
       <div class="gls-slider-progress" ref="progress"></div>
       <div class="gls-slider-trigger" ref="trigger"></div>
-    </div>
-    <!--数字输入框-->
-    <div class="gls-slider-number">
-      <gls-stepper v-model="inputValue" @input="renderValue" :max="max" :min="min"></gls-stepper>
     </div>
   </div>
 </template>
@@ -127,11 +127,9 @@
   }
 
   .gls-slider-background {
-    width: 98px;
     height: 20px;
     background-color: #CCD5DB;
     border: solid 1px #CCCCCC;
-    position: absolute;
   }
 
   .gls-slider-progress {
@@ -139,7 +137,7 @@
     height: 18px;
     background-color: #08A2EF;
     left: 0;
-    top: 0;
+    top: 1px;
   }
 
   .gls-slider-number {

@@ -2,8 +2,8 @@
   <gls-panel title="组件设置">
     <b-tabs ref="tabs" card-body>
       <b-tab title="样式" active>
-        <b-card>
-          <div class="label-content">
+        <b-card class="ui-no-border">
+          <div class="gls-label-content">
             <label>
               复选框
             </label>
@@ -17,7 +17,7 @@
             </div>
           </div>
 
-          <div class="label-content">
+          <div class="gls-label-content">
             <label>
               单选框
             </label>
@@ -27,7 +27,7 @@
             </div>
           </div>
 
-          <div class="label-content">
+          <div class="gls-label-content">
             <label>
               单行文本
             </label>
@@ -37,7 +37,7 @@
             </div>
           </div>
 
-          <div class="label-content">
+          <div class="gls-label-content">
             <label>
               多行文本
             </label>
@@ -51,7 +51,7 @@
             </div>
           </div>
 
-          <div class="label-content">
+          <div class="gls-label-content">
             <label>
               数字
             </label>
@@ -61,16 +61,14 @@
             </div>
           </div>
 
-          <div class="label-content">
+          <div class="gls-label-content">
             <label>
               颜色选择器
             </label>
-            <div>
-              <gls-color-picker v-model="colors"></gls-color-picker>
-            </div>
+            <gls-color-picker v-model="colors"></gls-color-picker>
           </div>
 
-          <div class="label-content">
+          <div class="gls-label-content">
             <label>
               下拉框
             </label>
@@ -79,38 +77,32 @@
               </b-form-select>
             </div>
           </div>
-          <div class="label-content">
+          <div class="gls-label-content">
             <label>
               滑动条
             </label>
-            <div>
-              <gls-slider v-model="sliderValue" :max="200" :min="0"></gls-slider>
-            </div>
+            <gls-slider v-model="sliderValue" :max="200" :min="0"></gls-slider>
           </div>
-          <!--{{sliderValue}}-->
-          <!--<div role="tablist">-->
-            <!--<b-card no-body class="mb-1">-->
-              <!--<b-card-header header-tag="header" class="p-1" role="tab">-->
-                <!--<b-btn block href="#" v-b-toggle.accordion1 variant="info">外观</b-btn>-->
-              <!--</b-card-header>-->
-              <!--<b-collapse id="accordion1" visible accordion="my-accordion" role="tabpanel">-->
-                <!--<b-card-body>-->
-                  <!--通用-->
-                <!--</b-card-body>-->
-              <!--</b-collapse>-->
-            <!--</b-card>-->
-            <!--<b-card no-body class="mb-1">-->
-              <!--<b-card-header header-tag="header" class="p-1" role="tab">-->
-                <!--<b-btn block href="#" v-b-toggle.accordion2 variant="info">通用</b-btn>-->
-              <!--</b-card-header>-->
-              <!--<b-collapse id="accordion2" accordion="my-accordion" role="tabpanel">-->
-                <!--<b-card-body>-->
-                  <!--外观-->
-                <!--</b-card-body>-->
-              <!--</b-collapse>-->
-            <!--</b-card>-->
-          <!--</div>-->
         </b-card>
+
+        <div role="tablist">
+            <b-card-header header-tag="header" class="p-2 ui-border-top-gray ui-cursor-pointer" role="tab">
+              <div v-b-toggle.accordion1>外观</div>
+            </b-card-header>
+            <b-collapse id="accordion1" visible accordion="my-accordion" role="tabpanel">
+              <b-card-body class="ui-background-white">
+                通用
+              </b-card-body>
+            </b-collapse>
+            <b-card-header header-tag="header" class="p-2 ui-border-top-gray ui-cursor-pointer" role="tab">
+              <div v-b-toggle.accordion2>通用</div>
+            </b-card-header>
+            <b-collapse id="accordion2" accordion="my-accordion" role="tabpanel">
+              <b-card-body class="ui-background-white">
+                外观
+              </b-card-body>
+            </b-collapse>
+        </div>
       </b-tab>
       <b-tab title="动画">
         <b-card></b-card>
@@ -191,8 +183,8 @@
   }
 </script>
 
-<style scoped lang="scss">
-  .label-content {
+<style lang="scss">
+  .gls-label-content {
     padding: 5px 0;
     position: relative;
     > label {
@@ -205,6 +197,7 @@
       line-height: 18px;
     }
     > div {
+      position: relative;
       margin-left: 70px;
       > input {
         width: 100%;
@@ -214,4 +207,14 @@
       }
     }
   }
+
+  .gls-label-content-center{
+    margin-right: 55px;
+  }
+
+  .gls-label-content-right{
+    float: right;
+    width: 50px;
+  }
+
 </style>

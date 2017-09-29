@@ -49,7 +49,7 @@
     width: 300px;
     height: 800px;
     @include grayShadow;
-    background-color: #FFFFFF;
+    background-color: #f0f3f4;
     left: 300px;//todo 测试用，记得删除
   }
 

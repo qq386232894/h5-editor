@@ -10,12 +10,7 @@ export class DisplayComponentFactory {
    */
   static _instance = null;
 
-  /**
-   *
-   * @type {{String:DisplayComponentRegisterInfo}}
-   * @private
-   */
-  _registerComponents = {};
+  _registerComponents:{[key:string]:DisplayComponentRegisterInfo} = {};
 
   /**
    * 已经创建的组件的哈希表
@@ -46,7 +41,7 @@ export class DisplayComponentFactory {
    * @param {String} type
    * @param {DisplayComponent} component
    */
-  registerComponent(type:string, component:DisplayComponent) {
+  registerComponent(type:string, component:DisplayComponent,alias:string = "组件") {
     this.checkType(type);
 
     if (this.getRegisterComponent(type)) {
@@ -60,6 +55,7 @@ export class DisplayComponentFactory {
     let info = new DisplayComponentRegisterInfo();
     info.type = type;
     info.component = component;
+    info.alias = alias;
     this._registerComponents[type] = info;
   }
 
@@ -80,9 +76,6 @@ export class DisplayComponentFactory {
   createComponent(type):DisplayComponent {
     this.checkType(type);
     if (this.getRegisterComponent(type)) {
-      /**
-       * @type {DisplayComponentRegisterInfo}
-       */
       let info = this._registerComponents[type];
       let component = new info.component();
       component.props.id = this.generateUUID(component);

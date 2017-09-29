@@ -1,0 +1,21 @@
+.ui-no-border {
+  border: none !important;
+}
+
+$gray_border: 1px solid rgba(0, 0, 0, 0.125);
+
+.ui-border-top-gray {
+  border-top: $gray_border;
+}
+
+.ui-border-bottom-gray {
+  border-bottom: $gray_border;
+}
+
+.ui-border-right-gray {
+  border-right: $gray_border;
+}
+
+.ui-border-left-gray {
+  border-left: $gray_border;
+}

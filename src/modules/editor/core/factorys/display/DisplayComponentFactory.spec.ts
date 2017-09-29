@@ -55,7 +55,7 @@ describe('DisplayComponentFactory', () => {
     })
 
     it("正常注册组件",function () {
-      instance.registerComponent(GLS_COMPONENT_TEXT,ComponentText);
+      instance.registerComponent(GLS_COMPONENT_TEXT,ComponentText,"文本");
     })
   })
 

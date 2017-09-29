@@ -1,10 +1,19 @@
 <template>
-  <div class="gls-color-picker">
-    <!--这里用class不能触发popover奇葩,todo 看下popover的源码-->
-    <div :id="triggerId" :style="style"  @click="onTriggerMouseDownHandler()" ref="trigger"></div>
-    <b-popover :target="triggerId" triggers="click" placement="left">
-      <sketch-picker @mousedown.native.stop="onMouseDownHandler" :value="value" @input="onColorChangeHandler($event)"/>
-    </b-popover>
+  <div>
+    <div class="gls-label-content-right">
+      <div class="gls-color-blank">
+        <div></div>
+      </div>
+    </div>
+    <div class="gls-label-content-center">
+      <div class="gls-color-picker">
+        <!--这里用class不能触发popover奇葩,todo 看下popover的源码,估计作者没用computeStyle啊-->
+        <div :id="triggerId" :style="style"  @click="onTriggerMouseDownHandler()" ref="trigger"></div>
+        <b-popover :target="triggerId" triggers="click" placement="left">
+          <sketch-picker @mousedown.native.stop="onMouseDownHandler" :value="value" @input="onColorChangeHandler($event)"/>
+        </b-popover>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -73,8 +82,8 @@
         backgroundColor = `rgba(${rgba.r}, ${rgba.g}, ${rgba.b}, ${rgba.a})`;
       }
       return {
-        width: '95px',
-        height:'18px',
+        width: '100%',
+        height:'20px',
         border:'solid 1px #CCCCCC',
         'background-color': backgroundColor
       }
@@ -86,8 +95,22 @@
   }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
   .gls-color-picker-trigger {
 
+  }
+
+  .gls-color-blank{
+    border:solid 1px #E6EBED;
+    width:50px;
+    height: 20px;
+    >div{
+      width: 50px;
+      height: 1px;
+      position: absolute;
+      background-color: red;
+      transform: rotate(19deg);
+      transform-origin: 0 0;
+    }
   }
 </style>

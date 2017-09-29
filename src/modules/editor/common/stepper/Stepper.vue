@@ -1,5 +1,5 @@
 <template>
-  <input type="number" v-model="formatedValue"/>
+  <input type="number" v-model="formatedValue" class="no-padding full-width"/>
 </template>
 
 <script lang="ts">
