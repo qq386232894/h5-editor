@@ -86,22 +86,22 @@
         </b-card>
 
         <div role="tablist">
-            <b-card-header header-tag="header" class="p-2 ui-border-top-gray ui-cursor-pointer" role="tab">
-              <div v-b-toggle.accordion1>外观</div>
-            </b-card-header>
-            <b-collapse id="accordion1" visible accordion="my-accordion" role="tabpanel">
-              <b-card-body class="ui-background-white">
-                通用
-              </b-card-body>
-            </b-collapse>
-            <b-card-header header-tag="header" class="p-2 ui-border-top-gray ui-cursor-pointer" role="tab">
-              <div v-b-toggle.accordion2>通用</div>
-            </b-card-header>
-            <b-collapse id="accordion2" accordion="my-accordion" role="tabpanel">
-              <b-card-body class="ui-background-white">
-                外观
-              </b-card-body>
-            </b-collapse>
+          <b-card-header header-tag="header" class="p-2 ui-border-top-gray ui-cursor-pointer" role="tab">
+            <div v-b-toggle.accordion1>外观</div>
+          </b-card-header>
+          <b-collapse id="accordion1" visible accordion="my-accordion" role="tabpanel">
+            <b-card-body class="ui-background-white">
+              通用
+            </b-card-body>
+          </b-collapse>
+          <b-card-header header-tag="header" class="p-2 ui-border-top-gray ui-cursor-pointer" role="tab">
+            <div v-b-toggle.accordion2>通用</div>
+          </b-card-header>
+          <b-collapse id="accordion2" accordion="my-accordion" role="tabpanel">
+            <b-card-body class="ui-background-white">
+              外观
+            </b-card-body>
+          </b-collapse>
         </div>
       </b-tab>
       <b-tab title="动画">
@@ -126,13 +126,15 @@
   import GlsOverlayPanel from "../../common/overlayPanel/OverlayPanel.vue"
   import GlsColorPicker from '../../common/colorPicker/ColorPicker.vue'
   import GlsSlider from '../../common/slider/Slider.vue'
+  import {Color} from "../../common/colorPicker/Color";
+
   @Component({
     name: "GlsSingleSelectEditor",
     components: {
       glsPanel: glsPanel,
       GlsOverlayPanel: GlsOverlayPanel,
-      GlsColorPicker:GlsColorPicker,
-      GlsSlider:GlsSlider
+      GlsColorPicker: GlsColorPicker,
+      GlsSlider: GlsSlider
     }
   })
   export default class GlsSingleSelectEditor extends Vue {
@@ -143,28 +145,7 @@
     radioValue = "yes";
     selected = null;
     sliderValue = 500;
-    colors = {
-      hex: '#194d33',
-      hsl: {
-        h: 150,
-        s: 0.5,
-        l: 0.2,
-        a: 1
-      },
-      hsv: {
-        h: 150,
-        s: 0.66,
-        v: 0.30,
-        a: 1
-      },
-      rgba: {
-        r: 25,
-        g: 77,
-        b: 51,
-        a: 1
-      },
-      a: 1
-    };
+    colors: Color = null;
     options = [
       {value: null, text: '1'},
       {value: 'a', text: '1'},
@@ -177,7 +158,7 @@
       console.log(this.$refs.colorPanel);
     }
 
-    stop(){
+    stop() {
 
     }
   }
@@ -208,11 +189,11 @@
     }
   }
 
-  .gls-label-content-center{
+  .gls-label-content-center {
     margin-right: 55px;
   }
 
-  .gls-label-content-right{
+  .gls-label-content-right {
     float: right;
     width: 50px;
   }
