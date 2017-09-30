@@ -5,25 +5,45 @@
 ####开发计划
 >######编辑器部分
 <img src="readme/right24x24.png"/>拖拉拽，旋转，大小，位置
+
 <img src="readme/right24x24.png"/>组件单选多选
+
 <img src="readme/right24x24.png"/>组件复制，黏贴
+
 <img src="readme/right24x24.png"/>组件拖拽过程中自动吸附其他组件
+
 <img src="readme/right24x24.png"/>多选组件的情况下，排序对齐。包括左对齐，上对齐，右对齐，下对齐，垂直居中对齐，水平居中对齐，垂直均分，水平均分
+
 <img src="readme/right24x24.png"/>组件常用样式编辑，阴影编辑，这里要引入多个UI库，甚至要自己写UI库，有点蛋疼
+
 > <img src="readme/right24x24.png"/>按钮
+
 > <img src="readme/right24x24.png"/>属性面板
+
 > <img src="readme/right24x24.png"/>拖拽指令gls-dragable
+
 > <img src="readme/right24x24.png"/>页签
+
 > <img src="readme/right24x24.png"/>手风琴
+
 > <img src="readme/right24x24.png"/>颜色选择器
+
 > <img src="readme/right24x24.png"/>滑动条
+
 > <img src="readme/right24x24.png"/>下拉框
+
 > <img src="readme/right24x24.png"/>弹出框
+
 > <img src="readme/right24x24.png"/>单选框
+
 > <img src="readme/right24x24.png"/>复选框
+
 > <img src="readme/right24x24.png"/>单行文本框
+
 > <img src="readme/right24x24.png"/>多行文本框
+
 > <img src="readme/right24x24.png"/>数字步增
+
 > <img src="readme/right24x24.png"/>tooltip
 * 组件动画编辑
 * 新建场景
