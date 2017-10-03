@@ -29,7 +29,7 @@ export class ComponentText extends DisplayComponent {
       height:38,
       rotate:0,
       color:null,
-      lineHeight:300
+      lineHeight:1
     }
   }
 }

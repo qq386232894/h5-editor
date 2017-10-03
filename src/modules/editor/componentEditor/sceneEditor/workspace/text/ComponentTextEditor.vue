@@ -11,7 +11,7 @@
       <label>
         行高
       </label>
-      <gls-slider v-model="component.style.lineHeight" :max="1000" :min="0"></gls-slider>
+      <gls-slider v-model="component.style.lineHeight" :max="3" :min="0"></gls-slider>
     </div>
   </div>
 </template>

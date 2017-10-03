@@ -54,6 +54,13 @@
       }
     }) min: number;
 
+    //integer表示支持整数，float表示为浮点数
+    @Prop({
+      default:function () {
+        return "float";
+      }
+    }) type:string;
+
     @Watch("inputValue")
     onValueChange() {
       this.$emit("input", parseFloat(this.inputValue.toString()));
@@ -106,7 +113,11 @@
       } else if (x == this._width) {
         value = this.max;
       } else {
-        value = Math.floor(x / this._width * this.length) + this.min;
+        if(this.type == "integer"){
+          value = Math.floor(x / this._width * this.length) + this.min;
+        }else{
+          value = x / this._width * this.length + this.min;
+        }
       }
       this.inputValue = value;
     }

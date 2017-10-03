@@ -26,7 +26,7 @@
       if(style.color){
         result.color = Color.toRGBA(style.color);
       }
-      result.lineHeight = style.lineHeight + '%';
+      result.lineHeight = style.lineHeight * 100 * 3 + '%';
       return result;
     }
   }
