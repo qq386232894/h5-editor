@@ -16,6 +16,6 @@ export default Vue.directive('draggable', {
     (<any>binding).instance = new Draggable(binding.value);
   },
   unbind(el, binding) {
-    (<any>binding).instance.destroy();
+    binding && (<any>binding).instance && (<any>binding).instance.destroy();
   }
 });
