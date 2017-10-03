@@ -2,30 +2,41 @@
   <div>
     <div class="gls-label-content">
       <label>
-        颜色选择器
+        文字颜色
       </label>
-      <gls-color-picker></gls-color-picker>
+      <gls-color-picker v-model="component.style.color"></gls-color-picker>
+    </div>
+
+    <div class="gls-label-content">
+      <label>
+        行高
+      </label>
+      <gls-slider v-model="component.style.lineHeight" :max="1000" :min="0"></gls-slider>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-    /**
-     * create by 给力叔 2017/10/3/003
-     * 用于编辑文本的属性
-     */
-    import Vue from 'vue'
-    import {Component, Inject, Model, Prop, Watch} from 'vue-property-decorator'
-    import GlsColorPicker from '../../../../common/colorPicker/ColorPicker.vue'
+  /**
+   * create by 给力叔 2017/10/3/003
+   * 用于编辑文本的属性
+   */
+  import Vue from 'vue'
+  import {Component, Inject, Model, Prop, Watch} from 'vue-property-decorator'
+  import GlsColorPicker from '../../../../common/colorPicker/ColorPicker.vue'
+  import GlsSlider from '../../../../common/slider/Slider.vue'
+  import {DisplayComponent} from "../../../../core/display/DisplayComponent";
 
-    @Component({
-        name: "GlsComponentTextEditor",
-        components: {
-          GlsColorPicker:GlsColorPicker
-        }
-    })
-    export default class GlsComponentTextEditor extends Vue {
+  @Component({
+    name: "GlsComponentTextEditor",
+    components: {
+      GlsColorPicker: GlsColorPicker,
+      GlsSlider:GlsSlider
     }
+  })
+  export default class GlsComponentTextEditor extends Vue {
+    @Prop() component: DisplayComponent;
+  }
 </script>
 
 <style scoped lang="scss">

@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-  import glsComponentText from '../text/ComponentText.vue';
+  import glsComponentText from '../text/ComponentTextDisplay.vue';
   import Vue from 'Vue';
   import {Project} from "../../../../core/project/Project";
   import {DisplayComponent} from "../../../../core/display/DisplayComponent";

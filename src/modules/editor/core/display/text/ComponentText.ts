@@ -27,7 +27,9 @@ export class ComponentText extends DisplayComponent {
       top:0,
       width:200,
       height:38,
-      rotate:0
+      rotate:0,
+      color:null,
+      lineHeight:300
     }
   }
 }

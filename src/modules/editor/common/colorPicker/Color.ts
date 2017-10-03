@@ -42,4 +42,14 @@ export class Color {
   }
 
   a: number = 1;
+
+  /**
+   * 转换成CSS支持的rgba颜色样式
+   * @param {Color} color
+   * @returns {string}
+   */
+  public static toRGBA(color:Color){
+    let rgba = color.rgba;
+    return `rgba(${rgba.r}, ${rgba.g}, ${rgba.b}, ${rgba.a})`
+  }
 }

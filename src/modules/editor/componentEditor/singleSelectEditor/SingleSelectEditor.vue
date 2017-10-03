@@ -3,7 +3,7 @@
     <b-tabs ref="tabs" card-body>
       <b-tab title="样式" active>
         <b-card class="ui-no-border">
-          <div :is="scene.selectedComponents[0].props.type + '-editor'"></div>
+          <div :is="scene.selectedComponents[0].props.type + '-editor'" :component="scene.selectedComponents[0]"></div>
           <!--<div class="gls-label-content">-->
             <!--<label>-->
               <!--复选框-->

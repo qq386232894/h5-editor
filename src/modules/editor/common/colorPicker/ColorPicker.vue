@@ -94,7 +94,7 @@
       let backgroundColor = "#FFFFFF";
       if (!utils.isEmptyObject(this.color)) {
         let rgba = this.color.rgba;
-        backgroundColor = `rgba(${rgba.r}, ${rgba.g}, ${rgba.b}, ${rgba.a})`;
+        backgroundColor = Color.toRGBA(this.color);
       }
       return {
         width: '100%',
