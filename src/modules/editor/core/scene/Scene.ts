@@ -70,7 +70,7 @@ export class Scene {
     });
     let first = rects[0];
     rects.slice(1).forEach((info) => {
-      info.component.props.style[positionKey] += first.rect[offsetKey] - info.rect[offsetKey];
+      info.component.style[positionKey] += first.rect[offsetKey] - info.rect[offsetKey];
       info.component.renderBounding();
     })
   }
@@ -140,8 +140,8 @@ export class Scene {
     //先上对齐或者左对齐,然后再均分
     let index = 1;
     rects.slice(1, -1).forEach((info) => {
-      info.component.props.style[positionKey] += first.rect[offsetKey] - info.rect[offsetKey];
-      info.component.props.style[positionKey] += offset * index;
+      info.component.style[positionKey] += first.rect[offsetKey] - info.rect[offsetKey];
+      info.component.style[positionKey] += offset * index;
       info.component.renderBounding();
       index++;
     })

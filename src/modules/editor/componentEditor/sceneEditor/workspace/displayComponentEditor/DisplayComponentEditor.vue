@@ -39,7 +39,7 @@
     @Prop({required: true}) component: DisplayComponent;
 
     mounted() {
-      this.$el.style.cssText = this.component.props.boundingStyle;
+      this.$el.style.cssText = this.component.boundingStyle;
     }
 
     onMouseDownHandler(component, $event) {

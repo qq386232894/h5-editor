@@ -31,7 +31,7 @@
     @Prop({required:true}) component: DisplayComponent;
     mounted() {
       let component = this.component;
-      this.$el.style.cssText = component.props.componentSelectStyle;
+      this.$el.style.cssText = component.componentSelectStyle;
       this.$el.style.display = component.props.selected ? 'block':'none';
     }
   }

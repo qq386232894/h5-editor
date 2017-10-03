@@ -5,7 +5,7 @@
 <script lang="ts">
   /**
    * create by 给力叔 2017/9/10
-   * 专门用于编辑文本
+   * 专门用于展示文本
    */
   import {ComponentText, GLS_COMPONENT_TEXT} from "../../../../core/display/text/ComponentText";
 

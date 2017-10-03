@@ -3,86 +3,87 @@
     <b-tabs ref="tabs" card-body>
       <b-tab title="样式" active>
         <b-card class="ui-no-border">
-          <div class="gls-label-content">
-            <label>
-              复选框
-            </label>
-            <div>
-              <b-form-checkbox id="checkbox1"
-                               v-model="selected"
-                               value="accepted"
-                               unchecked-value="not_accepted">
-                复选框测试
-              </b-form-checkbox>
-            </div>
-          </div>
+          <div :is="scene.selectedComponents[0].props.type + '-editor'"></div>
+          <!--<div class="gls-label-content">-->
+            <!--<label>-->
+              <!--复选框-->
+            <!--</label>-->
+            <!--<div>-->
+              <!--<b-form-checkbox id="checkbox1"-->
+                               <!--v-model="selected"-->
+                               <!--value="accepted"-->
+                               <!--unchecked-value="not_accepted">-->
+                <!--复选框测试-->
+              <!--</b-form-checkbox>-->
+            <!--</div>-->
+          <!--</div>-->
 
-          <div class="gls-label-content">
-            <label>
-              单选框
-            </label>
-            <div>
-              <b-form-radio-group id="radios1" v-model="selected" :options="options" name="radioOpenions">
-              </b-form-radio-group>
-            </div>
-          </div>
+          <!--<div class="gls-label-content">-->
+            <!--<label>-->
+              <!--单选框-->
+            <!--</label>-->
+            <!--<div>-->
+              <!--<b-form-radio-group id="radios1" v-model="selected" :options="options" name="radioOpenions">-->
+              <!--</b-form-radio-group>-->
+            <!--</div>-->
+          <!--</div>-->
 
-          <div class="gls-label-content">
-            <label>
-              单行文本
-            </label>
-            <div>
-              <b-form-input type="text"
-                            placeholder="单行文本测试"></b-form-input>
-            </div>
-          </div>
+          <!--<div class="gls-label-content">-->
+            <!--<label>-->
+              <!--单行文本-->
+            <!--</label>-->
+            <!--<div>-->
+              <!--<b-form-input type="text"-->
+                            <!--placeholder="单行文本测试"></b-form-input>-->
+            <!--</div>-->
+          <!--</div>-->
 
-          <div class="gls-label-content">
-            <label>
-              多行文本
-            </label>
-            <div>
-              <b-form-textarea id="textarea1"
-                               placeholder="多行文本测试"
-                               :rows="3"
-                               :not-resize="true"
-              >
-              </b-form-textarea>
-            </div>
-          </div>
+          <!--<div class="gls-label-content">-->
+            <!--<label>-->
+              <!--多行文本-->
+            <!--</label>-->
+            <!--<div>-->
+              <!--<b-form-textarea id="textarea1"-->
+                               <!--placeholder="多行文本测试"-->
+                               <!--:rows="3"-->
+                               <!--:not-resize="true"-->
+              <!--&gt;-->
+              <!--</b-form-textarea>-->
+            <!--</div>-->
+          <!--</div>-->
 
-          <div class="gls-label-content">
-            <label>
-              数字
-            </label>
-            <div>
-              <b-form-input type="number"
-                            placeholder="单行文本测试"></b-form-input>
-            </div>
-          </div>
+          <!--<div class="gls-label-content">-->
+            <!--<label>-->
+              <!--数字-->
+            <!--</label>-->
+            <!--<div>-->
+              <!--<b-form-input type="number"-->
+                            <!--placeholder="单行文本测试"></b-form-input>-->
+            <!--</div>-->
+          <!--</div>-->
 
-          <div class="gls-label-content">
-            <label>
-              颜色选择器
-            </label>
-            <gls-color-picker v-model="colors"></gls-color-picker>
-          </div>
+          <!--<div class="gls-label-content">-->
+            <!--<label>-->
+              <!--颜色选择器-->
+            <!--</label>-->
+            <!--<gls-color-picker v-model="colors"></gls-color-picker>-->
+          <!--</div>-->
 
-          <div class="gls-label-content">
-            <label>
-              下拉框
-            </label>
-            <div>
-              <b-form-select v-model="selected" :options="options" class="mb-3">
-              </b-form-select>
-            </div>
-          </div>
-          <div class="gls-label-content">
-            <label>
-              滑动条
-            </label>
-            <gls-slider v-model="sliderValue" :max="200" :min="0"></gls-slider>
-          </div>
+          <!--<div class="gls-label-content">-->
+            <!--<label>-->
+              <!--下拉框-->
+            <!--</label>-->
+            <!--<div>-->
+              <!--<b-form-select v-model="selected" :options="options" class="mb-3">-->
+              <!--</b-form-select>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div class="gls-label-content">-->
+            <!--<label>-->
+              <!--滑动条-->
+            <!--</label>-->
+            <!--<gls-slider v-model="sliderValue" :max="200" :min="0"></gls-slider>-->
+          <!--</div>-->
         </b-card>
 
         <div role="tablist">
@@ -127,6 +128,7 @@
   import GlsColorPicker from '../../common/colorPicker/ColorPicker.vue'
   import GlsSlider from '../../common/slider/Slider.vue'
   import {Color} from "../../common/colorPicker/Color";
+  import GlsComponentTextEditor from '../sceneEditor/workspace/text/ComponentTextEditor.vue'
 
   @Component({
     name: "GlsSingleSelectEditor",
@@ -134,7 +136,8 @@
       glsPanel: glsPanel,
       GlsOverlayPanel: GlsOverlayPanel,
       GlsColorPicker: GlsColorPicker,
-      GlsSlider: GlsSlider
+      GlsSlider: GlsSlider,
+      GlsComponentTextEditor:GlsComponentTextEditor
     }
   })
   export default class GlsSingleSelectEditor extends Vue {

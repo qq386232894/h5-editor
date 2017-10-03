@@ -70,7 +70,7 @@
 
     //渲染出组件的选择器的大小
     renderComponentSelectBounding(component: DisplayComponent) {
-      Renderer.querySelector(`#${component.props.id} .gls-display-component-editor`).style.cssText = component.props.componentSelectStyle;
+      Renderer.querySelector(`#${component.props.id} .gls-display-component-editor`).style.cssText = component.componentSelectStyle;
     }
 
     /**
@@ -120,7 +120,7 @@
      * @param {number} rotate
      */
     renderComponentRotate(component: DisplayComponent, rotate: number) {
-      let componentStyle = component.props.style;
+      let componentStyle = component.style;
       let style = document.getElementById(component.props.id).style;
       componentStyle.rotate = rotate;
       style.transform = `rotateZ(${rotate}deg)`;
@@ -213,7 +213,7 @@
             pointClass = resizePoint.className.replace(GLS_RESIZE_POINT + " ", "");
 
             //记录按下的时候的大小和位置
-            let style = mouseDownElement.props.style;
+            let style = mouseDownElement.style;
             mouseDownElementTop = style.top;
             mouseDownElementLeft = style.left;
             mouseDownElementWidth = style.width;
@@ -258,7 +258,7 @@
 
         if (displayComponent) {
           if (resizePoint) {
-            let elementStyle = mouseDownElement.props.style;
+            let elementStyle = mouseDownElement.style;
             switch (pointClass) {
               case N_RESIZE:
                 elementStyle.top = mouseDownElementTop + mouseMove.y;
@@ -335,7 +335,7 @@
             //选择选中组件的位置
             project.selectedScene.selectedComponents.forEach(
               (component: DisplayComponent) => {
-                let componentStyle = component.props.style;
+                let componentStyle = component.style;
                 let style = document.getElementById(component.props.id).style;
                 let transform = `translate3d(${mouseMove.x}px,${mouseMove.y}px,0) rotateZ(${componentStyle.rotate}deg)`;
                 style.transform = transform;
@@ -368,7 +368,7 @@
           project.selectedScene.selectedComponents.forEach(
             (component: DisplayComponent) => {
               //更新位置
-              let style = component.props.style;
+              let style = component.style;
               style.left += mouseMove.x;
               style.top += mouseMove.y;
 
