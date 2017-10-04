@@ -4,9 +4,7 @@
  * todo 此类其实可以继续封装成完全通用的
  */
 import Vue from 'vue'
-import interact from 'interactjs';
 import {IDragableOptions} from "../interact/IDragableOptions";
-import {utils} from "../../../../common/utils";
 import {Draggable} from "../interact/Draggable";
 
 export default Vue.directive('draggable', {

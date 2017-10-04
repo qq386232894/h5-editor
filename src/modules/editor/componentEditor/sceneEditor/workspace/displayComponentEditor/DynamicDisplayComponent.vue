@@ -28,9 +28,12 @@
     components: {
       glsComponentText: glsComponentText
     },
-    mounted(){
-      let component:DisplayComponent = this.component;
+    mounted() {
+      let component: DisplayComponent = this.component;
       component.element = Renderer.getElementById(component.props.id);
+      component.renderBounding();
+
+      this.component.play();
     }
   }
 </script>

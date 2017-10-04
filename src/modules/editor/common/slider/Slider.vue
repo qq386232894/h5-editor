@@ -31,7 +31,6 @@
     }
   })
   export default class GlsSlider extends Vue {
-    _width: number;
     _draggable: Draggable;
 
     inputValue: number = 0;
@@ -71,8 +70,6 @@
     }
 
     mounted() {
-      let backgroundWidth = Renderer.getBoundingClientRect(this.$refs.background).width
-      this._width = backgroundWidth;
       this._draggable = new Draggable({
         target: this.$refs.trigger,
         elementRect: {top: 0, right: 0, bottom: 1, left: 0},
@@ -84,11 +81,15 @@
       this.renderValue();
     }
 
+    getWidth(){
+      return Renderer.getBoundingClientRect(this.$refs.background).width;
+    }
+
     /**
      * 设置滑块的位置和更新进度
      */
     renderValue() {
-      let x = (this.inputValue - this.min) / this.length * this._width;
+      let x = (this.inputValue - this.min) / this.length * this.getWidth();
       //更新进度
       Renderer.setStyle(this.$refs.progress, "width", x + 'px');
       //拖拽的时候,滑块的位置由拖拽决定,就不用重新设置位置了
@@ -106,17 +107,18 @@
 
     //根据拖拽更新值比较特殊,到左右零界点的时候
     updateValueByDrag(result: IDraggableResult) {
+      let width = this.getWidth();
       let x = result.position.x + 1;
       let value;
       if (x == 0) {
         value = this.min;
-      } else if (x == this._width) {
+      } else if (x == width) {
         value = this.max;
       } else {
         if(this.type == "integer"){
-          value = Math.floor(x / this._width * this.length) + this.min;
+          value = Math.floor(x / width * this.length) + this.min;
         }else{
-          value = x / this._width * this.length + this.min;
+          value = x / width * this.length + this.min;
         }
       }
       this.inputValue = value;

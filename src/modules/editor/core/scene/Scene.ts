@@ -120,7 +120,7 @@ export class Scene {
   /**
    * 均分对齐
    */
-  equalAlign(positionKey:string,offsetKey:string){
+  equalAlign(positionKey: string, offsetKey: string) {
     let selectedComponents = this.selectedComponents;
     let rects: Array<{ rect: Rect, component: DisplayComponent }> = selectedComponents.map((component: DisplayComponent) => {
       return {rect: Renderer.getBoundingClientRect(component.element), component: component};
@@ -151,13 +151,25 @@ export class Scene {
    * 垂直均分
    */
   verticalEqual() {
-    this.equalAlign("top","centerY");
+    this.equalAlign("top", "centerY");
   }
 
   /**
    * 水平均分
    */
   horizontalEqual() {
-    this.equalAlign("left","centerX");
+    this.equalAlign("left", "centerX");
+  }
+
+  /**
+   * 播放动画
+   */
+  play() {
+    this.stage.children.forEach((component: DisplayComponent) => {
+      component.stop();
+      setTimeout(() => {
+        component.play();
+      })
+    })
   }
 }

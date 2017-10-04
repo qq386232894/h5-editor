@@ -1,5 +1,5 @@
 <template>
-  <div class="component-editor" v-if="project">
+  <div v-if="project">
     <gls-header :project="project"></gls-header>
     <div class="gls-component-editor-content">
       <gls-template-panel></gls-template-panel>
@@ -48,6 +48,7 @@
   import GlsMultiSelectEditor from './multiSelectEditor/MultiSelectEditor';
   import {Renderer} from "../../../common/render/Renderer";
   import {CopyPasteManager} from "../core/parse/CopyPasteManager";
+  import {AnimationConfig} from "../core/display/config/AnimationConfig";
 
   @Component({
     name: "GlsComponentEditor",
@@ -75,7 +76,15 @@
 
           let stage = scene.stage = new Stage();
           stage.props.id = index.toString();
-          stage.addChild(DisplayComponentFactory.getInstance().createComponent(GLS_COMPONENT_TEXT));
+          let componentText = DisplayComponentFactory.getInstance().createComponent(GLS_COMPONENT_TEXT);
+          let animationConfig = new AnimationConfig();
+          animationConfig.animationType = "bounce";
+          componentText.props.animationConfigs.push(animationConfig);
+
+          animationConfig = new AnimationConfig();
+          animationConfig.animationType = "flash";
+          componentText.props.animationConfigs.push(animationConfig);
+          stage.addChild(componentText);
 
 
           this.project.scenes.push(scene);

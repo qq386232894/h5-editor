@@ -38,10 +38,6 @@
     @Prop({required: true}) project: Project;
     @Prop({required: true}) component: DisplayComponent;
 
-    mounted() {
-      this.$el.style.cssText = this.component.boundingStyle;
-    }
-
     onMouseDownHandler(component, $event) {
 //      if (!($event.ctrlKey)) {
 //        this.project.selectedScene.clearSelection();
