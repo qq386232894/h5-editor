@@ -25,7 +25,7 @@
 >* <img src="readme/right24x24.png"/>多行文本框
 >* <img src="readme/right24x24.png"/>数字步增
 >* <img src="readme/right24x24.png"/>tooltip
-* 组件动画编辑
+* <img src="readme/right24x24.png"/>组件动画编辑
 * 新建场景
 * 删除场景,复制场景
 * 场景拖拽排序
