@@ -49,6 +49,7 @@
   import {Renderer} from "../../../common/render/Renderer";
   import {CopyPasteManager} from "../core/parse/CopyPasteManager";
   import {AnimationConfig} from "../core/display/config/AnimationConfig";
+  import {SceneFactory} from "../core/factorys/scsne/SceneFactory";
 
   @Component({
     name: "GlsComponentEditor",
@@ -70,11 +71,9 @@
       let project = this.project;
       if (this.project.scenes.length == 0) {
         for (let index = 0; index < 10; index++) {
-          let scene = new Scene();
-          scene.config.name = `场景${index}`;
-          scene.config.id = index.toString();
+          let scene = SceneFactory.getInstance().createScene(this.project);
 
-          let stage = scene.stage = new Stage();
+          let stage = scene.stage;
           stage.props.id = index.toString();
           let componentText = DisplayComponentFactory.getInstance().createComponent(GLS_COMPONENT_TEXT);
           let animationConfig = new AnimationConfig();

@@ -1,18 +1,21 @@
 /**
  * Created by 给力叔 on 2017/9/8.
  */
-import {SceneConfig} from "./SceneConfig";
 import {Stage} from "../display/stage/Stage";
 import {DisplayComponent} from "../display/DisplayComponent";
 import {Renderer} from "../../../../common/render/Renderer";
 import {Rect} from "../geom/Rect";
+import {ISceneConfig} from "./ISceneConfig";
 
 export class Scene {
   /**
    * 场景设置,这个会保存在服务器
-   * @type {SceneConfig}
+   * @type {ISceneConfig}
    */
-  config: SceneConfig = new SceneConfig();
+  config: ISceneConfig = {
+    id: "",
+    name: ""
+  };
 
   /**
    * 每个场景里面有一个舞台

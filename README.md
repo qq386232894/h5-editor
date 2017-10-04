@@ -15,7 +15,7 @@
 >* <img src="readme/right24x24.png"/>拖拽指令gls-dragable
 >* <img src="readme/right24x24.png"/>页签
 >* <img src="readme/right24x24.png"/>手风琴
->* <img src="readme/right24x24.png"/>颜色选择器
+>* <img src="readme/right24x24.png"/>颜色选择器 <img src="readme/right24x24.png"/>
 >* <img src="readme/right24x24.png"/>滑动条
 >* <img src="readme/right24x24.png"/>下拉框
 >* <img src="readme/right24x24.png"/>弹出框
@@ -26,11 +26,12 @@
 >* <img src="readme/right24x24.png"/>数字步增
 >* <img src="readme/right24x24.png"/>tooltip
 * <img src="readme/right24x24.png"/>组件动画编辑
-* 新建场景
+* <img src="readme/right24x24.png"/>新建场景
 * 删除场景,复制场景
 * 场景拖拽排序
+* 场景名称编辑
 * 文本双击之后的内容编辑
-* 增加图片组件
+* 增加图片组件 <img src="readme/right24x24.png"/>
 * 增加图片素材管理器
 * 增加背景编辑
 * 增加音频组件
