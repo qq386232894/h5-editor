@@ -15,7 +15,7 @@
 >* <img src="readme/right24x24.png"/>拖拽指令gls-dragable
 >* <img src="readme/right24x24.png"/>页签
 >* <img src="readme/right24x24.png"/>手风琴
->* <img src="readme/right24x24.png"/>颜色选择器 <img src="readme/right24x24.png"/>
+>* <img src="readme/right24x24.png"/>颜色选择器
 >* <img src="readme/right24x24.png"/>滑动条
 >* <img src="readme/right24x24.png"/>下拉框
 >* <img src="readme/right24x24.png"/>弹出框
