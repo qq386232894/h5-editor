@@ -17,7 +17,8 @@
            @click="project.selectedScene = scene">
         <span class="number"></span>
         <span class="index">{{index}}</span>
-        <span class="name">{{scene.config.name}}</span>
+        <gls-scene-name-edit @dblclick.native="showInput($event)" ref="nameEdit" :scene="scene"
+                             class="name"></gls-scene-name-edit>
       </div>
     </div>
 
@@ -49,16 +50,38 @@
   import {Project} from "../../core/project/Project";
   import {Scene} from "../../core/scene/Scene";
   import {SceneFactory} from "../../core/factorys/scsne/SceneFactory";
+  import GlsSceneNameEdit from './SceneNameEdit.vue'
+  import {Renderer} from "../../../../common/render/Renderer";
 
   @Component({
     name: "gls-scene-manager",
     components: {
-      glsButton: glsButton
+      glsButton: glsButton,
+      GlsSceneNameEdit: GlsSceneNameEdit
     }
   })
   export default class SceneManager
     extends Vue {
     @Prop({required: true}) project: Project;
+
+    _documentClick: Function;
+
+    mounted() {
+      //点击其他位置，就隐藏正在显示的名称输入框
+      this._documentClick = Renderer.addEventListener(document, "click", (event) => {
+        let current = event.target;
+        let map:Map<any,boolean> = new Map();
+        do{
+          map.set(current,true);
+          current = current.parentNode;
+        }while(current.parentNode);
+        (<any>this.$refs.nameEdit).forEach((nameEdit)=>{
+          if(!map.has(nameEdit.$el)){
+            nameEdit.showInput = false;
+          }
+        })
+      })
+    }
 
     addScene() {
       let scene = SceneFactory.getInstance().createScene(this.project);
@@ -82,6 +105,24 @@
 
     hideDeleteSceneDialog() {
       (<any>this.$refs.deleteSceneConfirm).hide();
+    }
+
+    /**
+     * 双击了名称，就显示名称的输入框
+     * @param $event
+     */
+    showInput($event) {
+      (<any>this.$refs.nameEdit).forEach((nameEdit) => {
+        if ($event.currentTarget == nameEdit.$el) {
+          nameEdit.showInput = true;
+        } else {
+          nameEdit.showInput = false;
+        }
+      })
+    }
+
+    destroyed() {
+      this._documentClick && this._documentClick();
     }
   }
 </script>

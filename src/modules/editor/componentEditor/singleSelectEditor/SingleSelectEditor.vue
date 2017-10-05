@@ -1,6 +1,6 @@
 <template>
   <gls-panel title="组件设置" id="singleSelectEditor">
-    <b-tabs ref="tabs" card-body>
+    <b-tabs ref="tabs" card-body :lazy="true">
       <b-tab title="样式" active>
         <b-card class="ui-no-border">
           <div :is="scene.selectedComponents[0].props.type + '-editor'" :component="scene.selectedComponents[0]"></div>

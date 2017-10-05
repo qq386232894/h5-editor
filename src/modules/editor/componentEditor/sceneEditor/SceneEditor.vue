@@ -4,7 +4,7 @@
     <div class="center">
       <div class="phone">
         <div class="header">
-          <div class="title">编辑器</div>
+          <div class="title">{{project.selectedScene.config.name}}</div>
         </div>
         <div class="editor">
           <gls-work-space :project="project"></gls-work-space>
@@ -159,6 +159,10 @@
       font-weight: bold;
       text-align: center;
       color: #FFFFFF;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .editor {
