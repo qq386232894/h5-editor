@@ -6,7 +6,7 @@
       <gls-button type="black" hoverType="hover-success">
         <div class="iconfont icon-copy"></div>
       </gls-button>
-      <gls-button type="black" hoverType="hover-danger">
+      <gls-button type="black" hoverType="hover-danger" @click.native="showDeleteSceneDialog()">
         <div class="iconfont icon-delete"></div>
       </gls-button>
     </div>
@@ -25,6 +25,16 @@
     <div class="gls-scene-manager-add-scene" @click="addScene()">
       <span class="iconfont icon-add"></span>
     </div>
+
+    <b-modal ref="deleteSceneConfirm" hide-footer hide-header-close>
+      <div class="d-block text-center">
+        <h6>页面删除后无法还原</h6>
+      </div>
+      <div class="text-center">
+        <b-btn class="m-3" variant="danger sm" :style="{color:'#FFFFFF'}" @click="deleteScene">坚持删除</b-btn>
+        <b-btn class="m-3" variant="success sm" :style="{color:'#FFFFFF'}" @click="hideDeleteSceneDialog">稍后决定</b-btn>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -52,11 +62,26 @@
 
     addScene() {
       let scene = SceneFactory.getInstance().createScene(this.project);
-      if(this.project.selectedScene){
-        this.project.scenes.splice(this.project.scenes.indexOf(this.project.selectedScene) + 1,0,scene);
-      }else{
+      if (this.project.selectedScene) {
+        this.project.scenes.splice(this.project.scenes.indexOf(this.project.selectedScene) + 1, 0, scene);
+      } else {
         this.project.scenes.push(scene);
       }
+    }
+
+    showDeleteSceneDialog() {
+      if (this.project.selectedScene) {
+        (<any>this.$refs.deleteSceneConfirm).show();
+      }
+    }
+
+    deleteScene() {
+      this.project.removeSelectedScene();
+      this.hideDeleteSceneDialog();
+    }
+
+    hideDeleteSceneDialog() {
+      (<any>this.$refs.deleteSceneConfirm).hide();
     }
   }
 </script>

@@ -19,4 +19,23 @@ export class Project {
    * @type {Scene}
    */
   selectedScene: Scene = null;
+
+  /**
+   * 删除所选的场景
+   * @returns {boolean}
+   */
+  removeSelectedScene(): Scene {
+    if (this.scenes.length == 1) {
+      return null;
+    }
+    //找出相邻的场景
+    let removedScene = this.selectedScene;
+    let index = this.scenes.indexOf(this.selectedScene);
+    let selectScene = this.scenes[index + 1] || this.scenes[index - 1];
+    //选中相邻的场景
+    this.selectedScene = selectScene;
+    //删除当前场景
+    this.scenes.splice(index, 1);
+    return removedScene;
+  }
 }

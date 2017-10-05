@@ -26,10 +26,12 @@
 >* <img src="readme/right24x24.png"/>数字步增
 >* <img src="readme/right24x24.png"/>tooltip
 * <img src="readme/right24x24.png"/>组件动画编辑
-* <img src="readme/right24x24.png"/>新建场景
-* 删除场景,复制场景
-* 场景拖拽排序
-* 场景名称编辑
+* 场景编辑
+>* <img src="readme/right24x24.png"/>新建场景
+>* <img src="readme/right24x24.png"/>删除场景
+>* 复制场景
+>* 场景拖拽排序
+>* 场景名称编辑
 * 文本双击之后的内容编辑
 * 增加图片组件
 * 增加图片素材管理器
