@@ -26,7 +26,8 @@
     "vue-color": "^2.4.0",
     "vue-property-decorator": "^5.3.0",
     "vue-router": "^2.7.0",
-    "vue-validator": "^3.0.0-alpha.2"
+    "vue-validator": "^3.0.0-alpha.2",
+    "vuedraggable": "^2.14.1"
   },
   "devDependencies": {
     "@types/jasmine": "^2.2.34",

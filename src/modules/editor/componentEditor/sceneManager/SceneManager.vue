@@ -12,14 +12,18 @@
     </div>
 
     <!--每个场景的按钮-->
-    <div class="manager-content">
-      <div :class="{scene:true,selected:project.selectedScene === scene}" v-for="(scene,index) in project.scenes"
-           @click="project.selectedScene = scene">
-        <span class="number"></span>
-        <span class="index">{{index}}</span>
-        <gls-scene-name-edit @dblclick.native="showInput($event)" ref="nameEdit" :scene="scene"
-                             class="name"></gls-scene-name-edit>
-      </div>
+    <div class="manager-content" ref="manageContent">
+      <draggable v-model="project.scenes">
+        <transition-group>
+          <div :class="{scene:true,selected:project.selectedScene === scene}" v-for="(scene,index) in project.scenes"
+               @click="project.selectedScene = scene" :key="scene.config.id">
+            <span class="number"></span>
+            <span class="index">{{index}}</span>
+            <gls-scene-name-edit @dblclick.native="showInput($event)" ref="nameEdit" :scene="scene"
+                                 class="name"></gls-scene-name-edit>
+          </div>
+        </transition-group>
+      </draggable>
     </div>
 
     <!--新增场景的按钮-->
@@ -27,6 +31,7 @@
       <span class="iconfont icon-add"></span>
     </div>
 
+    <!--删除页面的询问窗口-->
     <b-modal ref="deleteSceneConfirm" hide-footer hide-header-close>
       <div class="d-block text-center">
         <h6>页面删除后无法还原</h6>
@@ -52,12 +57,17 @@
   import {SceneFactory} from "../../core/factorys/scsne/SceneFactory";
   import GlsSceneNameEdit from './SceneNameEdit.vue'
   import {Renderer} from "../../../../common/render/Renderer";
+  import {Draggable} from "../../common/interact/Draggable";
+  import {IDraggableResult} from "../../common/dragable/IDraggableResult";
+  import {Rect} from "../../core/geom/Rect";
+  import draggable from 'vuedraggable'
 
   @Component({
     name: "gls-scene-manager",
     components: {
       glsButton: glsButton,
-      GlsSceneNameEdit: GlsSceneNameEdit
+      GlsSceneNameEdit: GlsSceneNameEdit,
+      draggable: draggable
     }
   })
   export default class SceneManager
@@ -70,13 +80,13 @@
       //点击其他位置，就隐藏正在显示的名称输入框
       this._documentClick = Renderer.addEventListener(document, "click", (event) => {
         let current = event.target;
-        let map:Map<any,boolean> = new Map();
-        do{
-          map.set(current,true);
+        let map: Map<any, boolean> = new Map();
+        do {
+          map.set(current, true);
           current = current.parentNode;
-        }while(current.parentNode);
-        (<any>this.$refs.nameEdit).forEach((nameEdit)=>{
-          if(!map.has(nameEdit.$el)){
+        } while (current.parentNode);
+        (<any>this.$refs.nameEdit).forEach((nameEdit) => {
+          if (!map.has(nameEdit.$el)) {
             nameEdit.showInput = false;
           }
         })
@@ -164,6 +174,8 @@
     }
   }
 
+  $scene_button_height: 70px;
+
   .manager-content {
     position: fixed;
     top: $header_height + $manager_header_height;
@@ -171,17 +183,25 @@
     bottom: $add-button-height;
     width: $width;
     overflow-y: auto;
+    overflow-x: hidden;
+
+    .yellow-clone {
+      height: $scene_button_height;
+      background-color: #FFFA90;
+    }
   }
 
   /*每个场景的选项*/
   .scene {
-    height: 70px;
+    height: $scene_button_height;
     font-size: 12px;
     margin: 5px 5px 0 5px;
     position: relative;
     border: 1px solid #ccd5db;
     color: #76838f;
     cursor: pointer;
+    background-color: #FFFFFF;
+    width: $width;
 
     &.selected {
       .number {

@@ -19,9 +19,11 @@ export class Draggable {
     this._options = options;
 
     let allowForm = options.allowForm ? utils.isString(options.allowForm) ? "#" + options.allowForm : options.allowForm : undefined,
-      el = options.target;
+      el = options.target,
+      autoScroll = options.autoScroll;
     this._interact = interact(el, {
-      allowForm: allowForm
+      allowForm: allowForm,
+      autoScroll: autoScroll
     })
       .draggable({
         // 保持组件在父节点里面
@@ -30,12 +32,16 @@ export class Draggable {
           elementRect: options.elementRect
         },
         onmove: (event) => {
-          var target = event.target,
+          if (options.customMove) {
+            options.customMove(event, this);
+          } else {
             // 算出拖拽位置
-            x = this._currentX + event.dx,
-            y = this._currentY + event.dy;
+            var
+              x = this._currentX + event.dx,
+              y = this._currentY + event.dy;
 
-          this.setPosition(x, y);
+            this.setPosition(x, y);
+          }
           options.onMove && options.onMove(this.getDragResult(event));
         },
         onend: (event) => {
@@ -49,6 +55,18 @@ export class Draggable {
       });
   }
 
+  get target() {
+    return this._options.target;
+  }
+
+  get currentX() {
+    return this._currentX;
+  }
+
+  get currentY() {
+    return this._currentY;
+  }
+
   /**
    * 是不是正在拖拽中啊
    * @returns {boolean}
@@ -58,15 +76,15 @@ export class Draggable {
   }
 
   getDragResult(event): IDraggableResult {
-    return {event: event, position: {x: this._currentX, y: this._currentY}}
+    return {event: event, position: {x: this._currentX, y: this._currentY}, draggable: this}
   }
 
-  setPosition(x: number, y: number) {
+  setPosition(x: number, y: number, offsetX: number = 0, offsetY: number = 0) {
     let target = this._options.target;
     // 更新元素的位置
     target.style.webkitTransform =
       target.style.transform =
-        'translate(' + x + 'px, ' + y + 'px)';
+        'translate(' + (x + offsetX) + 'px, ' + (y + offsetY) + 'px)';
 
     // 记录位置,不记录就拖拽不了
     this._currentX = x;

@@ -30,7 +30,7 @@
 >* <img src="readme/right24x24.png"/>新建场景
 >* <img src="readme/right24x24.png"/>删除场景
 >* 复制场景，这个功能要后端处理
->* 场景拖拽排序
+>* <img src="readme/right24x24.png"/>场景拖拽排序
 >* <img src="readme/right24x24.png"/>场景名称编辑
 * 文本双击之后的内容编辑
 * 增加图片组件
