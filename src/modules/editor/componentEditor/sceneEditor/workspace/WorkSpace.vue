@@ -1,12 +1,20 @@
 <template>
-  <div v-if="project.selectedScene" class="stage">
-    <!--todo 看能不能废除span这一层,没有这一层,又触发不了click事件-->
-    <gls-display-component-editor v-for="component in project.selectedScene.stage.children"
-                                  :component="component"
+  <div v-if="project && project.selectedScene" class="stage">
+    <!--&lt;!&ndash;todo 看能不能废除span这一层,没有这一层,又触发不了click事件&ndash;&gt;-->
+    <!--<gls-display-component-editor v-for="component in project.selectedScene.stage.children"-->
+    <!--:component="component"-->
+    <!--:project="project"-->
+    <!--:key="component.props.id"-->
+    <!--&gt;-->
+    <!--</gls-display-component-editor>-->
+    <gls-display-component-editor :component="project.selectedScene.stage"
                                   :project="project"
-                                  :key="component.props.id"
+                                  :key="project.selectedScene.stage.props.id"
+                                  :scene="project.selectedScene"
     >
     </gls-display-component-editor>
+    <!--<gls-component-stage-display :component="project.selectedScene.stage"-->
+    <!--:project="project"></gls-component-stage-display>-->
     <!--多选框-->
     <div class="gls-multi-select-rect" ref="selectRect"></div>
   </div>
@@ -29,6 +37,8 @@
   import {DisplayComponentFactory} from "../../../core/factorys/display/DisplayComponentFactory";
   import {Rect} from "../../../core/geom/Rect";
   import {CopyPasteManager} from "../../../core/parse/CopyPasteManager";
+  import GlsComponentStageDisplay from './stage/ComponentStageDisplay.vue';
+  import {Stage} from "../../../core/display/stage/Stage";
 
   class MouseDownRect {
     top: number;
@@ -70,7 +80,11 @@
 
     //渲染出组件的选择器的大小
     renderComponentSelectBounding(component: DisplayComponent) {
-      Renderer.querySelector(`#${component.props.id} .gls-display-component-editor`).style.cssText = component.componentSelectStyle;
+      let editor = (<HTMLElement>Renderer.querySelector(`#${component.props.id}`).children[1]);
+      editor.style.cssText = component.componentSelectStyle;
+      if (!component.props.resizeable) {
+        editor.style.display = "none";
+      }
     }
 
     /**
@@ -120,6 +134,9 @@
      * @param {number} rotate
      */
     renderComponentRotate(component: DisplayComponent, rotate: number) {
+      if (!component.props.rotateable) {
+        return;
+      }
       let componentStyle = component.style;
       let style = document.getElementById(component.props.id).style;
       componentStyle.rotate = rotate;
@@ -138,13 +155,13 @@
           this.project.selectedScene.removeSelection();
         }
 
-        if(event.ctrlKey || event.metaKey){
-          switch (keyCode){
-            case 67:{//c,复制
+        if (event.ctrlKey || event.metaKey) {
+          switch (keyCode) {
+            case 67: {//c,复制
               CopyPasteManager.getInstance().copy();
               break;
             }
-            case 86:{//v,黏贴
+            case 86: {//v,黏贴
               CopyPasteManager.getInstance().paste();
               break;
             }
@@ -182,7 +199,7 @@
         mouseDownElementLeft, mouseDownElementTop, mouseDownElementWidth, mouseDownElementHeight,
         mouseDownElement: DisplayComponent,
         mouseDownCenter: MouseDownRect = null,
-        mouseDownUnselectRects: Array<{ element: HTMLElement, rect: Rect }> = [],
+        mouseDownUnselectRects: Array<{ element: HTMLElement, rect: Rect, component: DisplayComponent }> = [],
 
         multiSelectRect = this.multiSelectRect = (<HTMLElement>this.$refs.selectRect);
       document.addEventListener("mousedown", (event: MouseEvent) => {
@@ -194,17 +211,19 @@
         mouseDownX = event.pageX;
         mouseDownY = event.pageY;
         let target = event.target;
-
-        if (!(displayComponent = Renderer.findCloseElementByClass(target, "gls-display-component"))) {
+        displayComponent = Renderer.findCloseElementByClass(target, "gls-display-component");
+        if(displayComponent){
+          mouseDownElement = DisplayComponentFactory.getInstance().getCreatedComponent(displayComponent.id);
+        }
+        if (!displayComponent) {//没点到组件或者点击到舞台，就当做取消选择处理
           project.selectedScene.clearSelection();
-
           this.renderMultiSelectRectBounding(event.pageX, event.pageY, 0, 0);
         } else {
           resizePoint = Renderer.findCloseElementByClass(target, GLS_RESIZE_POINT);
           rotatePoint = Renderer.findCloseElementByClass(target, GLS_ROTATE_POINT);
           mouseDownElement = DisplayComponentFactory.getInstance().getCreatedComponent(displayComponent.id);
-          //处理选中
-          if (!(event.ctrlKey || event.metaKey) && project.selectedScene.selectedComponents.length == 1) {
+          //点击了舞台，就是单选舞台
+          if (!(event.ctrlKey || event.metaKey) && project.selectedScene.selectedComponents.length == 1 || (mouseDownElement instanceof Stage)) {//没有按下ctrl键且只选中了一个组件，就清空
             project.selectedScene.clearSelection();
           }
           mouseDownElement.props.selected = true;
@@ -222,10 +241,10 @@
             this.renderSelectedComponentOpacity('0.5');
 
             //算出被拖拽的组件的中心点
-            project.selectedScene.stage.children.forEach((component: DisplayComponent) => {
+            project.selectedScene.forEachComponent((component: DisplayComponent) => {
               let element = Renderer.getElementById(component.props.id);
               let elementRect = Renderer.getBoundingClientRect(element);
-              if (component.props.selected) {
+              if (component.props.selected && component.props.moveable) {
                 if (!mouseDownCenter) {
                   mouseDownCenter = new MouseDownRect(elementRect.top, elementRect.right, elementRect.bottom, elementRect.left);
                 } else {
@@ -237,7 +256,8 @@
               } else {
                 mouseDownUnselectRects.push({
                   rect: elementRect,
-                  element: element
+                  element: element,
+                  component: component
                 });
               }
             });
@@ -258,6 +278,9 @@
 
         if (displayComponent) {
           if (resizePoint) {
+            if (!mouseDownElement.props.resizeable) {
+              return;
+            }
             let elementStyle = mouseDownElement.style;
             switch (pointClass) {
               case N_RESIZE:
@@ -308,6 +331,9 @@
               this.renderComponentRotate(component, rotate);
             })
           } else {//移动
+            if(!mouseDownCenter){
+              return;
+            }
             //移动要吸附
             let fixPosition;
             //算出跟哪根线吸附了
@@ -332,9 +358,12 @@
                 }
               }
             }
-            //选择选中组件的位置
+            //渲染选中组件的位置
             project.selectedScene.selectedComponents.forEach(
               (component: DisplayComponent) => {
+                if (!component.props.moveable) {
+                  return;
+                }
                 let componentStyle = component.style;
                 let style = document.getElementById(component.props.id).style;
                 let transform = `translate3d(${mouseMove.x}px,${mouseMove.y}px,0) rotateZ(${componentStyle.rotate}deg)`;
@@ -345,7 +374,7 @@
         } else {//多选的情况
           this.renderMultiSelectRectBounding(mouseDownX, mouseDownY, currentX - mouseDownX, currentY - mouseDownY);
           //算出哪些组件是被选中了
-          this.project.selectedScene.stage.children.forEach((component: DisplayComponent) => {
+          this.project.selectedScene.forEachComponent((component: DisplayComponent) => {
             let element = Renderer.getElementById(component.props.id);
             let elementBounding = Renderer.getBoundingClientRect(element);
             let centerX = elementBounding.centerX,
@@ -367,6 +396,9 @@
         if (isMouseDown && !resizePoint && !rotatePoint && displayComponent) {
           project.selectedScene.selectedComponents.forEach(
             (component: DisplayComponent) => {
+              if (!component.props.moveable) {
+                return;
+              }
               //更新位置
               let style = component.style;
               style.left += mouseMove.x;

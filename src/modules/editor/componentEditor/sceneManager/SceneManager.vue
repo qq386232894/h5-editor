@@ -16,7 +16,7 @@
       <draggable v-model="project.scenes">
         <transition-group>
           <div :class="{scene:true,selected:project.selectedScene === scene}" v-for="(scene,index) in project.scenes"
-               @click="project.selectedScene = scene" :key="scene.config.id">
+               @click="project.selectedScene = scene" :key="scene.props.id">
             <span class="number"></span>
             <span class="index">{{index}}</span>
             <gls-scene-name-edit @dblclick.native="showInput($event)" ref="nameEdit" :scene="scene"
@@ -54,7 +54,7 @@
   import glsButton from '../../common/button/Button.vue';
   import {Project} from "../../core/project/Project";
   import {Scene} from "../../core/scene/Scene";
-  import {SceneFactory} from "../../core/factorys/scsne/SceneFactory";
+  import {SceneService} from "../../core/factorys/scsne/SceneService";
   import GlsSceneNameEdit from './SceneNameEdit.vue'
   import {Renderer} from "../../../../common/render/Renderer";
   import {Draggable} from "../../common/interact/Draggable";
@@ -94,7 +94,7 @@
     }
 
     addScene() {
-      let scene = SceneFactory.getInstance().createScene(this.project);
+      let scene = SceneService.getInstance().createScene(this.project);
       if (this.project.selectedScene) {
         this.project.scenes.splice(this.project.scenes.indexOf(this.project.selectedScene) + 1, 0, scene);
       } else {

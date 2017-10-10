@@ -130,6 +130,7 @@
   import {Color} from "../../common/colorPicker/Color"
   import GlsComponentTextEditor from '../sceneEditor/workspace/text/ComponentTextEditor.vue'
   import GlsAnimationEditor from './animationEditor/AnimationEditor.vue'
+  import GlsComponentStageEditor from '../sceneEditor/workspace/stage/ComponentStageEditor.vue'
 
   @Component({
     name: "GlsSingleSelectEditor",
@@ -139,7 +140,8 @@
       GlsColorPicker: GlsColorPicker,
       GlsSlider: GlsSlider,
       GlsComponentTextEditor: GlsComponentTextEditor,
-      GlsAnimationEditor: GlsAnimationEditor
+      GlsAnimationEditor: GlsAnimationEditor,
+      GlsComponentStageEditor:GlsComponentStageEditor
     }
   })
   export default class GlsSingleSelectEditor extends Vue {

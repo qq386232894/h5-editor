@@ -1,7 +1,7 @@
 <template>
   <div>
-    <span v-show="!showInput">{{scene.config.name}}</span>
-    <input type="text" v-show="showInput" v-model="scene.config.name" class="no-padding"/>
+    <span v-show="!showInput">{{scene.props.name}}</span>
+    <input type="text" v-show="showInput" v-model="scene.props.name" class="no-padding"/>
   </div>
 </template>
 

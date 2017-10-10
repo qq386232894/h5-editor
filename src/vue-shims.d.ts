@@ -4,4 +4,4 @@ declare module "*.vue" {
   export default Vue;
 }
 
-declare var require: (files:Array<string>,resolve:any)=>any;
+declare var require: (files:Array<string> | string,resolve?:any)=>any;

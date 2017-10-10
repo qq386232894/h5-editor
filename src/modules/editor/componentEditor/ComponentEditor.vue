@@ -22,7 +22,6 @@
       >
       </gls-multi-select-editor>
     </modal>
-    {{project && project.selectedScene && project.selectedScene.selectedComponents.length}}
     <!--单选编辑-->
     <gls-single-select-editor :scene="project.selectedScene"
                               v-if="project && project.selectedScene && project.selectedScene.selectedComponents.length == 1"
@@ -39,7 +38,7 @@
   import glsSceneManager from "./sceneManager/SceneManager";
   import glsTemplatePanel from "./templatePanel/TemplatePanel";
   import glsSceneEditor from "./sceneEditor/SceneEditor";
-  import {Stage} from "../core/display/stage/Stage";
+  import {GLS_COMPONENT_STAGE, Stage} from "../core/display/stage/Stage";
   import {ComponentText, GLS_COMPONENT_TEXT} from "../core/display/text/ComponentText";
   import {ProjectManager} from "../core/factorys/display/ProjectManager";
   import {DisplayComponentFactory} from "../core/factorys/display/DisplayComponentFactory";
@@ -49,7 +48,7 @@
   import {Renderer} from "../../../common/render/Renderer";
   import {CopyPasteManager} from "../core/parse/CopyPasteManager";
   import {AnimationConfig} from "../core/display/config/AnimationConfig";
-  import {SceneFactory} from "../core/factorys/scsne/SceneFactory";
+  import {SceneService} from "../core/factorys/scsne/SceneService";
 
   @Component({
     name: "GlsComponentEditor",
@@ -68,13 +67,13 @@
     beforeMount() {
 //      todo 模拟数据，记得删除
       DisplayComponentFactory.getInstance().registerComponent(GLS_COMPONENT_TEXT, ComponentText)
+      DisplayComponentFactory.getInstance().registerComponent(GLS_COMPONENT_STAGE, Stage)
       let project = this.project;
       if (this.project.scenes.length == 0) {
         for (let index = 0; index < 10; index++) {
-          let scene = SceneFactory.getInstance().createScene(this.project);
+          let scene = SceneService.getInstance().createScene(this.project);
 
           let stage = scene.stage;
-          stage.props.id = index.toString();
           let componentText = DisplayComponentFactory.getInstance().createComponent(GLS_COMPONENT_TEXT);
           let animationConfig = new AnimationConfig();
           animationConfig.animationType = "bounce";
@@ -112,7 +111,7 @@
         if (newValue > 1) {
           this["$modal"].show('multiSelectEditor');
         } else if (newValue == 1) {
-
+          this["$modal"].hide('multiSelectEditor');
         } else {
           this["$modal"].hide('multiSelectEditor');
         }

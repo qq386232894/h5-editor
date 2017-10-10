@@ -4,7 +4,7 @@
     <div class="center">
       <div class="phone">
         <div class="header">
-          <div class="title">{{project.selectedScene.config.name}}</div>
+          <div class="title">{{project.selectedScene.props.name}}</div>
         </div>
         <div class="editor">
           <gls-work-space :project="project"></gls-work-space>

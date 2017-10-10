@@ -5,14 +5,15 @@ import {Stage} from "../display/stage/Stage";
 import {DisplayComponent} from "../display/DisplayComponent";
 import {Renderer} from "../../../../common/render/Renderer";
 import {Rect} from "../geom/Rect";
-import {ISceneConfig} from "./ISceneConfig";
+import {ISceneProperties} from "./ISceneProperties";
+import {utils} from "../../../../common/utils";
 
 export class Scene {
   /**
    * 场景设置,这个会保存在服务器
-   * @type {ISceneConfig}
+   * @type {ISceneProperties}
    */
-  config: ISceneConfig = {
+  props: ISceneProperties = {
     id: "",
     name: ""
   };
@@ -32,18 +33,26 @@ export class Scene {
    * @returns {Array.<DisplayComponent>}
    */
   get selectedComponents() {
-    return this.stage.children.filter((child) => {
+    return this.getAllComponents().filter((child) => {
       return child.props.selected;
     })
+  }
+
+  getAllComponents():Array<DisplayComponent> {
+    let components = [];
+    this.forEachComponent((component) => {
+      components.push(component);
+    });
+    return components;
   }
 
   /**
    * 清除所选的组件
    */
   clearSelection() {
-    this.stage.children.forEach((child) => {
+    utils.forEachTree(this.stage, (child) => {
       child.props.selected = false;
-    });
+    })
   }
 
   /**
@@ -53,7 +62,6 @@ export class Scene {
     this.selectedComponents.forEach((component) => {
       component.parent.removeChild(component);
     })
-    console.log(this.stage.children.length);
   }
 
   get firstSelectedComponent() {
@@ -68,7 +76,7 @@ export class Scene {
 
   //上对齐,左对齐等的原子方法
   align(positionKey: string, offsetKey: string) {
-    let rects: Array<{ rect: Rect, component: DisplayComponent }> = this.selectedComponents.map((component: DisplayComponent) => {
+    let rects: Array<{ rect: Rect, component: DisplayComponent }> = this.selectedComponents.filter(this.getMoveable).map((component: DisplayComponent) => {
       return {rect: Renderer.getBoundingClientRect(component.element), component: component};
     });
     let first = rects[0];
@@ -76,6 +84,10 @@ export class Scene {
       info.component.style[positionKey] += first.rect[offsetKey] - info.rect[offsetKey];
       info.component.renderBounding();
     })
+  }
+
+  getMoveable(component:DisplayComponent){
+    return component.props.moveable;
   }
 
   /**
@@ -125,7 +137,7 @@ export class Scene {
    */
   equalAlign(positionKey: string, offsetKey: string) {
     let selectedComponents = this.selectedComponents;
-    let rects: Array<{ rect: Rect, component: DisplayComponent }> = selectedComponents.map((component: DisplayComponent) => {
+    let rects: Array<{ rect: Rect, component: DisplayComponent }> = selectedComponents.filter(this.getMoveable).map((component: DisplayComponent) => {
       return {rect: Renderer.getBoundingClientRect(component.element), component: component};
     });
 
@@ -174,5 +186,9 @@ export class Scene {
         component.play();
       })
     })
+  }
+
+  forEachComponent(callback) {
+    utils.forEachTree(this.stage, callback);
   }
 }

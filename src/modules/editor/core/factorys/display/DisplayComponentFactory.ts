@@ -3,6 +3,8 @@
  */
 import {DisplayComponentRegisterInfo} from "./DisplayComponentRegisterInfo";
 import {DisplayComponent} from "../../display/DisplayComponent";
+import {Properties} from "../../display/property/Properties";
+
 export class DisplayComponentFactory {
   /**
    * @type {DisplayComponentFactory}
@@ -10,7 +12,7 @@ export class DisplayComponentFactory {
    */
   static _instance = null;
 
-  _registerComponents:{[key:string]:DisplayComponentRegisterInfo} = {};
+  _registerComponents: { [key: string]: DisplayComponentRegisterInfo } = {};
 
   /**
    * 已经创建的组件的哈希表
@@ -41,7 +43,7 @@ export class DisplayComponentFactory {
    * @param {String} type
    * @param {DisplayComponent} component
    */
-  registerComponent(type:string, component:DisplayComponent,alias:string = "组件") {
+  registerComponent(type: string, component: DisplayComponent, alias: string = "组件") {
     this.checkType(type);
 
     if (this.getRegisterComponent(type)) {
@@ -62,24 +64,25 @@ export class DisplayComponentFactory {
   /**
    * 检查组件类型
    */
-  checkType(type:string){
-    if(typeof type !== "string" || !type){
+  checkType(type: string) {
+    if (typeof type !== "string" || !type) {
       throw new Error("请提供有效的类型");
     }
   }
 
   /**
    * 创建组件
-   * @param type {String}
-   * @return {DisplayComponent}
+   * @param {string} type
+   * @returns {DisplayComponent}
    */
-  createComponent(type):DisplayComponent {
+  createComponent(type: string): DisplayComponent {
     this.checkType(type);
     if (this.getRegisterComponent(type)) {
       let info = this._registerComponents[type];
       let component = new info.component();
-      component.props.id = this.generateUUID(component);
-      this._createdComponents.set(component.props.id,component);
+      let props: Properties = component.props;
+      props.id = this.generateUUID(component);
+      this._createdComponents.set(component.props.id, component);
       return component;
     } else {
       throw new Error(`组件未注册,不能创建:${type}`);
@@ -89,11 +92,11 @@ export class DisplayComponentFactory {
   /**
    * @param component {DisplayComponent}
    */
-  generateUUID(component){
+  generateUUID(component) {
     let id;
-    do{
+    do {
       id = component.props.type + Math.floor(Math.random() * 999999999);
-    }while(this._createdComponents.has(id));
+    } while (this._createdComponents.has(id));
     return id;
   }
 
@@ -111,8 +114,8 @@ export class DisplayComponentFactory {
    * 根据id获取创建的组件
    * @param id
    */
-  getCreatedComponent(id){
-    if(!this._createdComponents.has(id)){
+  getCreatedComponent(id) {
+    if (!this._createdComponents.has(id)) {
       throw new Error(`id为${id}的组件没创建过`);
     }
     return this._createdComponents.get(id);

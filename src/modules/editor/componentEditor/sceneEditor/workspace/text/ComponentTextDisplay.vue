@@ -11,6 +11,7 @@
   import Vue from 'vue'
   import {Component, Inject, Model, Prop, Watch} from 'vue-property-decorator'
   import {Color} from "../../../../common/colorPicker/Color";
+  import {Project} from "../../../../core/project/Project";
 
   @Component({
     name: GLS_COMPONENT_TEXT,
@@ -18,6 +19,7 @@
   })
   export default class ComponentTextDisplay extends Vue {
     @Prop() component: ComponentText;
+    @Prop() project: Project;
 
     //todo 这个样式应该可以弄成通用的，下次看看
     get style() {

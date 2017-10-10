@@ -6,6 +6,7 @@ import {utils} from "../../../../common/utils";
 import {IStyle} from "./style/IStyle";
 import {Devices} from "../device/Devices";
 import {AnimationConfig} from "./config/AnimationConfig";
+import {Scene} from "../scene/Scene";
 
 export class DisplayComponent {
   /**
@@ -17,6 +18,7 @@ export class DisplayComponent {
   element: HTMLElement;
   playingIndex = 0;            //动画有多个，标记动画播放的位置
   playingTimeout: number = -1; //每个动画播放，使用setTimeout
+  scene: Scene = null;          //组件所属的场景，动态编译的时候会补上这个属性
 
   /**
    * 渲染出组件的位置,大小,角度
@@ -85,7 +87,7 @@ export class DisplayComponent {
    * @param {number} delay
    * @param {number} time
    */
-  animate(animationType: string, duration: number, delay: number, time: number = 1,loop:boolean = false) {
+  animate(animationType: string, duration: number, delay: number, time: number = 1, loop: boolean = false) {
     let animationStyle = `${animationType} ${duration}s ease ${delay}s ${loop ? 'infinite' : time} normal both`;
     this.element.style.webkitAnimation = animationStyle
     this.element.style.animation = animationStyle;
@@ -118,7 +120,7 @@ export class DisplayComponent {
     for (; this.playingIndex < this.props.animationConfigs.length; this.playingIndex++) {
       let animationConfig = animationConfigs[this.playingIndex];
       if (this.isAnimationConfigValid(animationConfig)) {
-        this.animate(animationConfig.animationType, animationConfig.duration, animationConfig.delay, animationConfig.time,animationConfig.loop);
+        this.animate(animationConfig.animationType, animationConfig.duration, animationConfig.delay, animationConfig.time, animationConfig.loop);
         if (!animationConfig.loop) {
           clearTimeout(this.playingTimeout);
           this.playingTimeout = setTimeout(() => {

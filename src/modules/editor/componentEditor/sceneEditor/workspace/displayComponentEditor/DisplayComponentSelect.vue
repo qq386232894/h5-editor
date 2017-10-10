@@ -1,5 +1,6 @@
 <template>
-    <span class="gls-display-component-editor" v-show="component.props.selected">
+  <!--todo 这里要根据情况显示不同的编辑内容-->
+    <span class="gls-display-component-editor" v-show="component.props.selected && component.props.resizeable && component.props.moveable && component.props.rotateable">
       <span class="gls-resize-point n-resize"></span>
       <span class="gls-resize-point ne-resize"></span>
       <span class="gls-resize-point e-resize"></span>

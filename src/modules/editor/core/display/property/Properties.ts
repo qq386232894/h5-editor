@@ -13,4 +13,8 @@ export class Properties {
   selected = false;                                //是不是选中了
   _style = {[Devices.PC]: {} as IStyle};            //样式
   animationConfigs: Array<AnimationConfig> = [];   //动画的配置
+  resizeable:boolean = true;                      //可以放大缩小吗
+  moveable:boolean = true;                         //可以移动吗
+  rotateable:boolean = true;                       //可以旋转吗
+  sceneId:number;                                   //这个场景id从组件创建的时候就已经确定，千万不要改动它
 }
