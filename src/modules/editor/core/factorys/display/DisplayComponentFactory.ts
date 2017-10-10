@@ -4,6 +4,7 @@
 import {DisplayComponentRegisterInfo} from "./DisplayComponentRegisterInfo";
 import {DisplayComponent} from "../../display/DisplayComponent";
 import {Properties} from "../../display/property/Properties";
+import {Project} from "../../project/Project";
 
 export class DisplayComponentFactory {
   /**
@@ -71,17 +72,17 @@ export class DisplayComponentFactory {
   }
 
   /**
-   * 创建组件
+   * 为某个项目创建组件
    * @param {string} type
    * @returns {DisplayComponent}
    */
-  createComponent(type: string): DisplayComponent {
+  createComponent(project:Project,type: string): DisplayComponent {
     this.checkType(type);
     if (this.getRegisterComponent(type)) {
       let info = this._registerComponents[type];
       let component = new info.component();
       let props: Properties = component.props;
-      props.id = this.generateUUID(component);
+      props.id = this.generateUUID(component,project);
       this._createdComponents.set(component.props.id, component);
       return component;
     } else {
@@ -92,12 +93,8 @@ export class DisplayComponentFactory {
   /**
    * @param component {DisplayComponent}
    */
-  generateUUID(component) {
-    let id;
-    do {
-      id = component.props.type + Math.floor(Math.random() * 999999999);
-    } while (this._createdComponents.has(id));
-    return id;
+  generateUUID(component,project:Project) {
+    return component.props.type + (++ project.numComponentCreated);
   }
 
   /**

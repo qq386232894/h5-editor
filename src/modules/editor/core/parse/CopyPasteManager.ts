@@ -65,7 +65,7 @@ export class CopyPasteManager {
       let selectedScene = this.project.selectedScene;
       selectedScene.clearSelection();
       this.copies.forEach((component:DisplayComponent)=>{
-        let copy:DisplayComponent = DisplayComponentFactory.getInstance().createComponent(component.props.type);
+        let copy:DisplayComponent = DisplayComponentFactory.getInstance().createComponent(this._project,component.props.type);
         copy.initFromComponent(component);
         copy.style.left += 5;
         copy.style.top += 5;

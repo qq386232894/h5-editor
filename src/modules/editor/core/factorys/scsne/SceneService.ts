@@ -36,7 +36,7 @@ export class SceneService {
     } else {
       scene.props = sceneProperties;
     }
-    scene.stage = DisplayComponentFactory.getInstance().createComponent(GLS_COMPONENT_STAGE);
+    scene.stage = DisplayComponentFactory.getInstance().createComponent(project,GLS_COMPONENT_STAGE);
     return scene;
   }
 }

@@ -4,10 +4,11 @@
 import {Scene} from "../scene/Scene";
 
 export class Project {
-  id: string = "";         //id
-  name: string = "";       //名称
-  creator: string = "";    //创建者
-  numSceneCreated: number = 0; //该项目创建过多少个场景
+  id: string = "";                      //id
+  name: string = "";                    //名称
+  creator: string = "";                //创建者
+  numSceneCreated: number = 0;        //该项目创建过多少个场景
+  numComponentCreated: number = 0;   //该项目创建过多少个组件啊
   /**
    * 一个也没由多个场景组成
    * @type {Array<Scene>}

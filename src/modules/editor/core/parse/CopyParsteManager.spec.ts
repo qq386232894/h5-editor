@@ -16,7 +16,7 @@ describe("CopyPasteManager",function () {
   let scene = new Scene();
   project.scenes.push(scene);
   let stage = scene.stage = new Stage();
-  let image:DisplayComponent = DisplayComponentFactory.getInstance().createComponent(GLS_COMPONENT_IMAGE);
+  let image:DisplayComponent = DisplayComponentFactory.getInstance().createComponent(project,GLS_COMPONENT_IMAGE);
   stage.addChild(image);
   image.props.selected = true;
 

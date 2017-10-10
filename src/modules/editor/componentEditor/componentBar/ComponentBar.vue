@@ -25,7 +25,7 @@
     export default class GlsComponentBar extends Vue {
       @Prop({required:true}) project: Project;
       createComponent(type){
-        let component = DisplayComponentFactory.getInstance().createComponent(type);
+        let component = DisplayComponentFactory.getInstance().createComponent(this.project,type);
         this.project.selectedScene.stage.addChild(component);
         this.project.selectedScene.clearSelection();
         component.props.selected = true;

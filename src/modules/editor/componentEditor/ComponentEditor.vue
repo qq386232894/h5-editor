@@ -74,7 +74,7 @@
           let scene = SceneService.getInstance().createScene(this.project);
 
           let stage = scene.stage;
-          let componentText = DisplayComponentFactory.getInstance().createComponent(GLS_COMPONENT_TEXT);
+          let componentText = DisplayComponentFactory.getInstance().createComponent(this.project,GLS_COMPONENT_TEXT);
           let animationConfig = new AnimationConfig();
           animationConfig.animationType = "bounce";
           componentText.props.animationConfigs.push(animationConfig);
