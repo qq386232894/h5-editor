@@ -42,11 +42,11 @@ export class DisplayComponent {
    * 获取组件的样式,todo 目前只支持PC样式
    */
   get style(): IStyle {
-    return this.props._style[Devices.PC];
+    return this.props.style;
   }
 
   set style(value) {
-    this.props._style[Devices.PC] = value;
+    this.props.style = value;
   }
 
   /**

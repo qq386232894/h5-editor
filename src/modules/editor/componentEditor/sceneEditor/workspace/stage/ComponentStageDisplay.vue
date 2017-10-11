@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="gls-component-stage" :style="componentStyle">
     <gls-display-component-editor v-for="component in project.selectedScene.stage.children"
                                   :component="component"
                                   :project="project"
@@ -42,6 +42,12 @@
       component.renderBounding();
 
       this.component.play();
+    }
+
+    get componentStyle(){
+      return {
+        backgroundImage:`url("${this.component.style.backgroundImage}")`
+      }
     }
   }
 </script>

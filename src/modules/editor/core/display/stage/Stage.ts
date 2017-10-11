@@ -25,7 +25,8 @@ export class Stage extends DisplayComponentContainer {
       left: 0,
       width: 320,
       height: 486,
-      rotate: 0
+      rotate: 0,
+      backgroundImage:""
     }
 
     this.props.resizeable = false;

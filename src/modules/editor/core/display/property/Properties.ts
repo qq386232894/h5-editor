@@ -11,7 +11,7 @@ export class Properties {
   alias = "";                                      //别称
   type = "";                                        //类型
   selected = false;                                //是不是选中了
-  _style = {[Devices.PC]: {} as IStyle};            //样式
+  style = {} as IStyle;            //样式
   animationConfigs: Array<AnimationConfig> = [];   //动画的配置
   resizeable:boolean = true;                      //可以放大缩小吗
   moveable:boolean = true;                         //可以移动吗

@@ -13,4 +13,5 @@ export interface IStyle{
   rotate:number;
   color?:Color;
   lineHeight?:number;
+  backgroundImage?:string;
 }
