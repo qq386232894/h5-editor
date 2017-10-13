@@ -8,6 +8,10 @@ import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import './modules/editor/common/dragable/Draggable'
+
+import axios from 'axios';
+(<any>Vue.prototype).$axios=axios;
+
 Vue.use(BootstrapVue);
 Vue.use(VModal)
 Vue.config.productionTip = false

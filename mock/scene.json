@@ -1,0 +1,431 @@
+{
+  "props": {
+    "id": "gls-component-stage1",
+    "alias": "",
+    "type": "gls-component-stage",
+    "selected": false,
+    "style": {
+      "top": 0,
+      "left": 0,
+      "width": 320,
+      "height": 486,
+      "rotate": 0,
+      "backgroundImage": "/mock/getImage.jpg?id=bg5.png"
+    },
+    "animationConfigs": [],
+    "resizeable": false,
+    "moveable": false,
+    "rotateable": false,
+    "selectAble": false
+  },
+  "children": [
+    {
+      "props": {
+        "id": "gls-component-image12",
+        "alias": "",
+        "type": "gls-component-image",
+        "selected": false,
+        "style": {
+          "left": 160,
+          "top": 0,
+          "width": 104,
+          "height": 108.78301886792451,
+          "rotate": 0
+        },
+        "animationConfigs": [
+          {
+            "duration": 1,
+            "delay": 1,
+            "time": 1,
+            "loop": false,
+            "animationType": "fadeInDown"
+          }
+        ],
+        "resizeable": true,
+        "moveable": true,
+        "rotateable": true,
+        "src": "./mock/getImage.jpg?id=image3.png",
+        "originalWidth": 212,
+        "originalHeight": 223,
+        "hasGetImageSize": "./mock/getImage.jpg?id=image3.png",
+        "width": 103.41704035874437,
+        "height": 108.78301886792451
+      },
+      "children": []
+    },
+    {
+      "props": {
+        "id": "gls-component-image13",
+        "alias": "",
+        "type": "gls-component-image",
+        "selected": false,
+        "style": {
+          "left": 10,
+          "top": 76,
+          "width": 150,
+          "height": 195.83333333333334,
+          "rotate": 0
+        },
+        "animationConfigs": [
+          {
+            "duration": 2,
+            "delay": 0,
+            "time": 1,
+            "loop": false,
+            "animationType": "fadeInUp"
+          }
+        ],
+        "resizeable": true,
+        "moveable": true,
+        "rotateable": true,
+        "src": "./mock/getImage.jpg?id=image6.png",
+        "originalWidth": 468,
+        "originalHeight": 611,
+        "hasGetImageSize": "./mock/getImage.jpg?id=image6.png",
+        "width": 150,
+        "height": 195.83333333333334
+      },
+      "children": []
+    },
+    {
+      "props": {
+        "id": "gls-component-image14",
+        "alias": "",
+        "type": "gls-component-image",
+        "selected": false,
+        "style": {
+          "left": 160,
+          "top": 76,
+          "width": 150,
+          "height": 195.83333333333334,
+          "rotate": 0
+        },
+        "animationConfigs": [
+          {
+            "duration": 2,
+            "delay": 0,
+            "time": 1,
+            "loop": false,
+            "animationType": "fadeInLeft"
+          }
+        ],
+        "resizeable": true,
+        "moveable": true,
+        "rotateable": true,
+        "src": "./mock/getImage.jpg?id=image6.png",
+        "originalWidth": 468,
+        "originalHeight": 611,
+        "hasGetImageSize": "./mock/getImage.jpg?id=image6.png",
+        "width": 150,
+        "height": 195.83333333333334
+      },
+      "children": []
+    },
+    {
+      "props": {
+        "id": "gls-component-image15",
+        "alias": "",
+        "type": "gls-component-image",
+        "selected": false,
+        "style": {
+          "left": 10,
+          "top": 271.828125,
+          "width": 150,
+          "height": 195.83333333333334,
+          "rotate": 0
+        },
+        "animationConfigs": [
+          {
+            "duration": 2,
+            "delay": 0,
+            "time": 1,
+            "loop": false,
+            "animationType": "fadeInRight"
+          }
+        ],
+        "resizeable": true,
+        "moveable": true,
+        "rotateable": true,
+        "src": "./mock/getImage.jpg?id=image6.png",
+        "originalWidth": 468,
+        "originalHeight": 611,
+        "hasGetImageSize": "./mock/getImage.jpg?id=image6.png",
+        "width": 150,
+        "height": 195.83333333333334
+      },
+      "children": []
+    },
+    {
+      "props": {
+        "id": "gls-component-image16",
+        "alias": "",
+        "type": "gls-component-image",
+        "selected": false,
+        "style": {
+          "left": 160,
+          "top": 271.828125,
+          "width": 150,
+          "height": 195.83333333333334,
+          "rotate": 0
+        },
+        "animationConfigs": [
+          {
+            "duration": 2,
+            "delay": 0,
+            "time": 1,
+            "loop": false,
+            "animationType": "fadeInDown"
+          }
+        ],
+        "resizeable": true,
+        "moveable": true,
+        "rotateable": true,
+        "src": "./mock/getImage.jpg?id=image6.png",
+        "originalWidth": 468,
+        "originalHeight": 611,
+        "hasGetImageSize": "./mock/getImage.jpg?id=image6.png",
+        "width": 150,
+        "height": 195.83333333333334
+      },
+      "children": []
+    },
+    {
+      "props": {
+        "id": "gls-component-image17",
+        "alias": "",
+        "type": "gls-component-image",
+        "selected": false,
+        "style": {
+          "left": 19.5,
+          "top": 81.9140625,
+          "width": 131,
+          "height": 184,
+          "rotate": 0
+        },
+        "animationConfigs": [
+          {
+            "duration": 2,
+            "delay": 0,
+            "time": 1,
+            "loop": false,
+            "animationType": "fadeInUp"
+          }
+        ],
+        "resizeable": true,
+        "moveable": true,
+        "rotateable": true,
+        "src": "./mock/getImage.jpg?id=image4.jpg",
+        "originalWidth": 658,
+        "originalHeight": 987,
+        "hasGetImageSize": "./mock/getImage.jpg?id=image4.jpg",
+        "width": 122.66666666666666,
+        "height": 184
+      },
+      "children": []
+    },
+    {
+      "props": {
+        "id": "gls-component-image18",
+        "alias": "",
+        "type": "gls-component-image",
+        "selected": false,
+        "style": {
+          "left": 175,
+          "top": 84.421875,
+          "width": 120,
+          "height": 179,
+          "rotate": 0
+        },
+        "animationConfigs": [
+          {
+            "duration": 2,
+            "delay": 0,
+            "time": 1,
+            "loop": false,
+            "animationType": "fadeInLeft"
+          }
+        ],
+        "resizeable": true,
+        "moveable": true,
+        "rotateable": true,
+        "src": "./mock/getImage.jpg?id=image1.jpg",
+        "originalWidth": 658,
+        "originalHeight": 987,
+        "hasGetImageSize": "./mock/getImage.jpg?id=image1.jpg",
+        "width": 119.33333333333333,
+        "height": 179
+      },
+      "children": []
+    },
+    {
+      "props": {
+        "id": "gls-component-image19",
+        "alias": "",
+        "type": "gls-component-image",
+        "selected": false,
+        "style": {
+          "left": 23,
+          "top": 283.2421875,
+          "width": 124,
+          "height": 173,
+          "rotate": 0
+        },
+        "animationConfigs": [
+          {
+            "duration": 2,
+            "delay": 0,
+            "time": 1,
+            "loop": false,
+            "animationType": "fadeInRight"
+          }
+        ],
+        "resizeable": true,
+        "moveable": true,
+        "rotateable": true,
+        "src": "./mock/getImage.jpg?id=image5.jpg",
+        "originalWidth": 658,
+        "originalHeight": 987,
+        "hasGetImageSize": "./mock/getImage.jpg?id=image5.jpg",
+        "width": 115.33333333333333,
+        "height": 173
+      },
+      "children": []
+    },
+    {
+      "props": {
+        "id": "gls-component-image20",
+        "alias": "",
+        "type": "gls-component-image",
+        "selected": false,
+        "style": {
+          "left": 0,
+          "top": 0,
+          "width": 150,
+          "height": 129.7029702970297,
+          "rotate": 0
+        },
+        "animationConfigs": [
+          {
+            "duration": 1,
+            "delay": 0,
+            "time": 1,
+            "loop": false,
+            "animationType": "fadeInDown"
+          }
+        ],
+        "resizeable": true,
+        "moveable": true,
+        "rotateable": true,
+        "src": "./mock/getImage.jpg?id=image2.png",
+        "originalWidth": 303,
+        "originalHeight": 262,
+        "hasGetImageSize": "./mock/getImage.jpg?id=image2.png",
+        "width": 150,
+        "height": 129.7029702970297
+      },
+      "children": []
+    },
+    {
+      "props": {
+        "id": "gls-component-image21",
+        "alias": "",
+        "type": "gls-component-image",
+        "selected": false,
+        "style": {
+          "left": 206,
+          "top": 0,
+          "width": 138,
+          "height": 118.78301886792451,
+          "rotate": 0
+        },
+        "animationConfigs": [
+          {
+            "duration": 1,
+            "delay": 0,
+            "time": 1,
+            "loop": false,
+            "animationType": "fadeInDown"
+          }
+        ],
+        "resizeable": true,
+        "moveable": true,
+        "rotateable": true,
+        "src": "./mock/getImage.jpg?id=image3.png",
+        "originalWidth": 212,
+        "originalHeight": 223,
+        "hasGetImageSize": "./mock/getImage.jpg?id=image3.png",
+        "width": 112.92376681614348,
+        "height": 118.78301886792451
+      },
+      "children": []
+    },
+    {
+      "props": {
+        "id": "gls-component-image22",
+        "alias": "",
+        "type": "gls-component-image",
+        "selected": false,
+        "style": {
+          "left": 160,
+          "top": 387.0703125,
+          "width": 107,
+          "height": 98.9375,
+          "rotate": 0
+        },
+        "animationConfigs": [
+          {
+            "duration": 1,
+            "delay": 1,
+            "time": 1,
+            "loop": false,
+            "animationType": "zoomIn"
+          }
+        ],
+        "resizeable": true,
+        "moveable": true,
+        "rotateable": true,
+        "src": "./mock/getImage.jpg?id=image7.png",
+        "originalWidth": 160,
+        "originalHeight": 225,
+        "hasGetImageSize": "./mock/getImage.jpg?id=image7.png",
+        "width": 70.35555555555555,
+        "height": 98.9375
+      },
+      "children": []
+    },
+    {
+      "props": {
+        "id": "gls-component-image23",
+        "alias": "",
+        "type": "gls-component-image",
+        "selected": false,
+        "style": {
+          "left": 216.4449462890625,
+          "top": 265.9923095703125,
+          "width": 102,
+          "height": 45.77319587628867,
+          "rotate": 31
+        },
+        "animationConfigs": [
+          {
+            "duration": 1,
+            "delay": 1,
+            "time": 1,
+            "loop": false,
+            "animationType": "zoomIn"
+          }
+        ],
+        "resizeable": true,
+        "moveable": true,
+        "rotateable": true,
+        "src": "./mock/getImage.jpg?id=image8.png",
+        "originalWidth": 97,
+        "originalHeight": 49,
+        "hasGetImageSize": "./mock/getImage.jpg?id=image8.png",
+        "width": 90.6122448979592,
+        "height": 45.77319587628867
+      },
+      "children": []
+    }
+  ]
+}

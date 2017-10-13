@@ -13,6 +13,7 @@
           <option value="/mock/getImage.jpg?id=bg2.jpg">背景3</option>
           <option value="/mock/getImage.jpg?id=bg3.jpg">背景4</option>
           <option value="/mock/getImage.jpg?id=bg4.jpg">背景5</option>
+          <option value="/mock/getImage.jpg?id=bg5.png">背景6</option>
         </b-form-select>
       </div>
     </div>

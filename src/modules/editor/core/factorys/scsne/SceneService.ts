@@ -6,6 +6,16 @@ import {Scene} from "../../scene/Scene";
 import {ISceneProperties} from "../../scene/ISceneProperties";
 import {GLS_COMPONENT_STAGE, Stage} from "../../display/stage/Stage";
 import {DisplayComponentFactory} from "../display/DisplayComponentFactory";
+import {utils} from "../../../../../common/utils";
+import {DisplayComponent} from "../../display/DisplayComponent";
+import axios from 'axios';
+import {Properties} from "../../display/property/Properties";
+import {DisplayComponentContainer} from "../../display/DisplayComponentContainer";
+
+export interface IDisplayComponentData {
+  props: Properties;
+  children?: Array<IDisplayComponentData>;
+}
 
 export class SceneService {
   static _instance: SceneService = null;
@@ -36,7 +46,41 @@ export class SceneService {
     } else {
       scene.props = sceneProperties;
     }
-    scene.stage = DisplayComponentFactory.getInstance().createComponent(project,GLS_COMPONENT_STAGE);
+    scene.stage = DisplayComponentFactory.getInstance().createComponent(project, GLS_COMPONENT_STAGE);
     return scene;
+  }
+
+  load(project:Project,scene: Scene) {
+    axios.get("/mock/getScene").then((result) => {
+      let data: IDisplayComponentData = result.data;
+      let stage = this.createComponent(project,data);
+      scene.stage = stage as Stage;
+    })
+  }
+
+  createComponent(project:Project,data: IDisplayComponentData):DisplayComponent{
+    let component = DisplayComponentFactory.getInstance().createComponent(project,data.props.type,data.props.id);
+
+    //继承服务器的属性
+    for(let key of Object.keys(data.props)){
+      component.props[key] = data.props[key];
+    }
+
+    if(utils.isArray(data.children)){
+      data.children.forEach((childData:IDisplayComponentData)=>{
+        let child = this.createComponent(project,childData);
+        (<DisplayComponentContainer>component).addChild(child);
+      })
+    }
+    return component;
+  }
+
+  save(scene: Scene) {
+    if (!scene.isLoaded) {
+      let formData = utils.mapTree(scene.stage, function (component: DisplayComponent) {
+        return {props: component.props};
+      });
+      console.log(JSON.stringify(formData, null, 2));
+    }
   }
 }

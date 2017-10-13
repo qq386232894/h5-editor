@@ -27,6 +27,16 @@
                               v-if="project && project.selectedScene && project.selectedScene.selectedComponents.length == 1"
     >
     </gls-single-select-editor>
+
+    <!--选择图片的弹窗-->
+    <b-modal ref="resourceDialog" size="lg" title="图片素材" v-model="resourceDialogVisible">
+      <gls-resource-manager @imageSelected="onImageSelected($event)"></gls-resource-manager>
+      <div slot="modal-footer" class="w-100">
+        <b-btn size="sm" class="float-right" variant="primary" @click="resourceDialogVisible=false">
+          确定
+        </b-btn>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -49,6 +59,9 @@
   import {CopyPasteManager} from "../core/parse/CopyPasteManager";
   import {AnimationConfig} from "../core/display/config/AnimationConfig";
   import {SceneService} from "../core/factorys/scsne/SceneService";
+  import {ComponentImage, GLS_COMPONENT_IMAGE} from "../core/display/image/ComponentImage";
+  import GlsResourceManager from './sceneEditor/workspace/resourceManager/ResourceManager.vue';
+  import {ComponentEditorEvent} from "./ComponentEditorEvent";
 
   @Component({
     name: "GlsComponentEditor",
@@ -58,31 +71,42 @@
       glsTemplatePanel: glsTemplatePanel,
       glsSceneEditor: glsSceneEditor,
       GlsSingleSelectEditor: GlsSingleSelectEditor,
-      GlsMultiSelectEditor: GlsMultiSelectEditor
+      GlsMultiSelectEditor: GlsMultiSelectEditor,
+      GlsResourceManager: GlsResourceManager
     }
   })
   export default class GlsComponentEditor extends Vue {
     @Provide() project: Project = new Project();
+    resourceDialogVisible: boolean = false;
+    resourceDialogCallback = function (image: string) {
+
+    }
+
+    onImageSelected(image) {
+      this.resourceDialogCallback && this.resourceDialogCallback(image);
+      this.resourceDialogVisible = false;
+    }
 
     beforeMount() {
 //      todo 模拟数据，记得删除
       DisplayComponentFactory.getInstance().registerComponent(GLS_COMPONENT_TEXT, ComponentText)
       DisplayComponentFactory.getInstance().registerComponent(GLS_COMPONENT_STAGE, Stage)
+      DisplayComponentFactory.getInstance().registerComponent(GLS_COMPONENT_IMAGE, ComponentImage)
       let project = this.project;
       if (this.project.scenes.length == 0) {
         for (let index = 0; index < 10; index++) {
           let scene = SceneService.getInstance().createScene(this.project);
 
-          let stage = scene.stage;
-          let componentText = DisplayComponentFactory.getInstance().createComponent(this.project,GLS_COMPONENT_TEXT);
-          let animationConfig = new AnimationConfig();
-          animationConfig.animationType = "bounce";
-          componentText.props.animationConfigs.push(animationConfig);
-
-          animationConfig = new AnimationConfig();
-          animationConfig.animationType = "flash";
-          componentText.props.animationConfigs.push(animationConfig);
-          stage.addChild(componentText);
+//          let stage = scene.stage;
+//          let componentText = DisplayComponentFactory.getInstance().createComponent(this.project, GLS_COMPONENT_TEXT);
+//          let animationConfig = new AnimationConfig();
+//          animationConfig.animationType = "bounce";
+//          componentText.props.animationConfigs.push(animationConfig);
+//
+//          animationConfig = new AnimationConfig();
+//          animationConfig.animationType = "flash";
+//          componentText.props.animationConfigs.push(animationConfig);
+//          stage.addChild(componentText);
 
 
           this.project.scenes.push(scene);
@@ -99,6 +123,11 @@
     }
 
     mounted() {
+      this.$root.$on(ComponentEditorEvent.showResourceDialog, (callback) => {
+        this.resourceDialogVisible = true;
+        this.resourceDialogCallback = callback;
+      });
+
       document.onselectstart = function () {
         return false;
       }

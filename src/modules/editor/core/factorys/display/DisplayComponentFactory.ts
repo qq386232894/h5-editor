@@ -76,13 +76,14 @@ export class DisplayComponentFactory {
    * @param {string} type
    * @returns {DisplayComponent}
    */
-  createComponent(project:Project,type: string): DisplayComponent {
+  createComponent(project:Project,type: string,id:string = ""): DisplayComponent {
     this.checkType(type);
     if (this.getRegisterComponent(type)) {
       let info = this._registerComponents[type];
       let component = new info.component();
       let props: Properties = component.props;
-      props.id = this.generateUUID(component,project);
+      props.type = type;   //这一行必须在id之前，因为id要根据组件类型来生成
+      props.id = id || this.generateUUID(component,project);
       this._createdComponents.set(component.props.id, component);
       return component;
     } else {

@@ -7,7 +7,7 @@
           <div class="title">{{project.selectedScene.props.name}}</div>
         </div>
         <div class="editor">
-          <gls-work-space :project="project"></gls-work-space>
+          <gls-work-space :project="project" :key="project.selectedScene.props.id"></gls-work-space>
         </div>
       </div>
       <div class="control-bar"></div>

@@ -9,12 +9,10 @@ var opn = require('opn')
 var path = require('path')
 var express = require('express')
 var webpack = require('webpack')
-var fs = require('fs')
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = (process.env.NODE_ENV === 'testing' || process.env.NODE_ENV === 'production')
   ? require('./webpack.prod.conf')
   : require('./webpack.dev.conf')
-
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
 // automatically open browser, if not set will be false
@@ -24,6 +22,8 @@ var autoOpenBrowser = !!config.dev.autoOpenBrowser
 var proxyTable = config.dev.proxyTable
 
 var app = express()
+
+require('./mock/index')(app);
 var compiler = webpack(webpackConfig)
 
 var devMiddleware = require('webpack-dev-middleware')(compiler, {
@@ -91,18 +91,3 @@ module.exports = {
     server.close()
   }
 }
-
-var apiRouter = express.Router()
-
-apiRouter.get('/mock/getImage.jpg', function (req, res) {
-  fs.readFile('./mock/' + req.query.id, 'binary', function (err, file) {
-    if(err){
-      console.error(err);
-      return;
-    }
-    res.writeHead(200, {'Content-Type': 'image/jpeg'});
-    res.write(file, 'binary');
-    res.end();
-  });
-})
-app.use('/', apiRouter)

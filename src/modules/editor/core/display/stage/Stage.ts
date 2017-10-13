@@ -8,7 +8,6 @@ import {Properties} from "../property/Properties";
 export const GLS_COMPONENT_STAGE = 'gls-component-stage';
 
 export class ComponentStageProperties extends Properties {
-  type = `gls-component-stage`;
   selectAble = false;
   moveable = false;
   resizeable = false;

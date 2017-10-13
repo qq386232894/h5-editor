@@ -131,6 +131,7 @@
   import GlsComponentTextEditor from '../sceneEditor/workspace/text/ComponentTextEditor.vue'
   import GlsAnimationEditor from './animationEditor/AnimationEditor.vue'
   import GlsComponentStageEditor from '../sceneEditor/workspace/stage/ComponentStageEditor.vue'
+  import GlsComponentImageEditor from '../sceneEditor/workspace/image/ComponentImageEditor.vue'
 
   @Component({
     name: "GlsSingleSelectEditor",
@@ -141,7 +142,8 @@
       GlsSlider: GlsSlider,
       GlsComponentTextEditor: GlsComponentTextEditor,
       GlsAnimationEditor: GlsAnimationEditor,
-      GlsComponentStageEditor:GlsComponentStageEditor
+      GlsComponentStageEditor:GlsComponentStageEditor,
+      GlsComponentImageEditor:GlsComponentImageEditor
     }
   })
   export default class GlsSingleSelectEditor extends Vue {

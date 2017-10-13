@@ -18,6 +18,8 @@ export class Scene {
     name: ""
   };
 
+  isLoaded:boolean = false;
+
   /**
    * 每个场景里面有一个舞台
    * @type {Stage}

@@ -6,7 +6,7 @@
     </div>
     <div class="right">
       <gls-button type="gray" label="预览和设置" hoverType="hover-success"></gls-button>
-      <gls-button type="gray" label="保存" hoverType="hover-success"></gls-button>
+      <gls-button type="gray" label="保存" hoverType="hover-success" @click.native="save"></gls-button>
       <gls-button type="gray" label="发布" hoverType="hover-success"></gls-button>
       <gls-button type="danger" label="退出" hoverType="hover-success"></gls-button>
     </div>
@@ -19,6 +19,7 @@
   import Vue from 'vue'
   import {Component, Inject, Model, Prop, Watch} from 'vue-property-decorator'
   import {Project} from "../../core/project/Project";
+  import {SceneService} from "../../core/factorys/scsne/SceneService";
 
   @Component({
     name: "GlsHeader",
@@ -29,6 +30,10 @@
   })
   export default class GlsHeader extends Vue {
     @Prop({required: true}) project: Project;
+
+    save(){
+      SceneService.getInstance().save(this.project.selectedScene);
+    }
   }
 </script>
 

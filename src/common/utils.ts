@@ -497,4 +497,18 @@ export class utils {
     });
     return result;
   }
+
+  public static getImageSize(src:string){
+    let image = new Image();
+    let promise = new Promise(function (resolve,reject) {
+      image.onload = function () {
+        resolve(image);
+      }
+      image.onerror = function () {
+        reject(image);
+      }
+    });
+    image.src = src;
+    return promise;
+  }
 }

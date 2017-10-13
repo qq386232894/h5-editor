@@ -1,11 +1,9 @@
 <template>
-    <span @click="onMouseDownHandler(component,$event)"
-          class="gls-display-component"
+    <span class="gls-display-component"
           :id="component.props.id"
     >
       <!--动态编译出组件-->
        <div :is="component.props.type" :component="component" :project="project"></div>
-
       <!--组件的位置,大小和角度的编辑器-->
       <gls-display-component-select :component="component"></gls-display-component-select>
     </span>
@@ -24,6 +22,7 @@
   import {Renderer} from "../../../../../../common/render/Renderer";
   import ComponentTextDisplay from '../text/ComponentTextDisplay.vue';
   import GlsComponentStageDisplay from '../stage/ComponentStageDisplay.vue';
+  import GlsComponentImageDisplay from '../image/ComponentImageDisplay.vue';
   import {Scene} from "../../../../core/scene/Scene";
 
   @Component({
@@ -31,7 +30,8 @@
     components: {
       glsDisplayComponentSelect: DisplayComponentSelect,
       GlsComponentText:ComponentTextDisplay,
-      GlsComponentStage:GlsComponentStageDisplay
+      GlsComponentStage:GlsComponentStageDisplay,
+      GlsComponentImage:GlsComponentImageDisplay
     }
   })
   export default class GlsDisplayComponentEditor extends Vue {
@@ -44,15 +44,7 @@
       component.element = Renderer.getElementById(component.props.id);
       component.renderBounding();
       component.scene = this.scene;
-
       this.component.play();
-    }
-
-    onMouseDownHandler(component, $event) {
-//      if (!($event.ctrlKey)) {
-//        this.project.selectedScene.clearSelection();
-//      }
-//      component.props.selected = true
     }
   }
 </script>

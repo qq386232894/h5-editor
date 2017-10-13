@@ -7,8 +7,9 @@ import {IStyle} from "./style/IStyle";
 import {Devices} from "../device/Devices";
 import {AnimationConfig} from "./config/AnimationConfig";
 import {Scene} from "../scene/Scene";
+import {EventDispatcher} from "../../../../common/event/EventDispatcher";
 
-export class DisplayComponent {
+export class DisplayComponent extends EventDispatcher{
   /**
    * 组件的所有属性,这个属性最终会保存在服务器,其他属性都不会保存在服务器.
    * @type {Properties}
@@ -27,6 +28,15 @@ export class DisplayComponent {
     this.element.style.cssText = this.boundingStyle;
   }
 
+  //组件生命钩子之大小变化
+  onResize(){
+
+  }
+
+  //组件生命钩子之旋转
+  onRotate(){
+
+  }
   /**
    * 从另外一个组件进行初始化
    * @param {DisplayComponent} target

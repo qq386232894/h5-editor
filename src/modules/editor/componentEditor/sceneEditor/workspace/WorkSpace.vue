@@ -1,20 +1,11 @@
 <template>
   <div v-if="project && project.selectedScene" class="stage">
-    <!--&lt;!&ndash;todo 看能不能废除span这一层,没有这一层,又触发不了click事件&ndash;&gt;-->
-    <!--<gls-display-component-editor v-for="component in project.selectedScene.stage.children"-->
-    <!--:component="component"-->
-    <!--:project="project"-->
-    <!--:key="component.props.id"-->
-    <!--&gt;-->
-    <!--</gls-display-component-editor>-->
     <gls-display-component-editor :component="project.selectedScene.stage"
                                   :project="project"
                                   :key="project.selectedScene.stage.props.id"
                                   :scene="project.selectedScene"
     >
     </gls-display-component-editor>
-    <!--<gls-component-stage-display :component="project.selectedScene.stage"-->
-    <!--:project="project"></gls-component-stage-display>-->
     <!--多选框-->
     <div class="gls-multi-select-rect" ref="selectRect"></div>
   </div>
@@ -39,6 +30,8 @@
   import {CopyPasteManager} from "../../../core/parse/CopyPasteManager";
   import GlsComponentStageDisplay from './stage/ComponentStageDisplay.vue';
   import {Stage} from "../../../core/display/stage/Stage";
+  import {WorkSpaceEvent} from "./WorkSpaceEvent";
+  import {SceneService} from "../../../core/factorys/scsne/SceneService";
 
   class MouseDownRect {
     top: number;
@@ -71,7 +64,17 @@
   export default class WorkSpace extends Vue {
     @Prop({required: true}) project: Project;
 
+    private _mouseDownRecycle: () => void;
+    private _mouseMoveRecycle: () => void;
+    private _mouseUpRecycle: () => void;
+
     multiSelectRect: HTMLElement;
+
+    mounted() {
+      this.registerSelectionHandler();
+      this.registerKeyHandler();
+      SceneService.getInstance().load(this.project, this.project.selectedScene);
+    }
 
     //渲染出组件的位置,大小,角度
     renderComponentBounding(component: DisplayComponent) {
@@ -80,11 +83,7 @@
 
     //渲染出组件的选择器的大小
     renderComponentSelectBounding(component: DisplayComponent) {
-      let editor = (<HTMLElement>Renderer.querySelector(`#${component.props.id}`).children[1]);
-      editor.style.cssText = component.componentSelectStyle;
-      if (!component.props.resizeable) {
-        editor.style.display = "none";
-      }
+      this.$root.$emit(WorkSpaceEvent.componentSelectUpdate, component.props.id);
     }
 
     /**
@@ -141,11 +140,7 @@
       let style = document.getElementById(component.props.id).style;
       componentStyle.rotate = rotate;
       style.transform = `rotateZ(${rotate}deg)`;
-    }
-
-    mounted() {
-      this.registerSelectionHandler();
-      this.registerKeyHandler();
+      component.onRotate();
     }
 
     registerKeyHandler() {
@@ -202,7 +197,7 @@
         mouseDownUnselectRects: Array<{ element: HTMLElement, rect: Rect, component: DisplayComponent }> = [],
 
         multiSelectRect = this.multiSelectRect = (<HTMLElement>this.$refs.selectRect);
-      document.addEventListener("mousedown", (event: MouseEvent) => {
+      this._mouseDownRecycle = Renderer.addEventListener(document, "mousedown", (event: MouseEvent) => {
         if (!this.project.selectedScene) {
           return;
         }
@@ -212,7 +207,7 @@
         mouseDownY = event.pageY;
         let target = event.target;
         displayComponent = Renderer.findCloseElementByClass(target, "gls-display-component");
-        if(displayComponent){
+        if (displayComponent) {
           mouseDownElement = DisplayComponentFactory.getInstance().getCreatedComponent(displayComponent.id);
         }
         if (!displayComponent) {//没点到组件或者点击到舞台，就当做取消选择处理
@@ -264,8 +259,7 @@
           }
         }
       })
-
-      document.addEventListener("mousemove", (event: MouseEvent) => {
+      this._mouseMoveRecycle = Renderer.addEventListener(document, "mousemove", (event: MouseEvent) => {
         if (!this.project.selectedScene || !isMouseDown) {
           return;
         }
@@ -277,7 +271,7 @@
         mouseMove.y = currentY - mouseDownY;
 
         if (displayComponent) {
-          if (resizePoint) {
+          if (resizePoint) {//更改大小
             if (!mouseDownElement.props.resizeable) {
               return;
             }
@@ -323,6 +317,7 @@
 
             this.renderComponentBounding(mouseDownElement);
             this.renderComponentSelectBounding(mouseDownElement);
+            mouseDownElement.onResize();
           } else if (rotatePoint) {//旋转
             let rotateComponent = DisplayComponentFactory.getInstance().getCreatedComponent(displayComponent.id);
             let rotate = this.caculateComponentRotate(rotateComponent, currentX, currentY);
@@ -331,7 +326,7 @@
               this.renderComponentRotate(component, rotate);
             })
           } else {//移动
-            if(!mouseDownCenter){
+            if (!mouseDownCenter) {
               return;
             }
             //移动要吸附
@@ -389,9 +384,8 @@
           })
         }
 
-      })
-
-      document.addEventListener("mouseup", () => {
+      });
+      this._mouseUpRecycle = Renderer.addEventListener(document, "mouseup", () => {
         //移动位置
         if (isMouseDown && !resizePoint && !rotatePoint && displayComponent) {
           project.selectedScene.selectedComponents.forEach(
@@ -423,7 +417,13 @@
         mouseMove = {x: 0, y: 0}
         mouseDownUnselectRects.length = 0;
         mouseDownCenter = null;
-      })
+      });
+    }
+
+    beforeDestroy(){
+      this._mouseDownRecycle && this._mouseDownRecycle();
+      this._mouseMoveRecycle && this._mouseMoveRecycle();
+      this._mouseUpRecycle && this._mouseUpRecycle();
     }
   }
 </script>

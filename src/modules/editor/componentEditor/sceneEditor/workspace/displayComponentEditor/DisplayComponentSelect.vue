@@ -1,6 +1,6 @@
 <template>
   <!--todo 这里要根据情况显示不同的编辑内容-->
-    <span class="gls-display-component-editor" v-show="component.props.selected && component.props.resizeable && component.props.moveable && component.props.rotateable">
+    <span ref="editor" class="gls-display-component-editor" v-show="component.props.selected && component.props.resizeable && component.props.moveable && component.props.rotateable">
       <span class="gls-resize-point n-resize"></span>
       <span class="gls-resize-point ne-resize"></span>
       <span class="gls-resize-point e-resize"></span>
@@ -22,6 +22,8 @@
   import {DisplayComponent} from "../../../../core/display/DisplayComponent";
   import Vue from 'vue'
   import {Component, Inject, Model, Prop, Watch} from 'vue-property-decorator'
+  import {GlsEvent} from "../../../../../../common/event/GlsEvent";
+  import {WorkSpaceEvent} from "../WorkSpaceEvent";
 
   @Component({
     name: "glsDisplayComponentSelect",
@@ -34,6 +36,31 @@
       let component = this.component;
       this.$el.style.cssText = component.componentSelectStyle;
       this.$el.style.display = component.props.selected ? 'block':'none';
+
+      //这个事件由workspace抛出
+      this.$root.$on(WorkSpaceEvent.componentSelectUpdate,(id)=>{
+        if(id == this.component.props.id){
+          this.updateBounding();
+        }
+      })
+
+      if (!component.props.resizeable) {
+        this.editor.style.display = "none";
+      }
+
+      //组件的内容更新，就更新大小
+      this.component.addEventListener(GlsEvent.LOADED,()=>{
+        this.updateBounding();
+      })
+    }
+
+    //更新大小和位置
+    updateBounding(){
+      this.editor.style.cssText = this.component.componentSelectStyle;
+    }
+
+    get editor(){
+      return this.$refs.editor as any;
     }
   }
 </script>
