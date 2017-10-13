@@ -50,7 +50,6 @@
   import glsSceneEditor from "./sceneEditor/SceneEditor";
   import {GLS_COMPONENT_STAGE, Stage} from "../core/display/stage/Stage";
   import {ComponentText, GLS_COMPONENT_TEXT} from "../core/display/text/ComponentText";
-  import {ProjectManager} from "../core/factorys/display/ProjectManager";
   import {DisplayComponentFactory} from "../core/factorys/display/DisplayComponentFactory";
   import {Component, Inject, Model, Prop, Watch, Provide} from 'vue-property-decorator';
   import GlsSingleSelectEditor from './singleSelectEditor/SingleSelectEditor';
@@ -62,6 +61,7 @@
   import {ComponentImage, GLS_COMPONENT_IMAGE} from "../core/display/image/ComponentImage";
   import GlsResourceManager from './sceneEditor/workspace/resourceManager/ResourceManager.vue';
   import {ComponentEditorEvent} from "./ComponentEditorEvent";
+  import {ProjectService} from "../core/project/ProjectService";
 
   @Component({
     name: "GlsComponentEditor",
@@ -76,7 +76,10 @@
     }
   })
   export default class GlsComponentEditor extends Vue {
-    @Provide() project: Project = new Project();
+    project: Project = null;
+    @Prop({default:function () {
+      return "1"
+    }}) projectId:string;
     resourceDialogVisible: boolean = false;
     resourceDialogCallback = function (image: string) {
 
@@ -89,33 +92,20 @@
 
     beforeMount() {
 //      todo 模拟数据，记得删除
-      DisplayComponentFactory.getInstance().registerComponent(GLS_COMPONENT_TEXT, ComponentText)
-      DisplayComponentFactory.getInstance().registerComponent(GLS_COMPONENT_STAGE, Stage)
-      DisplayComponentFactory.getInstance().registerComponent(GLS_COMPONENT_IMAGE, ComponentImage)
-      let project = this.project;
-      if (this.project.scenes.length == 0) {
-        for (let index = 0; index < 10; index++) {
+      DisplayComponentFactory.getInstance().registerComponent(GLS_COMPONENT_TEXT, ComponentText);
+      DisplayComponentFactory.getInstance().registerComponent(GLS_COMPONENT_STAGE, Stage);
+      DisplayComponentFactory.getInstance().registerComponent(GLS_COMPONENT_IMAGE, ComponentImage);
+
+      ProjectService.getInstance().fetchById(this.projectId).then((project: Project) => {
+        this.project = project;
+        if (this.project.scenes.length == 0) {
           let scene = SceneService.getInstance().createScene(this.project);
-
-//          let stage = scene.stage;
-//          let componentText = DisplayComponentFactory.getInstance().createComponent(this.project, GLS_COMPONENT_TEXT);
-//          let animationConfig = new AnimationConfig();
-//          animationConfig.animationType = "bounce";
-//          componentText.props.animationConfigs.push(animationConfig);
-//
-//          animationConfig = new AnimationConfig();
-//          animationConfig.animationType = "flash";
-//          componentText.props.animationConfigs.push(animationConfig);
-//          stage.addChild(componentText);
-
-
           this.project.scenes.push(scene);
         }
-
         project.selectedScene = project.scenes[0];
-      }
-      ProjectManager.getInstance().currentProject = this.project;
-      CopyPasteManager.getInstance().init(this.project);
+        ProjectService.getInstance().currentProject = this.project;
+        CopyPasteManager.getInstance().init(this.project);
+      })
     }
 
     get initPosition() {

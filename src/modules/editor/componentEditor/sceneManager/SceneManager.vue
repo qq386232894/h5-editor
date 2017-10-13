@@ -3,10 +3,10 @@
     <!--头部-->
     <div class="manager-header">
       <a>场景编辑</a>
-      <gls-button type="black" hoverType="hover-success">
+      <gls-button type="black" hoverType="hover-success" v-b-tooltip.hover.left="'开发中'">
         <div class="iconfont icon-copy"></div>
       </gls-button>
-      <gls-button type="black" hoverType="hover-danger" @click.native="showDeleteSceneDialog()">
+      <gls-button type="black" hoverType="hover-danger" @click.native="showDeleteSceneDialog()" v-b-tooltip.hover.left="'删除当前场景'">
         <div class="iconfont icon-delete"></div>
       </gls-button>
     </div>
@@ -61,6 +61,7 @@
   import {IDraggableResult} from "../../common/dragable/IDraggableResult";
   import {Rect} from "../../core/geom/Rect";
   import draggable from 'vuedraggable'
+  import {ProjectService} from "../../core/project/ProjectService";
 
   @Component({
     name: "gls-scene-manager",
@@ -94,12 +95,7 @@
     }
 
     addScene() {
-      let scene = SceneService.getInstance().createScene(this.project);
-      if (this.project.selectedScene) {
-        this.project.scenes.splice(this.project.scenes.indexOf(this.project.selectedScene) + 1, 0, scene);
-      } else {
-        this.project.scenes.push(scene);
-      }
+      SceneService.getInstance().addScene(this.project);
     }
 
     showDeleteSceneDialog() {
@@ -109,7 +105,7 @@
     }
 
     deleteScene() {
-      this.project.removeSelectedScene();
+      SceneService.getInstance().deleteScene(this.project);
       this.hideDeleteSceneDialog();
     }
 

@@ -13,6 +13,7 @@
     "test": "npm run test:unit && npm run test:e2e",
     "test:unit": "npm run unit",
     "test:e2e": "npm run e2e",
+    "mock":"json-server --watch mock/db.json",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
@@ -33,8 +34,6 @@
   "devDependencies": {
     "@types/jasmine": "^2.2.34",
     "animate.css": "^3.5.2",
-    "karma-jasmine": "^1.0.2",
-    "jasmine-core": "^2.5.2",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.22.1",
     "babel-eslint": "^7.1.1",
@@ -69,8 +68,11 @@
     "http-proxy-middleware": "^0.17.3",
     "inject-loader": "^3.0.0",
     "install": "^0.10.1",
+    "jasmine-core": "^2.5.2",
+    "json-server": "^0.12.0",
     "karma": "^1.4.1",
     "karma-coverage": "^1.1.1",
+    "karma-jasmine": "^1.0.2",
     "karma-mocha": "^1.3.0",
     "karma-phantomjs-launcher": "^1.0.2",
     "karma-phantomjs-shim": "^1.4.0",

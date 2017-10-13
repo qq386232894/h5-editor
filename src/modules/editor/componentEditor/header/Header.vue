@@ -32,7 +32,7 @@
     @Prop({required: true}) project: Project;
 
     save(){
-      SceneService.getInstance().save(this.project.selectedScene);
+      SceneService.getInstance().save(this.project,this.project.selectedScene);
     }
   }
 </script>

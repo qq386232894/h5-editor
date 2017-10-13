@@ -18,7 +18,7 @@ export class Scene {
     name: ""
   };
 
-  isLoaded:boolean = false;
+  isLoaded: boolean = false;
 
   /**
    * 每个场景里面有一个舞台
@@ -40,7 +40,7 @@ export class Scene {
     })
   }
 
-  getAllComponents():Array<DisplayComponent> {
+  getAllComponents(): Array<DisplayComponent> {
     let components = [];
     this.forEachComponent((component) => {
       components.push(component);
@@ -88,7 +88,7 @@ export class Scene {
     })
   }
 
-  getMoveable(component:DisplayComponent){
+  getMoveable(component: DisplayComponent) {
     return component.props.moveable;
   }
 
