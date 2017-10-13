@@ -32,9 +32,9 @@
 >* 复制场景，这个功能要后端处理
 >* <img src="readme/right24x24.png"/>场景拖拽排序
 >* <img src="readme/right24x24.png"/>场景名称编辑
-* 增加背景编辑
-* 增加图片组件
-* 增加图片素材管理器
+* <img src="readme/right24x24.png"/>增加背景编辑
+* <img src="readme/right24x24.png"/>增加图片组件
+* <img src="readme/right24x24.png"/>增加图片素材管理器
 * 文本双击之后的内容编辑
 * 增加音频组件
 * 增加音频素材管理
