@@ -61,8 +61,13 @@
     }) type:string;
 
     @Watch("inputValue")
-    onValueChange() {
+    onInputValueChange() {
       this.$emit("input", parseFloat(this.inputValue.toString()));
+    }
+
+    @Watch("value")
+    onValueChange() {
+      this.inputValue = this.value;
     }
 
     beforeMount(){
