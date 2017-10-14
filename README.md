@@ -2,7 +2,15 @@
 
 > 一款仿易企秀的h5编辑器,此项目还在持续开发中。这也是人生中第五个编辑器了，也是第一个使用VUE制作的作品。这里你会学到面向对象编程，设计模式，TDD。
 
+## Install
+
+    npm install
+    npm run mock
+    打开另一个CMD
+    npm run start
+
 ## 开发计划
+
 ### 编辑器部分
 * <img src="readme/right24x24.png"/>拖拉拽，旋转，大小，位置
 * <img src="readme/right24x24.png"/>组件单选多选
