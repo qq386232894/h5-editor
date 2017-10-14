@@ -1,5 +1,5 @@
 /**
- * Created by LXFA on 2017/10/11/011.
+ * Created by 给力叔 on 2017/10/11/011.
  * 事件的基础类
  */
 export class GlsEvent {

@@ -511,4 +511,15 @@ export class utils {
     image.src = src;
     return promise;
   }
+
+  /**
+   * 根据请求的地址和参数获取完整的请求地址
+   */
+  public static getRequestPath(url:string,params:any = {}){
+    let paramArray:Array<string>;
+    paramArray = Object.keys(params).map(function (key) {
+      return `${key}=${params[key]}`
+    })
+    return paramArray.length == 0 ? url : `${url}?${paramArray.join("&")}`
+  }
 }

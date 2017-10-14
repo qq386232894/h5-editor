@@ -23,7 +23,6 @@ var proxyTable = config.dev.proxyTable
 
 var app = express()
 
-require('./mock/index')(app);
 var compiler = webpack(webpackConfig)
 
 var devMiddleware = require('webpack-dev-middleware')(compiler, {
@@ -84,7 +83,6 @@ devMiddleware.waitUntilValid(() => {
 })
 
 var server = app.listen(port)
-
 module.exports = {
   ready: readyPromise,
   close: () => {

@@ -146,4 +146,9 @@ describe('utils', () => {
     expect(utils.isEmptyObject({name:1})).toBe(false);
     expect(utils.isEmptyObject(null)).toBe(false);
   });
+
+  it("utils.getRequestPath",()=>{
+    expect(utils.getRequestPath("/getlishu")).toBe("/getlishu");
+    expect(utils.getRequestPath("/getlishu",{name:1})).toBe("/getlishu?name=1");
+  });
 });

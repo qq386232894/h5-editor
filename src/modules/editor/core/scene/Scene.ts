@@ -41,6 +41,9 @@ export class Scene {
   }
 
   getAllComponents(): Array<DisplayComponent> {
+    if(!this.stage){
+      return [];
+    }
     let components = [];
     this.forEachComponent((component) => {
       components.push(component);
@@ -192,5 +195,9 @@ export class Scene {
 
   forEachComponent(callback) {
     utils.forEachTree(this.stage, callback);
+  }
+
+  destroy(){
+    this.stage = null;
   }
 }

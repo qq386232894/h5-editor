@@ -1,5 +1,5 @@
 <template>
-  <div v-if="project && project.selectedScene" class="stage">
+  <div v-if="project && project.selectedScene && project.selectedScene.stage" class="stage">
     <gls-display-component-editor :component="project.selectedScene.stage"
                                   :project="project"
                                   :key="project.selectedScene.stage.props.id"

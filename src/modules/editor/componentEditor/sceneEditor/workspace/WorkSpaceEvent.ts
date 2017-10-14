@@ -1,5 +1,5 @@
 /**
- * Created by LXFA on 2017/10/12/012.
+ * Created by 给力叔 on 2017/10/12/012.
  * 工作空间的事件
  */
 export class WorkSpaceEvent{

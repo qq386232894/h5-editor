@@ -1,5 +1,5 @@
 /**
- * Created by LXFA on 2017/10/4/004.
+ * Created by 给力叔 on 2017/10/4/004.
  */
 import {Project} from "../../project/Project";
 import {Scene} from "../../scene/Scene";
@@ -11,7 +11,7 @@ import {DisplayComponent} from "../../display/DisplayComponent";
 import axios from 'axios';
 import {Properties} from "../../display/property/Properties";
 import {DisplayComponentContainer} from "../../display/DisplayComponentContainer";
-import {ProjectService} from "../../project/ProjectService";
+import {Debounce} from "../../../../../common/utils/Debounce";
 
 export interface IDisplayComponentData {
   props: Properties;
@@ -20,6 +20,7 @@ export interface IDisplayComponentData {
 
 export class SceneService {
   static _instance: SceneService = null;
+  private _debounce = new Debounce(50);
 
   constructor() {
     if (SceneService._instance) {
@@ -54,9 +55,16 @@ export class SceneService {
   }
 
   load(project: Project, scene: Scene) {
-    axios.get("/api/scene/" + scene.props.id).then((result) => {
+    scene.destroy();
+
+    axios.get("/api/getScene?id=" + scene.props.id).then((result) => {
       let data: IDisplayComponentData = result.data;
-      let stage = this.createComponent(project, data);
+      let stage;
+      if (data.props) {
+        stage = this.createComponent(project, data);
+      } else {
+        stage = DisplayComponentFactory.getInstance().createComponent(project, GLS_COMPONENT_STAGE);
+      }
       scene.stage = stage as Stage;
     })
   }
@@ -78,44 +86,81 @@ export class SceneService {
     return component;
   }
 
-  save(project: Project, scene: Scene, newScene: boolean = false) {
+  /**
+   * 保存场景
+   * @param {Project} project
+   * @param {Scene} scene
+   * @returns {AxiosPromise}
+   */
+  save(project: Project, scene: Scene) {
     let formData = utils.mapTree(scene.stage, function (component: DisplayComponent) {
       return {props: component.props};
     });
     formData.id = scene.props.id;
     formData.projectId = project.id;
-    let method = newScene ? axios.post : axios.put;
-    return method.call(axios, "/api/scene/" + (newScene ? '' : scene.props.id), JSON.stringify(formData), {
-      headers: {'Content-Type': "application/json"}
-    });
+    return axios.put("/api/saveScene", formData);
   }
 
+  /**
+   * 删除场景
+   * @param {Project} project
+   * @returns {Promise<AxiosResponse>}
+   */
   deleteScene(project: Project) {
-    //todo 移除场景，是要后端来移除
-    let scene = project.removeSelectedScene();
-    return axios.delete('/api/scene/' + scene.props.id).then(() => {
-      ProjectService.getInstance().save(project);
+    return axios.delete(utils.getRequestPath('/api/deleteScene', {id: project.selectedScene.props.id})).then((result) => {
+      if (result.data !== false) {
+        project.removeSelectedScene();
+      }
     });
   }
 
+  /**
+   * 新增一个空白场景
+   * @param {Project} project
+   */
   addScene(project: Project) {
-    let scene = SceneService.getInstance().createScene(project);
-    let scenes = project.scenes;
-    if (project.selectedScene) {
-      scenes.splice(project.scenes.indexOf(project.selectedScene) + 1, 0, scene);
-    } else {
-      scenes.push(scene);
-    }
-
-    //todo 场景创建是要靠后端来创建的，而不是发两个请求
-    ProjectService.getInstance().save(project).then(() => {
-      return SceneService.getInstance().save(project, scene, true);
-    }).catch(() => {
-      scenes.splice(scenes.indexOf(scene), 1);
+    let index = project.scenes.indexOf(project.selectedScene) + 1;
+    axios.put(utils.getRequestPath('/api/addScene', {index: index, projectId: project.id})).then(() => {
+      let scene = SceneService.getInstance().createScene(project);
+      let scenes = project.scenes;
+      scenes.splice(index, 0, scene);
     });
   }
 
+  /**
+   * 拷贝场景
+   * @param {Project} project
+   */
   copyScene(project: Project) {
-    //todo 拷贝场景，说白了，就是后端把当前场景的数据拿出来，然后复制一份，后面保证新的场景的id唯一就好了
+    let selectedScene = project.selectedScene;
+    axios.put(utils.getRequestPath('/api/copyScene', {id: selectedScene.props.id})).then((result) => {
+      let data = result.data;
+      let scene = SceneService.getInstance().createScene(project);
+      scene.props.id = data.id;
+      scene.props.name = data.name;
+      let scenes = project.scenes;
+      scenes.splice(project.scenes.indexOf(selectedScene) + 1, 0, scene);
+    });
+  }
+
+  /**
+   * 更换场景的位置
+   * @param {number} oldIndex
+   * @param {number} newIndex
+   */
+  changeScene(oldIndex:number,newIndex:number){
+    axios.post(utils.getRequestPath('/api/changeSceneIndex', {oldIndex: oldIndex,newIndex:newIndex})).catch((result) => {
+      //todo 失败就是要回档咯
+    });
+  }
+
+  /**
+   * 修改场景的名称
+   * @param {Scene} scene
+   */
+  changeSceneName(scene:Scene){
+    this._debounce.handle(()=>{
+      axios.put(utils.getRequestPath('/api/changeSceneName', {id: scene.props.id,name:scene.props.name}));
+    })
   }
 }

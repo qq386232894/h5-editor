@@ -18,13 +18,13 @@
            title="多选操作"
     >
       <gls-multi-select-editor :scene="project.selectedScene"
-                               v-if="project && project.selectedScene && project.selectedScene.selectedComponents.length > 1"
+                               v-if="project && project.selectedScene && project.selectedScene.stage && project.selectedScene.selectedComponents.length > 1"
       >
       </gls-multi-select-editor>
     </modal>
     <!--单选编辑-->
     <gls-single-select-editor :scene="project.selectedScene"
-                              v-if="project && project.selectedScene && project.selectedScene.selectedComponents.length == 1"
+                              v-if="project && project.selectedScene && project.selectedScene.stage && project.selectedScene.selectedComponents.length == 1"
     >
     </gls-single-select-editor>
 

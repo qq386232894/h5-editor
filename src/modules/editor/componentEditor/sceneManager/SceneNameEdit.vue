@@ -1,7 +1,7 @@
 <template>
   <div>
     <span v-show="!showInput">{{scene.props.name}}</span>
-    <input type="text" v-show="showInput" v-model="scene.props.name" class="no-padding"/>
+    <input type="text" v-show="showInput" v-model="scene.props.name" class="no-padding" @input="changeSceneName(scene)"/>
   </div>
 </template>
 
@@ -12,6 +12,7 @@
   import Vue from 'vue'
   import {Component, Inject, Model, Prop, Watch} from 'vue-property-decorator'
   import {Scene} from "../../core/scene/Scene";
+  import {SceneService} from "../../core/factorys/scsne/SceneService";
 
   @Component({
     name: "GlsSceneNameEdit",
@@ -20,6 +21,10 @@
   export default class GlsSceneNameEdit extends Vue {
     @Prop({required: true}) scene: Scene;
     showInput:boolean = false;
+
+    changeSceneName(scene:Scene){
+      SceneService.getInstance().changeSceneName(scene);
+    }
   }
 </script>
 

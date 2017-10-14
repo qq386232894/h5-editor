@@ -38,7 +38,7 @@ export class ProjectService {
 
   fetchById(projectId: string) {
     let promise = new Promise(function (resolve, reject) {
-      axios.get("/api/project/" + projectId).then((result) => {
+      axios.get("/api/getProject?id=" + projectId).then((result) => {
         let project = new Project();
         let data = result.data;
         project.numSceneCreated = data.numSceneCreated;
@@ -72,7 +72,7 @@ export class ProjectService {
       return {id: scene.props.id, name: scene.props.name};
     });
 
-    return axios.put("/api/project/" + project.id, JSON.stringify(data), {
+    return axios.put("/api/getProject?id=" + project.id, JSON.stringify(data), {
       headers: {'Content-Type': "application/json"}
     });
   }

@@ -65,7 +65,7 @@
     images = [];
 
     mounted() {
-      axios.get('/mock/getImages')
+      axios.get('/api/getImages')
         .then((response) => {
           this.images = response.data;
         })

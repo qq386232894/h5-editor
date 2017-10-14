@@ -3,7 +3,7 @@
     <!--头部-->
     <div class="manager-header">
       <a>场景编辑</a>
-      <gls-button type="black" hoverType="hover-success" v-b-tooltip.hover.left="'开发中'">
+      <gls-button type="black" hoverType="hover-success" v-b-tooltip.hover.left="'复制当前场景'" @click.native="copyScene()">
         <div class="iconfont icon-copy"></div>
       </gls-button>
       <gls-button type="black" hoverType="hover-danger" @click.native="showDeleteSceneDialog()" v-b-tooltip.hover.left="'删除当前场景'">
@@ -13,10 +13,10 @@
 
     <!--每个场景的按钮-->
     <div class="manager-content" ref="manageContent">
-      <draggable v-model="project.scenes">
+      <draggable v-model="project.scenes" @end="onEnd($event)">
         <transition-group>
           <div :class="{scene:true,selected:project.selectedScene === scene}" v-for="(scene,index) in project.scenes"
-               @click="project.selectedScene = scene" :key="scene.props.id">
+               @click="changeSelectedScene(scene)" :key="scene.props.id">
             <span class="number"></span>
             <span class="index">{{index}}</span>
             <gls-scene-name-edit @dblclick.native="showInput($event)" ref="nameEdit" :scene="scene"
@@ -98,6 +98,10 @@
       SceneService.getInstance().addScene(this.project);
     }
 
+    copyScene(){
+      SceneService.getInstance().copyScene(this.project);
+    }
+
     showDeleteSceneDialog() {
       if (this.project.selectedScene) {
         (<any>this.$refs.deleteSceneConfirm).show();
@@ -125,6 +129,14 @@
           nameEdit.showInput = false;
         }
       })
+    }
+
+    changeSelectedScene(scene:Scene){
+      this.project.selectedScene = scene;
+    }
+
+    onEnd($event){
+      SceneService.getInstance().changeScene($event.oldIndex,$event.newIndex);
     }
 
     destroyed() {

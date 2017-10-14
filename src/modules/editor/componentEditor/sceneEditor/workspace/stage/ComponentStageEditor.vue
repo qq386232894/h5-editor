@@ -8,12 +8,12 @@
       <div>
         <b-form-select v-model="component.style.backgroundImage">
           <option value="">无背景</option>
-          <option value="/mock/getImage.jpg?id=bg.jpg">背景1</option>
-          <option value="/mock/getImage.jpg?id=bg1.png">背景2</option>
-          <option value="/mock/getImage.jpg?id=bg2.jpg">背景3</option>
-          <option value="/mock/getImage.jpg?id=bg3.jpg">背景4</option>
-          <option value="/mock/getImage.jpg?id=bg4.jpg">背景5</option>
-          <option value="/mock/getImage.jpg?id=bg5.png">背景6</option>
+          <option value="/api/getImage.jpg?id=bg.jpg">背景1</option>
+          <option value="/api/getImage.jpg?id=bg1.png">背景2</option>
+          <option value="/api/getImage.jpg?id=bg2.jpg">背景3</option>
+          <option value="/api/getImage.jpg?id=bg3.jpg">背景4</option>
+          <option value="/api/getImage.jpg?id=bg4.jpg">背景5</option>
+          <option value="/api/getImage.jpg?id=bg5.png">背景6</option>
         </b-form-select>
       </div>
     </div>
