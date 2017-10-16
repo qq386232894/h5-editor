@@ -13,7 +13,7 @@ app.use(compression());
 //指定dist为发布的目录，这样运行mock就可以看发版之后的文件了
 app.use(express.static('dist'));
 
-var server = app.listen(4000, "localhost", function () {
+var server = app.listen(4000, function () {
 
   var host = server.address().address
   var port = server.address().port
