@@ -13,7 +13,7 @@
     "test": "npm run test:unit && npm run test:e2e",
     "test:unit": "npm run unit",
     "test:e2e": "npm run e2e",
-    "mock":"node build/mock/index.js",
+    "mock": "node build/mock/index.js",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
@@ -46,6 +46,7 @@
     "chai": "^3.5.0",
     "chalk": "^2.0.1",
     "chromedriver": "^2.27.2",
+    "compression": "^1.7.1",
     "connect-history-api-fallback": "^1.3.0",
     "copy-webpack-plugin": "^4.0.1",
     "cross-env": "^5.0.1",
