@@ -32,6 +32,7 @@
   import {Stage} from "../../../core/display/stage/Stage";
   import {WorkSpaceEvent} from "./WorkSpaceEvent";
   import {SceneService} from "../../../core/factorys/scsne/SceneService";
+  import {Debounce} from "../../../../../common/utils/Debounce";
 
   class MouseDownRect {
     top: number;
@@ -67,6 +68,7 @@
     private _mouseDownRecycle: () => void;
     private _mouseMoveRecycle: () => void;
     private _mouseUpRecycle: () => void;
+    private debounce:Debounce = new Debounce(50,true);
 
     multiSelectRect: HTMLElement;
 
@@ -202,6 +204,8 @@
           return;
         }
 
+        this.project.selectedScene.stop();
+
         isMouseDown = true;
         mouseDownX = event.pageX;
         mouseDownY = event.pageY;
@@ -263,127 +267,128 @@
         if (!this.project.selectedScene || !isMouseDown) {
           return;
         }
-        const currentX = event.pageX,
-          currentY = event.pageY,
-          MIN_WIDTH = 3,
-          MIN_HEIGHT = 3;
-        mouseMove.x = currentX - mouseDownX;
-        mouseMove.y = currentY - mouseDownY;
+        this.debounce.handle(()=>{
+          const currentX = event.pageX,
+            currentY = event.pageY,
+            MIN_WIDTH = 3,
+            MIN_HEIGHT = 3;
+          mouseMove.x = currentX - mouseDownX;
+          mouseMove.y = currentY - mouseDownY;
 
-        if (displayComponent) {
-          if (resizePoint) {//更改大小
-            if (!mouseDownElement.props.resizeable) {
-              return;
-            }
-            let elementStyle = mouseDownElement.style;
-            switch (pointClass) {
-              case N_RESIZE:
-                elementStyle.top = mouseDownElementTop + mouseMove.y;
-                elementStyle.height = mouseDownElementHeight - mouseMove.y;
-                break;
-              case W_RESIZE:
-                elementStyle.left = mouseDownElementLeft + mouseMove.x;
-                elementStyle.width = mouseDownElementWidth - mouseMove.x;
-                break;
-              case E_RESIZE:
-                elementStyle.width = mouseDownElementWidth + mouseMove.x;
-                break;
-              case NE_RESIZE:
-                elementStyle.top = mouseDownElementTop + mouseMove.y;
-                elementStyle.width = mouseDownElementWidth + mouseMove.x;
-                elementStyle.height = mouseDownElementHeight - mouseMove.y;
-                break;
-              case SE_RESIZE:
-                elementStyle.width = mouseDownElementWidth + mouseMove.x;
-                elementStyle.height = mouseDownElementHeight + mouseMove.y;
-                break;
-              case S_RESIZE:
-                elementStyle.height = mouseDownElementHeight + mouseMove.y;
-                break;
-              case SW_RESIZE:
-                elementStyle.left = mouseDownElementLeft + mouseMove.x;
-                elementStyle.width = mouseDownElementWidth - mouseMove.x;
-                elementStyle.height = mouseDownElementHeight + mouseMove.y;
-                break;
-              case NW_RESIZE:
-                elementStyle.top = mouseDownElementTop + mouseMove.y;
-                elementStyle.height = mouseDownElementHeight - mouseMove.y;
-                elementStyle.left = mouseDownElementLeft + mouseMove.x;
-                elementStyle.width = mouseDownElementWidth - mouseMove.x;
-                break;
-            }
-            elementStyle.height = Math.max(MIN_HEIGHT, elementStyle.height as number);
-            elementStyle.width = Math.max(MIN_WIDTH, elementStyle.width as number);
+          if (displayComponent) {
+            if (resizePoint) {//更改大小
+              if (!mouseDownElement.props.resizeable) {
+                return;
+              }
+              let elementStyle = mouseDownElement.style;
+              switch (pointClass) {
+                case N_RESIZE:
+                  elementStyle.top = mouseDownElementTop + mouseMove.y;
+                  elementStyle.height = mouseDownElementHeight - mouseMove.y;
+                  break;
+                case W_RESIZE:
+                  elementStyle.left = mouseDownElementLeft + mouseMove.x;
+                  elementStyle.width = mouseDownElementWidth - mouseMove.x;
+                  break;
+                case E_RESIZE:
+                  elementStyle.width = mouseDownElementWidth + mouseMove.x;
+                  break;
+                case NE_RESIZE:
+                  elementStyle.top = mouseDownElementTop + mouseMove.y;
+                  elementStyle.width = mouseDownElementWidth + mouseMove.x;
+                  elementStyle.height = mouseDownElementHeight - mouseMove.y;
+                  break;
+                case SE_RESIZE:
+                  elementStyle.width = mouseDownElementWidth + mouseMove.x;
+                  elementStyle.height = mouseDownElementHeight + mouseMove.y;
+                  break;
+                case S_RESIZE:
+                  elementStyle.height = mouseDownElementHeight + mouseMove.y;
+                  break;
+                case SW_RESIZE:
+                  elementStyle.left = mouseDownElementLeft + mouseMove.x;
+                  elementStyle.width = mouseDownElementWidth - mouseMove.x;
+                  elementStyle.height = mouseDownElementHeight + mouseMove.y;
+                  break;
+                case NW_RESIZE:
+                  elementStyle.top = mouseDownElementTop + mouseMove.y;
+                  elementStyle.height = mouseDownElementHeight - mouseMove.y;
+                  elementStyle.left = mouseDownElementLeft + mouseMove.x;
+                  elementStyle.width = mouseDownElementWidth - mouseMove.x;
+                  break;
+              }
+              elementStyle.height = Math.max(MIN_HEIGHT, elementStyle.height as number);
+              elementStyle.width = Math.max(MIN_WIDTH, elementStyle.width as number);
 
-            this.renderComponentBounding(mouseDownElement);
-            this.renderComponentSelectBounding(mouseDownElement);
-            mouseDownElement.onResize();
-          } else if (rotatePoint) {//旋转
-            let rotateComponent = DisplayComponentFactory.getInstance().getCreatedComponent(displayComponent.id);
-            let rotate = this.caculateComponentRotate(rotateComponent, currentX, currentY);
+              this.renderComponentBounding(mouseDownElement);
+              this.renderComponentSelectBounding(mouseDownElement);
+              mouseDownElement.onResize();
+            } else if (rotatePoint) {//旋转
+              let rotateComponent = DisplayComponentFactory.getInstance().getCreatedComponent(displayComponent.id);
+              let rotate = this.caculateComponentRotate(rotateComponent, currentX, currentY);
 
-            project.selectedScene.selectedComponents.forEach((component) => {
-              this.renderComponentRotate(component, rotate);
-            })
-          } else {//移动
-            if (!mouseDownCenter) {
-              return;
-            }
-            //移动要吸附
-            let fixPosition;
-            //算出跟哪根线吸附了
-            let allConditions = {x: ["left", "centerX", "right"], y: ["top", "centerY", "bottom"]};
-            let fixConfition = {x: false, y: false};
-            all:for (let componentInfo of mouseDownUnselectRects) {
-              let rect = componentInfo.rect;
-              for (let mouseMoveCondition of Object.keys(allConditions)) {
-                if (fixConfition[mouseMoveCondition]) {
-                  continue;
-                }
-                for (let fromCondition of allConditions[mouseMoveCondition]) {
-                  for (let toCondition of allConditions[mouseMoveCondition]) {
-                    if (this.isCloseTo(mouseDownCenter[fromCondition] + mouseMove[mouseMoveCondition], fixPosition = rect[toCondition])) {
-                      mouseMove[mouseMoveCondition] = fixPosition - mouseDownCenter[fromCondition];
-                      fixConfition[mouseMoveCondition] = true;
-                      if (fixConfition.x && fixConfition.y) {
-                        break all;
+              project.selectedScene.selectedComponents.forEach((component) => {
+                this.renderComponentRotate(component, rotate);
+              })
+            } else {//移动
+              if (!mouseDownCenter) {
+                return;
+              }
+              //移动要吸附
+              let fixPosition;
+              //算出跟哪根线吸附了
+              let allConditions = {x: ["left", "centerX", "right"], y: ["top", "centerY", "bottom"]};
+              let fixConfition = {x: false, y: false};
+              all:for (let componentInfo of mouseDownUnselectRects) {
+                let rect = componentInfo.rect;
+                for (let mouseMoveCondition of Object.keys(allConditions)) {
+                  if (fixConfition[mouseMoveCondition]) {
+                    continue;
+                  }
+                  for (let fromCondition of allConditions[mouseMoveCondition]) {
+                    for (let toCondition of allConditions[mouseMoveCondition]) {
+                      if (this.isCloseTo(mouseDownCenter[fromCondition] + mouseMove[mouseMoveCondition], fixPosition = rect[toCondition])) {
+                        mouseMove[mouseMoveCondition] = fixPosition - mouseDownCenter[fromCondition];
+                        fixConfition[mouseMoveCondition] = true;
+                        if (fixConfition.x && fixConfition.y) {
+                          break all;
+                        }
                       }
                     }
                   }
                 }
               }
+              //渲染选中组件的位置
+              project.selectedScene.selectedComponents.forEach(
+                (component: DisplayComponent) => {
+                  if (!component.props.moveable) {
+                    return;
+                  }
+                  let componentStyle = component.style;
+                  let style = document.getElementById(component.props.id).style;
+                  let transform = `translate3d(${mouseMove.x}px,${mouseMove.y}px,0) rotateZ(${componentStyle.rotate}deg)`;
+                  style.transform = transform;
+                  style.webkitTransform = transform;
+                })
             }
-            //渲染选中组件的位置
-            project.selectedScene.selectedComponents.forEach(
-              (component: DisplayComponent) => {
-                if (!component.props.moveable) {
-                  return;
+          } else {//多选的情况
+            this.renderMultiSelectRectBounding(mouseDownX, mouseDownY, currentX - mouseDownX, currentY - mouseDownY);
+            //算出哪些组件是被选中了
+            this.project.selectedScene.forEachComponent((component: DisplayComponent) => {
+              let element = Renderer.getElementById(component.props.id);
+              let elementBounding = Renderer.getBoundingClientRect(element);
+              let centerX = elementBounding.centerX,
+                centerY = elementBounding.centerY;
+              if (centerX >= mouseDownX && centerX <= currentX && centerY >= mouseDownY && centerY <= currentY) {
+                if (!component.props.selected) {
+                  component.props.selected = true;
                 }
-                let componentStyle = component.style;
-                let style = document.getElementById(component.props.id).style;
-                let transform = `translate3d(${mouseMove.x}px,${mouseMove.y}px,0) rotateZ(${componentStyle.rotate}deg)`;
-                style.transform = transform;
-                style.webkitTransform = transform;
-              })
-          }
-        } else {//多选的情况
-          this.renderMultiSelectRectBounding(mouseDownX, mouseDownY, currentX - mouseDownX, currentY - mouseDownY);
-          //算出哪些组件是被选中了
-          this.project.selectedScene.forEachComponent((component: DisplayComponent) => {
-            let element = Renderer.getElementById(component.props.id);
-            let elementBounding = Renderer.getBoundingClientRect(element);
-            let centerX = elementBounding.centerX,
-              centerY = elementBounding.centerY;
-            if (centerX >= mouseDownX && centerX <= currentX && centerY >= mouseDownY && centerY <= currentY) {
-              if (!component.props.selected) {
-                component.props.selected = true;
+              } else {
+                component.props.selected = false;
               }
-            } else {
-              component.props.selected = false;
-            }
-          })
-        }
-
+            })
+          }
+        })
       });
       this._mouseUpRecycle = Renderer.addEventListener(document, "mouseup", () => {
         //移动位置
@@ -424,6 +429,7 @@
       this._mouseDownRecycle && this._mouseDownRecycle();
       this._mouseMoveRecycle && this._mouseMoveRecycle();
       this._mouseUpRecycle && this._mouseUpRecycle();
+      this.debounce.destroy();
     }
   }
 </script>

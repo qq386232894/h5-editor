@@ -193,6 +193,16 @@ export class Scene {
     })
   }
 
+  /**
+   * 停止动画
+   */
+  stop() {
+    this.stage.children.forEach((component: DisplayComponent) => {
+      component.stop();
+    })
+  }
+
+
   forEachComponent(callback) {
     utils.forEachTree(this.stage, callback);
   }
