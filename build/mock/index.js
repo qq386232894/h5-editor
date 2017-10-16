@@ -2,12 +2,17 @@ var express = require('express');
 var app = express();
 var fs = require("fs");
 var bodyParser = require('body-parser');
+var compression = require('compression')
 var JsonHelper = require("./json-helper");
-app.get('/', function (req, res) {
-  res.send('Hello World');
-})
 
 app.use(bodyParser.json());
+
+//启动GZIP
+app.use(compression());
+
+//指定dist为发布的目录，这样运行mock就可以看发版之后的文件了
+app.use(express.static('dist'));
+
 var server = app.listen(4000, "localhost", function () {
 
   var host = server.address().address
