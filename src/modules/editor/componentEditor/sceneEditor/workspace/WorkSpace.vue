@@ -1,9 +1,11 @@
 <template>
-  <div v-if="project && project.selectedScene && project.selectedScene.stage" class="stage">
+  <div class="stage">
+    <!--todo 下面的v-if丢到上面的元素里面，this.$refs.selectRect获取出来就有问题，请问大神，为什么？-->
     <gls-display-component-editor :component="project.selectedScene.stage"
                                   :project="project"
                                   :key="project.selectedScene.stage.props.id"
                                   :scene="project.selectedScene"
+                                  v-if="project && project.selectedScene && project.selectedScene.stage"
     >
     </gls-display-component-editor>
     <!--多选框-->
@@ -68,7 +70,7 @@
     private _mouseDownRecycle: () => void;
     private _mouseMoveRecycle: () => void;
     private _mouseUpRecycle: () => void;
-    private debounce:Debounce = new Debounce(50,true);
+    private debounce: Debounce = new Debounce(50, true);
 
     multiSelectRect: HTMLElement;
 
@@ -76,6 +78,8 @@
       this.registerSelectionHandler();
       this.registerKeyHandler();
       SceneService.getInstance().load(this.project, this.project.selectedScene);
+
+      this.multiSelectRect = (<HTMLElement>this.$refs.selectRect);
     }
 
     //渲染出组件的位置,大小,角度
@@ -122,11 +126,17 @@
      */
     renderMultiSelectRectBounding(left: number, top: number, width: number, height: number) {
       let style = this.multiSelectRect.style;
-      style.display = "block";
-      style.left = left + 'px';
-      style.top = top + 'px';
-      style.width = width + 'px';
-      style.height = height + 'px';
+      if (width == 0 && height === 0) {
+        style.display = "none";
+      } else {
+        this.multiSelectRect.style.cssText = `
+      display:block;
+      left:${left}px;
+      top:${top}px;
+      width:${width}px;
+      height:${height}px;
+      `
+      }
     }
 
     /**
@@ -186,7 +196,6 @@
         /**
          * @type {{left:number,top:number,width:number,height:number,rotation:number}}
          */
-        mouseDownStyle,
         isMouseDown = false,
         displayComponent,
         //鼠标移动了多少
@@ -196,9 +205,7 @@
         mouseDownElementLeft, mouseDownElementTop, mouseDownElementWidth, mouseDownElementHeight,
         mouseDownElement: DisplayComponent,
         mouseDownCenter: MouseDownRect = null,
-        mouseDownUnselectRects: Array<{ element: HTMLElement, rect: Rect, component: DisplayComponent }> = [],
-
-        multiSelectRect = this.multiSelectRect = (<HTMLElement>this.$refs.selectRect);
+        mouseDownUnselectRects: Array<{ element: HTMLElement, rect: Rect, component: DisplayComponent }> = [];
       this._mouseDownRecycle = Renderer.addEventListener(document, "mousedown", (event: MouseEvent) => {
         if (!this.project.selectedScene) {
           return;
@@ -237,7 +244,7 @@
             mouseDownElementWidth = style.width;
             mouseDownElementHeight = style.height;
           } else if (!rotatePoint) {//移动
-            this.renderSelectedComponentOpacity('0.5');
+//            this.renderSelectedComponentOpacity('0.5');
 
             //算出被拖拽的组件的中心点
             project.selectedScene.forEachComponent((component: DisplayComponent) => {
@@ -267,7 +274,7 @@
         if (!this.project.selectedScene || !isMouseDown) {
           return;
         }
-        this.debounce.handle(()=>{
+        this.debounce.handle(() => {
           const currentX = event.pageX,
             currentY = event.pageY,
             MIN_WIDTH = 3,
@@ -275,7 +282,23 @@
           mouseMove.x = currentX - mouseDownX;
           mouseMove.y = currentY - mouseDownY;
 
-          if (displayComponent) {
+          if (!displayComponent || (mouseDownElement && mouseDownElement instanceof Stage)) {//多选的情况
+            this.renderMultiSelectRectBounding(mouseDownX, mouseDownY, currentX - mouseDownX, currentY - mouseDownY);
+            //算出哪些组件是被选中了
+            this.project.selectedScene.forEachComponent((component: DisplayComponent) => {
+              let element = Renderer.getElementById(component.props.id);
+              let elementBounding = Renderer.getBoundingClientRect(element);
+              let centerX = elementBounding.centerX,
+                centerY = elementBounding.centerY;
+              if (centerX >= mouseDownX && centerX <= currentX && centerY >= mouseDownY && centerY <= currentY) {
+                if (!component.props.selected) {
+                  component.props.selected = true;
+                }
+              } else {
+                component.props.selected = false;
+              }
+            })
+          } else {//移动，旋转，改大小
             if (resizePoint) {//更改大小
               if (!mouseDownElement.props.resizeable) {
                 return;
@@ -371,37 +394,23 @@
                   style.webkitTransform = transform;
                 })
             }
-          } else {//多选的情况
-            this.renderMultiSelectRectBounding(mouseDownX, mouseDownY, currentX - mouseDownX, currentY - mouseDownY);
-            //算出哪些组件是被选中了
-            this.project.selectedScene.forEachComponent((component: DisplayComponent) => {
-              let element = Renderer.getElementById(component.props.id);
-              let elementBounding = Renderer.getBoundingClientRect(element);
-              let centerX = elementBounding.centerX,
-                centerY = elementBounding.centerY;
-              if (centerX >= mouseDownX && centerX <= currentX && centerY >= mouseDownY && centerY <= currentY) {
-                if (!component.props.selected) {
-                  component.props.selected = true;
-                }
-              } else {
-                component.props.selected = false;
-              }
-            })
           }
         })
       });
-      this._mouseUpRecycle = Renderer.addEventListener(document, "mouseup", () => {
+      this._mouseUpRecycle = Renderer.addEventListener(document, "mouseup", (event) => {
+        this.debounce.doHandle();
         //移动位置
-        if (isMouseDown && !resizePoint && !rotatePoint && displayComponent) {
+        if (isMouseDown && !resizePoint && !rotatePoint && displayComponent && !(mouseDownElement instanceof Stage)) {
           project.selectedScene.selectedComponents.forEach(
             (component: DisplayComponent) => {
               if (!component.props.moveable) {
                 return;
               }
+              //
               //更新位置
               let style = component.style;
-              style.left += mouseMove.x;
-              style.top += mouseMove.y;
+              style.left += event.pageX - mouseDownX;
+              style.top += event.pageY - mouseDownY;
 
               //更新选择器的样式
               this.renderComponentSelectBounding(component);
@@ -409,11 +418,9 @@
               //根据属性设置样式
               this.renderComponentBounding(component);
             })
-
-          this.renderSelectedComponentOpacity('1');
         }
 
-        multiSelectRect.style.display = "none";
+        this.multiSelectRect.style.display = "none";
         resizePoint = null;
         pointClass = "";
         rotatePoint = null;
@@ -422,10 +429,11 @@
         mouseMove = {x: 0, y: 0}
         mouseDownUnselectRects.length = 0;
         mouseDownCenter = null;
+//        this.renderSelectedComponentOpacity('1');
       });
     }
 
-    beforeDestroy(){
+    beforeDestroy() {
       this._mouseDownRecycle && this._mouseDownRecycle();
       this._mouseMoveRecycle && this._mouseMoveRecycle();
       this._mouseUpRecycle && this._mouseUpRecycle();
@@ -440,5 +448,6 @@
     box-sizing: border-box;
     border: solid 1px #08A1EF;
     background-color: rgba(8, 161, 239, 0.3);
+    display: none;
   }
 </style>
