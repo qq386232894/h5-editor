@@ -65,7 +65,7 @@ export class Scene {
    */
   removeSelection() {
     this.selectedComponents.forEach((component) => {
-      component.parent.removeChild(component);
+      component.parent && component.parent.removeChild(component);
     })
   }
 
