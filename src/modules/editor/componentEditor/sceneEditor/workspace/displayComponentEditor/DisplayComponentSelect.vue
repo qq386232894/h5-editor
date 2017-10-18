@@ -32,13 +32,15 @@
   })
   export default class DisplayComponentSelect extends Vue {
     @Prop({required:true}) component: DisplayComponent;
+
+    _componentUpdateRecycle;
     mounted() {
       let component = this.component;
       this.$el.style.cssText = component.componentSelectStyle;
       this.$el.style.display = component.props.selected ? 'block':'none';
 
       //这个事件由workspace抛出
-      this.$root.$on(WorkSpaceEvent.componentSelectUpdate,(id)=>{
+      this.$root.$on(WorkSpaceEvent.componentSelectUpdate,this._componentUpdateRecycle = (id)=>{
         if(id == this.component.props.id){
           this.updateBounding();
         }
@@ -61,6 +63,10 @@
 
     get editor(){
       return this.$refs.editor as any;
+    }
+
+    beforeDestroy(){
+      this.$root.$off(WorkSpaceEvent.componentSelectUpdate,this._componentUpdateRecycle);
     }
   }
 </script>

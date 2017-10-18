@@ -81,6 +81,8 @@
       return "1"
     }}) projectId:string;
     resourceDialogVisible: boolean = false;
+
+    _showResourceDialogCallback:Function;
     resourceDialogCallback = function (image: string) {
 
     }
@@ -113,7 +115,7 @@
     }
 
     mounted() {
-      this.$root.$on(ComponentEditorEvent.showResourceDialog, (callback) => {
+      this.$root.$on(ComponentEditorEvent.showResourceDialog, this._showResourceDialogCallback = (callback) => {
         this.resourceDialogVisible = true;
         this.resourceDialogCallback = callback;
       });
@@ -137,6 +139,10 @@
       })
 //      let text = new (glsHeader._Ctor[0])(glsHeader).$mount();
 //      this.$el.appendChild(text.$el);
+    }
+
+    beforeDestroy(){
+      this.$root.$off(ComponentEditorEvent.showResourceDialog, this._showResourceDialogCallback);
     }
   }
 </script>
