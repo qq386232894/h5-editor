@@ -2,8 +2,9 @@ var express = require('express');
 var app = express();
 var fs = require("fs");
 var bodyParser = require('body-parser');
-var compression = require('compression')
+var compression = require('compression');
 var JsonHelper = require("./json-helper");
+var path = require("path");
 
 app.use(bodyParser.json());
 
@@ -33,15 +34,7 @@ function saveDb(data) {
 }
 
 apiRouter.get('/getImage.jpg', function (req, res) {
-  fs.readFile('./mock/' + req.query.id, 'binary', function (err, file) {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    res.writeHead(200, {'Content-Type': 'image/jpeg'});
-    res.write(file, 'binary');
-    res.end();
-  });
+  res.sendFile(path.normalize(__dirname + '/../../mock/' + req.query.id));
 })
 
 apiRouter.get('/getImages', function (req, res) {
