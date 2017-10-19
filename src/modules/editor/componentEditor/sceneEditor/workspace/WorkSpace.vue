@@ -354,7 +354,7 @@
                 this.renderComponentRotate(component, rotate);
               })
             } else {//移动
-              if (!mouseDownCenter) {
+              if (!mouseDownCenter || (mouseMove.x == 0 && mouseMove.y == 0)) {
                 return;
               }
               //移动要吸附
@@ -409,8 +409,8 @@
               //
               //更新位置
               let style = component.style;
-              style.left += event.pageX - mouseDownX;
-              style.top += event.pageY - mouseDownY;
+              style.left += mouseMove.x;
+              style.top += mouseMove.y;
 
               //更新选择器的样式
               this.renderComponentSelectBounding(component);
