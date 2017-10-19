@@ -41,7 +41,7 @@
 * 场景编辑
 >* <img src="readme/right24x24.png"/>新建场景
 >* <img src="readme/right24x24.png"/>删除场景
->* 复制场景，这个功能要后端处理
+>* <img src="readme/right24x24.png"/>复制场景
 >* <img src="readme/right24x24.png"/>场景拖拽排序
 >* <img src="readme/right24x24.png"/>场景名称编辑
 * <img src="readme/right24x24.png"/>增加背景编辑
