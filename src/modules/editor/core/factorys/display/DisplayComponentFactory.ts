@@ -95,7 +95,7 @@ export class DisplayComponentFactory {
    * @param component {DisplayComponent}
    */
   generateUUID(component,project:Project) {
-    return component.props.type + (++ project.numComponentCreated);
+    return component.props.type + (++ project.numComponentCreated);//TODO 由于project的数据不是一直会保存在服务器，所以这里会有BUG
   }
 
   /**

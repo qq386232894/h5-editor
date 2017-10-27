@@ -18,7 +18,7 @@
    * create by 给力叔 2017/9/15
    */
   import Vue from 'vue'
-  import {Component, Inject, Model, Prop, Watch} from 'vue-property-decorator'
+  import {Component, Input} from 'angular2-decorators-for-vue'
   import {Renderer} from "../../../../../../common/render/Renderer";
   import ComponentTextDisplay from '../text/ComponentTextDisplay.vue';
   import GlsComponentStageDisplay from '../stage/ComponentStageDisplay.vue';
@@ -35,12 +35,13 @@
     }
   })
   export default class GlsDisplayComponentEditor extends Vue {
-    @Prop({required: true}) project: Project;
-    @Prop({required: true}) component: DisplayComponent;
-    @Prop({required: true}) scene: Scene;
+    @Input({required: true}) project: Project;
+    @Input({required: true}) component: DisplayComponent;
+    @Input({required: true}) scene: Scene;
 
     mounted() {
       let component: DisplayComponent = this.component;
+      //todo 废除这种赋值element的方式，代码难维护
       component.element = Renderer.getElementById(component.props.id);
       component.renderBounding();
       component.scene = this.scene;

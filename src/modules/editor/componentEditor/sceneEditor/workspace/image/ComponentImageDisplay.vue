@@ -9,7 +9,7 @@
    * create by 给力叔 2017/10/11/006
    */
   import Vue from 'vue'
-  import {Component, Inject, Model, Prop, Watch} from 'vue-property-decorator'
+  import {Component, Input} from 'angular2-decorators-for-vue'
   import {Stage} from "../../../../core/display/stage/Stage";
   import {Project} from "../../../../core/project/Project";
   import {DisplayComponent} from "../../../../core/display/DisplayComponent";
@@ -22,8 +22,8 @@
     }
   })
   export default class GlsComponentImageDisplay extends Vue {
-    @Prop({required: true}) component: ComponentImage;
-    @Prop({required: true}) project: Project;
+    @Input({required: true}) component: ComponentImage;
+    @Input({required: true}) project: Project;
   }
 </script>
 

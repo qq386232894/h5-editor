@@ -18,7 +18,7 @@
    * 滑动条
    */
   import Vue from 'vue'
-  import {Component, Inject, Model, Prop, Watch} from 'vue-property-decorator'
+  import {Component, Input, Watch} from 'angular2-decorators-for-vue'
   import {Renderer} from "../../../../common/render/Renderer";
   import {IDraggableResult} from "../dragable/IDraggableResult";
   import {Draggable} from "../interact/Draggable";
@@ -35,26 +35,26 @@
 
     inputValue: number = 0;
 
-    @Prop({
+    @Input({
       default: function () {
         return 100;
       }
     }) max: number;
 
-    @Prop({
+    @Input({
       default: function () {
         return 0;
       }
     }) value: number;
 
-    @Prop({
+    @Input({
       default: function () {
         return 0;
       }
     }) min: number;
 
     //integer表示支持整数，float表示为浮点数
-    @Prop({
+    @Input({
       default:function () {
         return "float";
       }

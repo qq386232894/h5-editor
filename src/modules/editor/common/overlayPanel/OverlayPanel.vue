@@ -10,7 +10,7 @@
    * 弹出框，找不到开源的，只能自己写一个了
    */
   import Vue from 'vue'
-  import {Component, Inject, Model, Prop, Watch} from 'vue-property-decorator'
+  import {Component} from 'angular2-decorators-for-vue'
   import {Renderer} from "../../../../common/render/Renderer";
 
   @Component({

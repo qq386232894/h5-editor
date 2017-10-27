@@ -195,7 +195,7 @@
    * 组件动画编辑器
    */
   import Vue from 'vue'
-  import {Component, Inject, Model, Prop, Watch} from 'vue-property-decorator'
+  import {Component, Input} from 'angular2-decorators-for-vue'
   import {DisplayComponent} from "../../../core/display/DisplayComponent";
   import {AnimationConfig} from "../../../core/display/config/AnimationConfig";
   import GlsSlider from '../../../common/slider/Slider.vue';
@@ -211,7 +211,7 @@
     }
   })
   export default class GlsAnimationEditor extends Vue {
-    @Prop({required: true}) component: DisplayComponent;
+    @Input({required: true}) component: DisplayComponent;
     index = 0;
 
     contentName = "animationEditorContent";

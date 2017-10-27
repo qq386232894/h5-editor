@@ -53,7 +53,7 @@
    * 资源管理器
    */
   import Vue from 'vue'
-  import {Component, Inject, Model, Prop, Watch} from 'vue-property-decorator'
+  import {Component} from 'angular2-decorators-for-vue'
   import {ResourceManagerEvent} from "./ResourceManagerEvent";
   import axios from 'axios';
 

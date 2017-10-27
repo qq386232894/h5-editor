@@ -9,7 +9,7 @@
    */
   import {ComponentText, GLS_COMPONENT_TEXT} from "../../../../core/display/text/ComponentText";
   import Vue from 'vue'
-  import {Component, Inject, Model, Prop, Watch} from 'vue-property-decorator'
+  import {Component, Input} from 'angular2-decorators-for-vue'
   import {Color} from "../../../../common/colorPicker/Color";
   import {Project} from "../../../../core/project/Project";
 
@@ -18,8 +18,8 @@
     components: {}
   })
   export default class ComponentTextDisplay extends Vue {
-    @Prop() component: ComponentText;
-    @Prop() project: Project;
+    @Input() component: ComponentText;
+    @Input() project: Project;
 
     //todo 这个样式应该可以弄成通用的，下次看看
     get style() {

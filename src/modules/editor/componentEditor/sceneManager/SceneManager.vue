@@ -6,7 +6,8 @@
       <gls-button type="black" hoverType="hover-success" v-b-tooltip.hover.left="'复制当前场景'" @click.native="copyScene()">
         <div class="iconfont icon-copy"></div>
       </gls-button>
-      <gls-button type="black" hoverType="hover-danger" @click.native="showDeleteSceneDialog()" v-b-tooltip.hover.left="'删除当前场景'">
+      <gls-button type="black" hoverType="hover-danger" @click.native="showDeleteSceneDialog()"
+                  v-b-tooltip.hover.left="'删除当前场景'">
         <div class="iconfont icon-delete"></div>
       </gls-button>
     </div>
@@ -50,7 +51,7 @@
    * 场景管理组件
    */
   import Vue from 'vue'
-  import {Component, Inject, Model, Prop, Watch} from 'vue-property-decorator'
+  import {Component, Input, Inject} from 'angular2-decorators-for-vue'
   import glsButton from '../../common/button/Button.vue';
   import {Project} from "../../core/project/Project";
   import {Scene} from "../../core/scene/Scene";
@@ -73,7 +74,10 @@
   })
   export default class SceneManager
     extends Vue {
-    @Prop({required: true}) project: Project;
+    @Input({required: true}) project: Project;
+
+    @Inject(SceneService)
+    SceneService: SceneService;
 
     _documentClick: Function;
 
@@ -95,11 +99,11 @@
     }
 
     addScene() {
-      SceneService.getInstance().addScene(this.project);
+      this.SceneService.addScene(this.project);
     }
 
-    copyScene(){
-      SceneService.getInstance().copyScene(this.project);
+    copyScene() {
+      this.SceneService.copyScene(this.project);
     }
 
     showDeleteSceneDialog() {
@@ -109,7 +113,7 @@
     }
 
     deleteScene() {
-      SceneService.getInstance().deleteScene(this.project);
+      this.SceneService.deleteScene(this.project);
       this.hideDeleteSceneDialog();
     }
 
@@ -131,12 +135,12 @@
       })
     }
 
-    changeSelectedScene(scene:Scene){
+    changeSelectedScene(scene: Scene) {
       this.project.selectedScene = scene;
     }
 
-    onEnd($event){
-      SceneService.getInstance().changeScene($event.oldIndex,$event.newIndex);
+    onEnd($event) {
+      this.SceneService.changeScene($event.oldIndex, $event.newIndex);
     }
 
     destroyed() {

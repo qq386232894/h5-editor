@@ -12,34 +12,15 @@ import axios from 'axios';
 import {Properties} from "../../display/property/Properties";
 import {DisplayComponentContainer} from "../../display/DisplayComponentContainer";
 import {Debounce} from "../../../../../common/utils/Debounce";
-
+import {Injectable} from "angular2-decorators-for-vue";
 export interface IDisplayComponentData {
   props: Properties;
   children?: Array<IDisplayComponentData>;
 }
 
+@Injectable()
 export class SceneService {
-  static _instance: SceneService = null;
   private _debounce = new Debounce(50);
-
-  constructor() {
-    if (SceneService._instance) {
-      throw new Error("SceneFactory不能实例化!");
-    }
-    SceneService._instance = this;
-  }
-
-  /****
-   * 获取工厂的单例
-   * @returns {SceneService}
-   */
-  static getInstance() {
-    if (!SceneService._instance) {
-      return new SceneService();
-    }
-    return SceneService._instance;
-  }
-
   createScene(project: Project, sceneProperties?: ISceneProperties) {
     let scene = new Scene();
     if (!sceneProperties) {
@@ -121,7 +102,7 @@ export class SceneService {
   addScene(project: Project) {
     let index = project.scenes.indexOf(project.selectedScene) + 1;
     axios.put(utils.getRequestPath('/api/addScene', {index: index, projectId: project.id})).then(() => {
-      let scene = SceneService.getInstance().createScene(project);
+      let scene = this.createScene(project);
       let scenes = project.scenes;
       scenes.splice(index, 0, scene);
     });
@@ -135,7 +116,7 @@ export class SceneService {
     let selectedScene = project.selectedScene;
     axios.put(utils.getRequestPath('/api/copyScene', {id: selectedScene.props.id})).then((result) => {
       let data = result.data;
-      let scene = SceneService.getInstance().createScene(project);
+      let scene = this.createScene(project);
       scene.props.id = data.id;
       scene.props.name = data.name;
       let scenes = project.scenes;

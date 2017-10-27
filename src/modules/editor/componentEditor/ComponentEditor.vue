@@ -51,7 +51,7 @@
   import {GLS_COMPONENT_STAGE, Stage} from "../core/display/stage/Stage";
   import {ComponentText, GLS_COMPONENT_TEXT} from "../core/display/text/ComponentText";
   import {DisplayComponentFactory} from "../core/factorys/display/DisplayComponentFactory";
-  import {Component, Inject, Model, Prop, Watch, Provide} from 'vue-property-decorator';
+  import {Component, Input,Inject} from 'angular2-decorators-for-vue';
   import GlsSingleSelectEditor from './singleSelectEditor/SingleSelectEditor';
   import GlsMultiSelectEditor from './multiSelectEditor/MultiSelectEditor';
   import {Renderer} from "../../../common/render/Renderer";
@@ -77,9 +77,19 @@
   })
   export default class GlsComponentEditor extends Vue {
     project: Project = null;
-    @Prop({default:function () {
+    @Input({default:function () {
       return "1"
     }}) projectId:string;
+
+    @Inject(SceneService)
+    SceneService:SceneService;
+
+    @Inject(ProjectService)
+    ProjectService:ProjectService;
+
+    @Inject(CopyPasteManager)
+    CopyPasteManager:CopyPasteManager;
+
     resourceDialogVisible: boolean = false;
 
     _showResourceDialogCallback:Function;
@@ -98,15 +108,15 @@
       DisplayComponentFactory.getInstance().registerComponent(GLS_COMPONENT_STAGE, Stage);
       DisplayComponentFactory.getInstance().registerComponent(GLS_COMPONENT_IMAGE, ComponentImage);
 
-      ProjectService.getInstance().fetchById(this.projectId).then((project: Project) => {
+      this.ProjectService.fetchById(this.projectId).then((project: Project) => {
         this.project = project;
         if (this.project.scenes.length == 0) {
-          let scene = SceneService.getInstance().createScene(this.project);
+          let scene = this.SceneService.createScene(this.project);
           this.project.scenes.push(scene);
         }
         project.selectedScene = project.scenes[0];
-        ProjectService.getInstance().currentProject = this.project;
-        CopyPasteManager.getInstance().init(this.project);
+        this.ProjectService.currentProject = this.project;
+        this.CopyPasteManager.init(this.project);
       })
     }
 
@@ -115,6 +125,7 @@
     }
 
     mounted() {
+
       this.$root.$on(ComponentEditorEvent.showResourceDialog, this._showResourceDialogCallback = (callback) => {
         this.resourceDialogVisible = true;
         this.resourceDialogCallback = callback;

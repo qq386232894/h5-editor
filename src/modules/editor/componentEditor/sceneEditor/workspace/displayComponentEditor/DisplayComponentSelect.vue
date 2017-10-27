@@ -21,7 +21,7 @@
    */
   import {DisplayComponent} from "../../../../core/display/DisplayComponent";
   import Vue from 'vue'
-  import {Component, Inject, Model, Prop, Watch} from 'vue-property-decorator'
+  import {Component, Input} from 'angular2-decorators-for-vue'
   import {GlsEvent} from "../../../../../../common/event/GlsEvent";
   import {WorkSpaceEvent} from "../WorkSpaceEvent";
 
@@ -31,7 +31,7 @@
     }
   })
   export default class DisplayComponentSelect extends Vue {
-    @Prop({required:true}) component: DisplayComponent;
+    @Input({required:true}) component: DisplayComponent;
 
     _componentUpdateRecycle;
     mounted() {

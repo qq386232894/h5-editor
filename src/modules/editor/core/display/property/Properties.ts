@@ -17,4 +17,5 @@ export class Properties {
   moveable:boolean = true;                         //可以移动吗
   rotateable:boolean = true;                       //可以旋转吗
   sceneId:number;                                   //这个场景id从组件创建的时候就已经确定，千万不要改动它
+  copyable:boolean = true;                         //可以拷贝吗
 }

@@ -1,5 +1,6 @@
 <template>
-  <div class="gls-panel" @mousedown.stop="onMousedownHandler()" v-draggable="{elementRect:{top: 0, left: 0, bottom: 0, right: 1}}">
+  <div class="gls-panel" @mousedown.stop="onMousedownHandler()"
+       v-draggable="{elementRect:{top: 0, left: 0, bottom: 0, right: 1}}">
     <div class="gls-panel--header" :id="headerId">
       <a>{{title}}</a>
       <gls-button borderRadiusType="ui-border-radius-0" type="transparent">
@@ -18,7 +19,7 @@
    * create by 给力叔 2017/9/23/023
    */
   import Vue from 'vue'
-  import {Component, Inject, Model, Prop, Watch} from 'vue-property-decorator'
+  import {Component, Input} from 'angular2-decorators-for-vue'
   import glsButton from '../../common/button/Button'
 
   let index = 0;
@@ -29,10 +30,10 @@
     }
   })
   export default class GlsPanel extends Vue {
-    @Prop() title: String;
+    @Input() title: String;
     headerId = "";
 
-    created(){
+    created() {
       this.headerId = `gls-header${index++}`;
     }
 
@@ -50,7 +51,7 @@
     height: 800px;
     @include grayShadow;
     background-color: #f0f3f4;
-    left: 300px;//todo 测试用，记得删除
+    left: 300px; //todo 测试用，记得删除
   }
 
   .gls-panel--header {

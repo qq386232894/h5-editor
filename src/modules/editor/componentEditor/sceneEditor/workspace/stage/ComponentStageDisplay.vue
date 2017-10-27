@@ -15,7 +15,7 @@
    * create by 给力叔 2017/10/6/006
    */
   import Vue from 'vue'
-  import {Component, Inject, Model, Prop, Watch} from 'vue-property-decorator'
+  import {Component, Input} from 'angular2-decorators-for-vue'
   import {Stage} from "../../../../core/display/stage/Stage";
   import {Project} from "../../../../core/project/Project";
   import {DisplayComponent} from "../../../../core/display/DisplayComponent";
@@ -27,8 +27,8 @@
     }
   })
   export default class GlsComponentStageDisplay extends Vue {
-    @Prop({required: true}) component: Stage;
-    @Prop({required: true}) project: Project;
+    @Input({required: true}) component: Stage;
+    @Input({required: true}) project: Project;
 
     beforeCreate(){
       //typescript的递归组件跟官方文档有点出入啊,主要是vue-loader导致

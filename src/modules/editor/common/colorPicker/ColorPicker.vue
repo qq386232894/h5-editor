@@ -24,7 +24,7 @@
    * 颜色选择器,说真的,vue的脏检测真不如angular2,生命周期也不如,稍微喷一下,这种组件ng2,我一小时能做完,vue耗了3个小时,真奇葩,主要是value不能拦截.
    */
   import Vue from 'vue'
-  import {Component, Inject, Model, Prop, Watch} from 'vue-property-decorator'
+  import {Component, Model, Input, Watch} from 'angular2-decorators-for-vue'
   import Sketch from './vue-color/src/components/Sketch.vue'
   import {Renderer} from "../../../../common/render/Renderer";
   import {utils} from "../../../../common/utils";
@@ -48,7 +48,7 @@
     _isMouseDownTrigger: boolean = false;
     //用于内存回收
     _clickRemoveHandler: () => void;
-    @Prop() value: Object;//todo 把vue-color返回的数据也改成Color
+    @Input() value: Object;//todo 把vue-color返回的数据也改成Color
 
     //传进来的是null,就转换一下
     beforeMount() {

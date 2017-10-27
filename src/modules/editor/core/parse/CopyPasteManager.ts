@@ -3,27 +3,14 @@
  */
 import {DisplayComponent} from "../display/DisplayComponent";
 import {Project} from "../project/Project";
-import {DisplayComponentFactory} from "../factorys/display/DisplayComponentFactory";
+import {Injectable} from "angular2-decorators-for-vue";
 
+@Injectable()
 export class CopyPasteManager {
-  static _instance: CopyPasteManager;
-
   //已经拷贝的内容
   copies: Array<DisplayComponent> = [];
 
   _project: Project;
-
-  constructor() {
-    CopyPasteManager._instance = this;
-  }
-
-  static getInstance() {
-    if (!CopyPasteManager._instance) {
-      return new CopyPasteManager();
-    } else {
-      return CopyPasteManager._instance;
-    }
-  }
 
   /**
    * 必须初始化项目,不然不能复制东西
@@ -53,7 +40,9 @@ export class CopyPasteManager {
    */
   copy() {
     if (this.project && this.project.selectedScene) {
-      this.copies = this.project.selectedScene.selectedComponents;
+      this.copies = this.project.selectedScene.selectedComponents.filter(function (component:DisplayComponent) {
+        return component.props.copyable;
+      });
     }
   }
 

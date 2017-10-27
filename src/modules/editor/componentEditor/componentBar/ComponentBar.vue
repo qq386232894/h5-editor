@@ -12,7 +12,7 @@
   import glsIconLabel from './IconLabel';
 
   import Vue from 'vue'
-  import {Component, Inject, Model, Prop, Watch} from 'vue-property-decorator'
+  import {Component, Input} from 'angular2-decorators-for-vue'
   import {Project} from "../../core/project/Project";
   import {DisplayComponentFactory} from "../../core/factorys/display/DisplayComponentFactory";
   import {ComponentImage, GLS_COMPONENT_IMAGE} from "../../core/display/image/ComponentImage";
@@ -25,7 +25,7 @@
     }
   })
   export default class GlsComponentBar extends Vue {
-    @Prop({required: true}) project: Project;
+    @Input({required: true}) project: Project;
 
     createComponent(type) {
       this.doCreateComponent(type);
@@ -42,7 +42,10 @@
     createImage() {
       this.$root.$emit(ComponentEditorEvent.showResourceDialog, (url) => {
         let image = this.doCreateComponent('gls-component-image') as ComponentImage;
-        image.src = url;
+        //todo 这里等待DisplayComponent的获取方式修正了，移除nextTick
+        Vue.nextTick(function(){
+          image.src = url;
+        })
       });
     }
   }

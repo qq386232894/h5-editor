@@ -8,22 +8,22 @@
    * 数字输入框,限制用户输入最大值和最小值
    */
   import Vue from 'vue'
-  import {Component, Inject, Model, Prop, Watch} from 'vue-property-decorator'
+  import {Component, Input, Watch} from 'angular2-decorators-for-vue'
   import {utils} from "../../../../common/utils";
 
   @Component({
     name: "GlsStepper"
   })
   export default class GlsStepper extends Vue {
-    @Prop() max: number;
+    @Input() max: number;
 
-    @Prop({
+    @Input({
       default: function () {
         return 0;
       }
     }) value: number;
 
-    @Prop() min: number;
+    @Input() min: number;
 //    格式化之后的值,vue的坑真坑,getter setter的双向绑定可能失效,自定义双向绑定上面,被ng2甩几条街
     formatedValue = 0;
 

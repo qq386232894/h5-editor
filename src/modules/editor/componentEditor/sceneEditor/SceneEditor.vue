@@ -64,7 +64,7 @@
 
 <script lang="ts">
   import Vue from 'vue'
-  import {Component, Inject, Model, Prop, Watch} from 'vue-property-decorator'
+  import {Component, Input} from 'angular2-decorators-for-vue'
   import glsWorkSpace from './workspace/WorkSpace.vue';
   import {Project} from "../../core/project/Project";
 
@@ -75,7 +75,7 @@
     }
   })
   export default class GlsSceneEditor extends Vue {
-    @Prop({required:true}) project:Project;
+    @Input({required:true}) project:Project;
     playScene(){
       if(this.project.selectedScene){
         this.project.selectedScene.play();

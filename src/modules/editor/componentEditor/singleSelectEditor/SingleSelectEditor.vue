@@ -121,7 +121,7 @@
    * 单选的时候的组件编辑器,也就是组件的属性编辑器了
    */
   import Vue from 'vue'
-  import {Component, Inject, Model, Prop, Watch} from 'vue-property-decorator'
+  import {Component, Input} from 'angular2-decorators-for-vue'
   import {Scene} from "../../core/scene/Scene";
   import glsPanel from "../../common/panel/Panel";
   import GlsOverlayPanel from "../../common/overlayPanel/OverlayPanel.vue"
@@ -147,7 +147,7 @@
     }
   })
   export default class GlsSingleSelectEditor extends Vue {
-    @Prop({required: true}) scene: Scene;
+    @Input({required: true}) scene: Scene;
 
 //    todo 测试数据，记得删
     checkboxValue = true;

@@ -26,7 +26,7 @@
   import {Project} from "../../../core/project/Project";
   import {DisplayComponent} from "../../../core/display/DisplayComponent";
   import Vue from 'vue'
-  import {Component, Inject, Model, Prop, Watch} from 'vue-property-decorator'
+  import {Component, Input, Inject} from 'angular2-decorators-for-vue'
   import {DisplayComponentFactory} from "../../../core/factorys/display/DisplayComponentFactory";
   import {Rect} from "../../../core/geom/Rect";
   import {CopyPasteManager} from "../../../core/parse/CopyPasteManager";
@@ -65,7 +65,13 @@
     }
   })
   export default class WorkSpace extends Vue {
-    @Prop({required: true}) project: Project;
+    @Input({required: true}) project: Project;
+
+    @Inject(SceneService)
+    SceneService: SceneService;
+
+    @Inject(CopyPasteManager)
+    CopyPasteManager: CopyPasteManager;
 
     private _mouseDownRecycle: () => void;
     private _mouseMoveRecycle: () => void;
@@ -77,7 +83,7 @@
     mounted() {
       this.registerSelectionHandler();
       this.registerKeyHandler();
-      SceneService.getInstance().load(this.project, this.project.selectedScene);
+      this.SceneService.load(this.project, this.project.selectedScene);
 
       this.multiSelectRect = (<HTMLElement>this.$refs.selectRect);
     }
@@ -165,11 +171,11 @@
         if (event.ctrlKey || event.metaKey) {
           switch (keyCode) {
             case 67: {//c,复制
-              CopyPasteManager.getInstance().copy();
+              this.CopyPasteManager.copy();
               break;
             }
             case 86: {//v,黏贴
-              CopyPasteManager.getInstance().paste();
+              this.CopyPasteManager.paste();
               break;
             }
           }

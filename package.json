@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "一款仿易企秀的h5编辑器",
   "author": "给力叔",
-  "private": true,
+  "private": false,
   "scripts": {
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
@@ -17,6 +17,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "angular2-decorators-for-vue": "^1.0.2",
     "axios": "^0.16.2",
     "babel-polyfill": "^6.26.0",
     "bootstrap-vue": "^1.0.0-beta.9",
@@ -24,9 +25,7 @@
     "interactjs": "^1.2.9",
     "popper.js": "^1.12.5",
     "vue": "^2.5.2",
-    "vue-class-component": "^6.0.0",
     "vue-color": "^2.4.1",
-    "vue-property-decorator": "^6.0.0",
     "vue-router": "^3.0.1",
     "vue-validator": "^3.0.0-alpha.2",
     "vuedraggable": "^2.14.1"

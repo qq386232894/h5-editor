@@ -5,39 +5,21 @@ import axios from "axios";
 import {Project} from "./Project";
 import {SceneService} from "../factorys/scsne/SceneService";
 import {Scene} from "../scene/Scene";
+import {Inject,Injectable} from "angular2-decorators-for-vue";
 
+@Injectable()
 export class ProjectService {
-  /**
-   * @type {ProjectService}
-   * @private
-   */
-  static _instance = null;
+
+  @Inject(SceneService)
+  SceneService: SceneService;
 
   /**
    * @type {Project}
    */
   currentProject = null;
 
-  constructor() {
-    if (ProjectService._instance) {
-      throw new Error("ProjectManager不能实例化!");
-    }
-    ProjectService._instance = this;
-  }
-
-  /**
-   * 获取工厂的单例
-   * @return {ProjectService}
-   */
-  static getInstance() {
-    if (!ProjectService._instance) {
-      return new ProjectService();
-    }
-    return ProjectService._instance;
-  }
-
   fetchById(projectId: string) {
-    let promise = new Promise(function (resolve, reject) {
+    let promise = new Promise((resolve, reject)=>{
       axios.get("/api/getProject?id=" + projectId).then((result) => {
         let project = new Project();
         let data = result.data;
@@ -47,7 +29,7 @@ export class ProjectService {
         project.name = data.name;
         project.id = data.id;
         result.data.scenes.forEach((sceneData) => {
-          let scene = SceneService.getInstance().createScene(project, sceneData);
+          let scene = this.SceneService.createScene(project, sceneData);
           project.scenes.push(scene)
         })
         resolve(project);

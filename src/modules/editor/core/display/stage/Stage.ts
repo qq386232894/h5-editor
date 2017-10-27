@@ -12,6 +12,7 @@ export class ComponentStageProperties extends Properties {
   moveable = false;
   resizeable = false;
   rotateable = false;
+  copyable = false;
 }
 
 export class Stage extends DisplayComponentContainer {

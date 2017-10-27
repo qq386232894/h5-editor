@@ -1,7 +1,8 @@
 <template>
   <div>
     <span v-show="!showInput">{{scene.props.name}}</span>
-    <input type="text" v-show="showInput" v-model="scene.props.name" class="no-padding" @input="changeSceneName(scene)"/>
+    <input type="text" v-show="showInput" v-model="scene.props.name" class="no-padding"
+           @input="changeSceneName(scene)"/>
   </div>
 </template>
 
@@ -10,7 +11,7 @@
    * create by 给力叔 2017/10/5/005
    */
   import Vue from 'vue'
-  import {Component, Inject, Model, Prop, Watch} from 'vue-property-decorator'
+  import {Component, Input, Inject} from 'angular2-decorators-for-vue'
   import {Scene} from "../../core/scene/Scene";
   import {SceneService} from "../../core/factorys/scsne/SceneService";
 
@@ -19,11 +20,15 @@
     components: {}
   })
   export default class GlsSceneNameEdit extends Vue {
-    @Prop({required: true}) scene: Scene;
-    showInput:boolean = false;
+    @Input({required: true}) scene: Scene;
 
-    changeSceneName(scene:Scene){
-      SceneService.getInstance().changeSceneName(scene);
+    @Inject(SceneService)
+    SceneService: SceneService;
+
+    showInput: boolean = false;
+
+    changeSceneName(scene: Scene) {
+      this.SceneService.changeSceneName(scene);
     }
   }
 </script>

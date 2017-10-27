@@ -17,7 +17,7 @@
   import glsComponentBar from "../componentBar/ComponentBar";
   import glsButton from '../../common/button/Button.vue';
   import Vue from 'vue'
-  import {Component, Inject, Model, Prop, Watch} from 'vue-property-decorator'
+  import {Component, Input,Inject} from 'angular2-decorators-for-vue'
   import {Project} from "../../core/project/Project";
   import {SceneService} from "../../core/factorys/scsne/SceneService";
 
@@ -29,10 +29,13 @@
     }
   })
   export default class GlsHeader extends Vue {
-    @Prop({required: true}) project: Project;
+    @Input({required: true}) project: Project;
+
+    @Inject(SceneService)
+    SceneService:SceneService;
 
     save(){
-      SceneService.getInstance().save(this.project,this.project.selectedScene);
+      this.SceneService.save(this.project,this.project.selectedScene);
     }
   }
 </script>
