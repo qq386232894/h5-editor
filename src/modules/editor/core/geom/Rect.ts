@@ -1,12 +1,12 @@
 /**
  * Created by 给力叔 on 2017/9/18
- * 装饰者模式,给ClientRect拓展出centerX,centerY.让top,left,width,height变成可写的.
+ * @设计模式-装饰者模式,给ClientRect拓展出centerX,centerY.让top,left,width,height变成可写的.
  */
 export class Rect {
   _rect: { top: number, left: number, width: number, height: number };
 
-  constructor(top: number | ClientRect, left?: number, width?: number, height?: number) {
-    if (top instanceof ClientRect) {
+  constructor(top: number | any, left?: number, width?: number, height?: number) {
+    if (typeof top == "object") {
       let rect = top;
       this._rect = {
         top: rect.top,
@@ -24,7 +24,7 @@ export class Rect {
     }
   }
 
-  get top() {
+get top() {
     return this._rect.top;
   }
 
