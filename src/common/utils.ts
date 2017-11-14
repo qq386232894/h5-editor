@@ -1,6 +1,6 @@
 /**
  * Created by 给力叔 on 2017/9/8.
- * 此类抄自utils1
+ * 此类抄自angular1
  */
 function isType(target, typeString) {
   return typeof target === typeString;
