@@ -17,18 +17,18 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
-    "angular2-decorators-for-vue": "^1.0.2",
-    "axios": "^0.16.2",
-    "babel-polyfill": "^6.26.0",
-    "bootstrap-vue": "^1.0.0-beta.9",
-    "core-js": "^2.5.1",
-    "interactjs": "^1.2.9",
+    "angular2-decorators-for-vue": "1.0.2",
+    "axios": "0.16.2",
+    "babel-polyfill": "6.26.0",
+    "bootstrap-vue": "1.0.0-beta.9",
+    "core-js": "2.5.1",
+    "interactjs": "1.2.9",
     "popper.js": "^1.12.5",
-    "vue": "^2.5.2",
-    "vue-color": "^2.4.1",
-    "vue-router": "^3.0.1",
-    "vue-validator": "^3.0.0-alpha.2",
-    "vuedraggable": "^2.14.1"
+    "vue": "2.5.2",
+    "vue-color": "2.4.2",
+    "vue-router": "3.0.1",
+    "vue-validator": "3.0.0-alpha.2",
+    "vuedraggable": "2.14.1"
   },
   "devDependencies": {
     "@types/jasmine": "^2.2.34",
