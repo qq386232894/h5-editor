@@ -27,7 +27,7 @@
       glsComponentBar: glsComponentBar,
       glsButton: glsButton
     }
-  })
+  } as any)
   export default class GlsHeader extends Vue {
     @Input({required: true}) project: Project;
 

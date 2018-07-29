@@ -28,7 +28,7 @@
     components: {
       glsButton: glsButton
     }
-  })
+  } as any)
   export default class GlsPanel extends Vue {
     @Input() title: String;
     headerId = "";

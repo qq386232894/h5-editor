@@ -23,7 +23,7 @@
     components: {
       glsIconLabel: glsIconLabel
     }
-  })
+  } as any)
   export default class GlsComponentBar extends Vue {
     @Input({required: true}) project: Project;
 

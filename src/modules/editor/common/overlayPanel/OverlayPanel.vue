@@ -16,7 +16,7 @@
   @Component({
     name: "GlsOverlayPanel",
     components: {}
-  })
+  } as any)
   export default class GlsOverlayPanel extends Vue {
     //整个元素
     container: any;

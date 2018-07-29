@@ -20,7 +20,7 @@
       GlsColorPicker: GlsColorPicker,
       GlsSlider: GlsSlider
     }
-  })
+  } as any)
   export default class GlsComponentImageEditor extends Vue {
     @Input() component: DisplayComponent;
   }

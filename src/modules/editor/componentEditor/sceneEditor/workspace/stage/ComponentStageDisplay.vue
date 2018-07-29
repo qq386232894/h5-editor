@@ -25,7 +25,7 @@
     name: "gls-component-stage",
     components: {
     }
-  })
+  } as any)
   export default class GlsComponentStageDisplay extends Vue {
     @Input({required: true}) component: Stage;
     @Input({required: true}) project: Project;

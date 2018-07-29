@@ -73,7 +73,7 @@
     components: {
       glsWorkSpace: glsWorkSpace
     }
-  })
+  } as any)
   export default class GlsSceneEditor extends Vue {
     @Input({required:true}) project:Project;
     playScene(){

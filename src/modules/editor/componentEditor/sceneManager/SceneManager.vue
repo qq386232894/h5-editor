@@ -71,7 +71,7 @@
       GlsSceneNameEdit: GlsSceneNameEdit,
       draggable: draggable
     }
-  })
+  } as any)
   export default class SceneManager
     extends Vue {
     @Input({required: true}) project: Project;

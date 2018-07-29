@@ -48,7 +48,7 @@
   @Component({
     name: "GlsMultiSelectEditor",
     components: {}
-  })
+  } as any)
   export default class GlsMultiSelectEditor extends Vue {
     @Input({required: true}) scene: Scene;
 

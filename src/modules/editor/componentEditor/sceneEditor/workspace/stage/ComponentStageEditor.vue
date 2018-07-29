@@ -37,7 +37,7 @@
       GlsColorPicker: GlsColorPicker,
       GlsSlider: GlsSlider
     }
-  })
+  } as any)
   export default class GlsComponentStageEditor extends Vue {
     @Input() component: DisplayComponent;
   }

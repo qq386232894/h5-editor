@@ -29,7 +29,7 @@
     components: {
       GlsStepper:GlsStepper
     }
-  })
+  } as any)
   export default class GlsSlider extends Vue {
     _draggable: Draggable;
 

@@ -38,7 +38,7 @@
     components: {
       'sketch-picker': Sketch
     }
-  })
+  } as any)
   export default class GlsColorPicker extends Vue {
     //记录颜色,触发脏检测
     color:Color = new Color();

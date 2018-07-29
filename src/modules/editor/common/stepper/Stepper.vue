@@ -13,7 +13,7 @@
 
   @Component({
     name: "GlsStepper"
-  })
+  } as any)
   export default class GlsStepper extends Vue {
     @Input() max: number;
 

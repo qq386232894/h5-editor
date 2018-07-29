@@ -29,7 +29,7 @@
     name: "glsDisplayComponentSelect",
     components: {
     }
-  })
+  } as any)
   export default class DisplayComponentSelect extends Vue {
     @Input({required:true}) component: DisplayComponent;
 

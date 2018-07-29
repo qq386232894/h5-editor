@@ -145,7 +145,7 @@
       GlsComponentStageEditor:GlsComponentStageEditor,
       GlsComponentImageEditor:GlsComponentImageEditor
     }
-  })
+  } as any)
   export default class GlsSingleSelectEditor extends Vue {
     @Input({required: true}) scene: Scene;
 

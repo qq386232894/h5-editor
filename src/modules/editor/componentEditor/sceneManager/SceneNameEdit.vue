@@ -18,7 +18,7 @@
   @Component({
     name: "GlsSceneNameEdit",
     components: {}
-  })
+  } as any)
   export default class GlsSceneNameEdit extends Vue {
     @Input({required: true}) scene: Scene;
 

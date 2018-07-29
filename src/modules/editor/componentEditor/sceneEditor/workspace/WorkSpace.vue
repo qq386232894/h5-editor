@@ -63,7 +63,7 @@
     components: {
       glsDisplayComponentEditor: glsDisplayComponentEditor
     }
-  })
+  } as any)
   export default class WorkSpace extends Vue {
     @Input({required: true}) project: Project;
 

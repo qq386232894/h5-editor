@@ -209,7 +209,7 @@
       GlsSlider: GlsSlider,
       GlsStepper: GlsStepper
     }
-  })
+  } as any)
   export default class GlsAnimationEditor extends Vue {
     @Input({required: true}) component: DisplayComponent;
     index = 0;

@@ -33,7 +33,7 @@
       GlsComponentStage:GlsComponentStageDisplay,
       GlsComponentImage:GlsComponentImageDisplay
     }
-  })
+  } as any)
   export default class GlsDisplayComponentEditor extends Vue {
     @Input({required: true}) project: Project;
     @Input({required: true}) component: DisplayComponent;

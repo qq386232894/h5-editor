@@ -60,7 +60,7 @@
   @Component({
     name: "GlsResourceManager",
     components: {}
-  })
+  } as any)
   export default class GlsResourceManager extends Vue {
     images = [];
 

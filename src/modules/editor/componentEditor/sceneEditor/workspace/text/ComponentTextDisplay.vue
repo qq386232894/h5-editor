@@ -16,7 +16,7 @@
   @Component({
     name: GLS_COMPONENT_TEXT,
     components: {}
-  })
+  } as any)
   export default class ComponentTextDisplay extends Vue {
     @Input() component: ComponentText;
     @Input() project: Project;

@@ -20,7 +20,7 @@
     name: GLS_COMPONENT_IMAGE,
     components: {
     }
-  })
+  } as any)
   export default class GlsComponentImageDisplay extends Vue {
     @Input({required: true}) component: ComponentImage;
     @Input({required: true}) project: Project;

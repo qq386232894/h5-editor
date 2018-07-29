@@ -74,7 +74,7 @@
       GlsMultiSelectEditor: GlsMultiSelectEditor,
       GlsResourceManager: GlsResourceManager
     }
-  })
+  } as any)
   export default class GlsComponentEditor extends Vue {
     project: Project = null;
     @Input({default:function () {
